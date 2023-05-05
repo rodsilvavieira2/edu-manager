@@ -1,10 +1,33 @@
-import { NativeBaseProvider } from "native-base";
+import { NativeBaseProvider, StatusBar } from "native-base";
 import { Welcome } from "./src/screens";
 
+import {
+  Poppins_300Light,
+  Poppins_400Regular,
+  Poppins_500Medium,
+  Poppins_600SemiBold,
+  Poppins_700Bold,
+  Poppins_800ExtraBold,
+} from "@expo-google-fonts/poppins";
+import { useFonts } from "expo-font";
+import { appTheme } from "./src/config/theme";
+
 export default function App() {
+  const [isFontsLoaded] = useFonts({
+    Poppins_300Light,
+    Poppins_400Regular,
+    Poppins_500Medium,
+    Poppins_600SemiBold,
+    Poppins_700Bold,
+    Poppins_800ExtraBold,
+  });
+
+  if (!isFontsLoaded) return null;
+
   return (
-    <NativeBaseProvider>
-      <Welcome/>
+    <NativeBaseProvider theme={appTheme}>
+      <StatusBar barStyle="dark-content" animated translucent />
+      <Welcome />
     </NativeBaseProvider>
   );
 }
