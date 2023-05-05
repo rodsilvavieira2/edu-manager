@@ -35,4 +35,12 @@ export const appTheme = extendTheme({
     body: "Poppins",
     mono: "Poppins",
   },
+
+  components: {
+    Heading: {
+      defaultProps: {
+        color: "gray.600",
+      },
+    },
+  },
 });

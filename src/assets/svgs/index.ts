@@ -1,3 +1,5 @@
+import Welcome from "./welcome.svg";
+
 export const SVGS = {
-  welcome: require("./welcome.svg"),
+  welcome: Welcome,
 };
