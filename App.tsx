@@ -1,5 +1,4 @@
 import { NativeBaseProvider, StatusBar } from "native-base";
-import { Welcome } from "./src/screens";
 
 import {
   Poppins_300Light,
@@ -10,6 +9,7 @@ import {
   Poppins_800ExtraBold,
 } from "@expo-google-fonts/poppins";
 import { useFonts } from "expo-font";
+import { Routes } from "./src/config/routes";
 import { appTheme } from "./src/config/theme";
 
 export default function App() {
@@ -27,7 +27,8 @@ export default function App() {
   return (
     <NativeBaseProvider theme={appTheme}>
       <StatusBar barStyle="dark-content" animated translucent />
-      <Welcome />
+
+      <Routes />
     </NativeBaseProvider>
   );
 }
