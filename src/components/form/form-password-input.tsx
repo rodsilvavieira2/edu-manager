@@ -8,7 +8,7 @@ import {
 } from "native-base";
 import { Eye, EyeClosed } from "phosphor-react-native";
 import { useState } from "react";
-import { FieldError, Control, useController } from "react-hook-form";
+import { Control, FieldError, useController } from "react-hook-form";
 
 export interface FormPasswordInputProps<T = any> extends IInputProps {
   error?: FieldError;
@@ -38,11 +38,11 @@ export function FormPasswordInput({
       <Input
         type={isVisible ? "text" : "password"}
         borderWidth={2}
-        rounded="full"
+        rounded="lg"
         InputLeftElement={
           <Pressable onPress={onChangeVisible}>
             <Icon
-              ml={3}
+              ml={2}
               as={
                 isVisible ? (
                   <Eye color={gray[500]} />

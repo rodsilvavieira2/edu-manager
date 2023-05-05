@@ -1,5 +1,5 @@
 import { FormControl, IInputProps, Input, useTheme } from "native-base";
-import { FieldError, Control, useController } from "react-hook-form";
+import { Control, FieldError, useController } from "react-hook-form";
 
 export interface FormInputProps<T = any> extends IInputProps {
   error?: FieldError;
@@ -18,7 +18,7 @@ export function FormInput({ control, error, name, ...props }: FormInputProps) {
     <FormControl isInvalid={!!error}>
       <Input
         borderWidth={2}
-        rounded="full"
+        rounded="lg"
         onChangeText={onChange}
         value={value}
         ref={ref}
