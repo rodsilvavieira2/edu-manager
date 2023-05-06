@@ -9,7 +9,8 @@ import {
   Poppins_800ExtraBold,
 } from '@expo-google-fonts/poppins'
 import { useFonts } from 'expo-font'
-import { appTheme } from './src/config/theme'
+import { Slot } from 'expo-router'
+import { appTheme } from '../src/config/theme'
 
 export default function App() {
   const [isFontsLoaded] = useFonts({
@@ -26,6 +27,8 @@ export default function App() {
   return (
     <NativeBaseProvider theme={appTheme}>
       <StatusBar barStyle="dark-content" animated translucent />
+
+      <Slot />
     </NativeBaseProvider>
   )
 }

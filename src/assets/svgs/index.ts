@@ -1,5 +1,5 @@
-import Welcome from "./welcome.svg";
+import Welcome from './welcome.svg'
 
 export const SVGS = {
   welcome: Welcome,
-};
+}

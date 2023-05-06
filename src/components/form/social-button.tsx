@@ -1,4 +1,4 @@
-import { IIconButtonProps, Icon, IconButton } from "native-base";
+import { IIconButtonProps, Icon, IconButton } from 'native-base'
 
 interface SocialButtonProps extends IIconButtonProps {}
 
@@ -13,5 +13,5 @@ export function SocialButton({ icon, ...props }: SocialButtonProps) {
       icon={<Icon as={icon} />}
       {...props}
     />
-  );
+  )
 }

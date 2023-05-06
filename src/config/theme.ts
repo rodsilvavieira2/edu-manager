@@ -1,46 +1,46 @@
-import { extendTheme } from "native-base";
+import { extendTheme } from 'native-base'
 
 export const appTheme = extendTheme({
   fontConfig: {
     Poppins: {
       100: {
-        normal: "Poppins-Light",
+        normal: 'Poppins-Light',
       },
       200: {
-        normal: "Poppins-Light",
+        normal: 'Poppins-Light',
       },
       300: {
-        normal: "Poppins-Light",
+        normal: 'Poppins-Light',
       },
       400: {
-        normal: "Poppins-Regular",
+        normal: 'Poppins-Regular',
       },
       500: {
-        normal: "Poppins-Medium",
+        normal: 'Poppins-Medium',
       },
       600: {
-        normal: "Poppins-Medium",
+        normal: 'Poppins-Medium',
       },
       700: {
-        normal: "Poppins_700Bold",
+        normal: 'Poppins_700Bold',
       },
       800: {
-        normal: "Poppins_800ExtraBold",
+        normal: 'Poppins_800ExtraBold',
       },
     },
   },
 
   fonts: {
-    heading: "Poppins",
-    body: "Poppins",
-    mono: "Poppins",
+    heading: 'Poppins',
+    body: 'Poppins',
+    mono: 'Poppins',
   },
 
   components: {
     Heading: {
       defaultProps: {
-        color: "gray.600",
+        color: 'gray.600',
       },
     },
   },
-});
+})

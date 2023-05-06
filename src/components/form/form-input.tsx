@@ -1,18 +1,18 @@
-import { FormControl, IInputProps, Input, useTheme } from "native-base";
-import { Control, FieldError, useController } from "react-hook-form";
+import { FormControl, IInputProps, Input, useTheme } from 'native-base'
+import { Control, FieldError, useController } from 'react-hook-form'
 
 export interface FormInputProps<T = any> extends IInputProps {
-  error?: FieldError;
-  control: Control<T>;
-  name: string;
+  error?: FieldError
+  control: Control<T>
+  name: string
 }
 
 export function FormInput({ control, error, name, ...props }: FormInputProps) {
-  const { indigo } = useTheme().colors;
+  const { indigo } = useTheme().colors
 
   const {
     field: { onBlur, onChange, ref, value },
-  } = useController({ control, name });
+  } = useController({ control, name })
 
   return (
     <FormControl isInvalid={!!error}>
@@ -30,5 +30,5 @@ export function FormInput({ control, error, name, ...props }: FormInputProps) {
 
       <FormControl.ErrorMessage>{error?.message}</FormControl.ErrorMessage>
     </FormControl>
-  );
+  )
 }

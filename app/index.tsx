@@ -1,4 +1,4 @@
-import { zodResolver } from "@hookform/resolvers/zod";
+import { zodResolver } from '@hookform/resolvers/zod'
 import {
   Box,
   Button,
@@ -11,32 +11,36 @@ import {
   Stack,
   Text,
   useTheme,
-} from "native-base";
-import { Envelope, FacebookLogo, GoogleLogo } from "phosphor-react-native";
-import { useForm } from "react-hook-form";
-import { Dimensions } from "react-native";
-import { z } from "zod";
-import { SVGS } from "../assets/svgs";
-import { FormInput, FormPasswordInput, SocialButton } from "../components/form";
+} from 'native-base'
+import { Envelope, FacebookLogo, GoogleLogo } from 'phosphor-react-native'
+import { useForm } from 'react-hook-form'
+import { Dimensions } from 'react-native'
+import { z } from 'zod'
+import { SVGS } from '../src/assets/svgs'
+import {
+  FormInput,
+  FormPasswordInput,
+  SocialButton,
+} from '../src/components/form'
 
 const formValidation = z.object({
   email: z.string().email(),
   password: z.string().min(8),
-});
+})
 
-const { height } = Dimensions.get("window");
+const { height } = Dimensions.get('window')
 
-export function Welcome() {
-  const { gray } = useTheme().colors;
+export default function Welcome() {
+  const { gray } = useTheme().colors
 
   const { control } = useForm<z.infer<typeof formValidation>>({
     resolver: zodResolver(formValidation),
-  });
+  })
 
   return (
     <ScrollView>
       <Box safeArea px={4} height={height}>
-        <Center h={["45%"]} w={["100%"]}>
+        <Center h={['45%']} w={['100%']}>
           <SVGS.welcome height="100%" width="100%" />
         </Center>
 
@@ -72,5 +76,5 @@ export function Welcome() {
         </HStack>
       </Box>
     </ScrollView>
-  );
+  )
 }
