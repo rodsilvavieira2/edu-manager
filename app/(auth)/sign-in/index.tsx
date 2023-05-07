@@ -16,13 +16,19 @@ import {
 import { Envelope, FacebookLogo, GoogleLogo } from 'phosphor-react-native'
 import { useForm } from 'react-hook-form'
 import { Dimensions } from 'react-native'
+import { useDispatch } from 'react-redux'
 import { z } from 'zod'
-import { SVGS } from '../../src/assets/svgs'
+import { SVGS } from '../../../src/assets/svgs'
 import {
   FormInput,
   FormPasswordInput,
   SocialButton,
-} from '../../src/components/form'
+} from '../../../src/components/form'
+import {
+  useOnEmailLoginMutation,
+  useOnGoogleLoginMutation,
+} from '../../../src/redux/api/auth'
+import { addSnackbar } from '../../../src/redux/slices'
 
 const formValidation = z.object({
   email: z
@@ -35,10 +41,14 @@ const formValidation = z.object({
 
 const { height } = Dimensions.get('window')
 
-export default function Welcome() {
+export default function SignIn() {
   const { gray } = useTheme().colors
 
+  const [onGoogleLogin, googleLoginState] = useOnGoogleLoginMutation()
+  const [onEmailLogin, emailLoginState] = useOnEmailLoginMutation()
+
   const router = useRouter()
+  const dispatch = useDispatch()
 
   const { control, trigger, getValues } = useForm<
     z.infer<typeof formValidation>
@@ -46,8 +56,8 @@ export default function Welcome() {
     resolver: zodResolver(formValidation),
   })
 
-  function onGoToLogin() {
-    router.push('/')
+  function goToSignUp() {
+    router.push('sign-up')
   }
 
   async function onSubmit() {
@@ -55,9 +65,9 @@ export default function Welcome() {
 
     if (!isValid) return
 
-    const values = getValues()
+    const { email, password } = getValues()
 
-    console.log(values)
+    onEmailLogin({ email, password })
   }
 
   return (
@@ -67,7 +77,7 @@ export default function Welcome() {
           <SVGS.welcome height="100%" width="100%" />
         </Center>
 
-        <Heading mt={6}>Crie sua conta</Heading>
+        <Heading mt={6}>Faça seu login</Heading>
 
         <Stack mt={6} space={6}>
           <Stack space={4}>
@@ -86,22 +96,38 @@ export default function Welcome() {
             rounded="lg"
             colorScheme="indigo"
             onPress={onSubmit}
+            isLoading={emailLoginState.isLoading}
           >
             Entrar
           </Button>
         </Stack>
 
         <HStack space={4} flex={1} alignItems="center" justifyContent="center">
-          <SocialButton icon={<GoogleLogo weight="bold" />} />
+          <SocialButton
+            onPress={onGoogleLogin}
+            isDisabled={googleLoginState.isLoading}
+            icon={<GoogleLogo weight="bold" />}
+          />
 
-          <SocialButton icon={<FacebookLogo weight="bold" />} />
+          <SocialButton
+            onPress={() => {
+              dispatch(
+                addSnackbar({
+                  message:
+                    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat culpa voluptas nemo. Ipsa quidem nam, dicta eligendi reiciendis officiis enim ratione aspernatur architecto consectetur suscipit optio dolore tempora obcaecati hic?',
+                  status: 'info',
+                })
+              )
+            }}
+            icon={<FacebookLogo weight="bold" />}
+          />
         </HStack>
 
         <HStack justifyContent="center">
-          <Text>Já tem uma conta? </Text>
+          <Text>Não tem uma conta? </Text>
 
-          <Link colorScheme="info" onPress={onGoToLogin}>
-            Entre aqui
+          <Link colorScheme="info" onPress={goToSignUp}>
+            Cadastre-se
           </Link>
         </HStack>
       </Box>

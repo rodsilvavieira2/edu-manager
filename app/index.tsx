@@ -1,112 +1,28 @@
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useRouter } from 'expo-router'
-import {
-  Box,
-  Button,
-  Center,
-  HStack,
-  Heading,
-  Icon,
-  Link,
-  ScrollView,
-  Stack,
-  Text,
-  useTheme,
-} from 'native-base'
-import { Envelope, FacebookLogo, GoogleLogo } from 'phosphor-react-native'
-import { useForm } from 'react-hook-form'
-import { Dimensions } from 'react-native'
-import { z } from 'zod'
-import { SVGS } from '../src/assets/svgs'
-import {
-  FormInput,
-  FormPasswordInput,
-  SocialButton,
-} from '../src/components/form'
+import { Center } from 'native-base'
+import { useEffect } from 'react'
+import { ActivityIndicator } from 'react-native'
+import { useDispatch } from 'react-redux'
+import { useWatchAuth } from '../src/hooks'
+import { addSnackbar } from '../src/redux/slices'
 
-const formValidation = z.object({
-  email: z
-    .string({ required_error: 'Campo obrigatório' })
-    .email({ message: 'E-mail invalido' }),
-  password: z
-    .string({ required_error: 'Campo obrigatório' })
-    .min(8, 'É preciso ter no mínimo 8 caracteres'),
-})
+export default function App() {
+  useWatchAuth()
 
-const { height } = Dimensions.get('window')
+  const dispatch = useDispatch()
 
-export default function Welcome() {
-  const { gray } = useTheme().colors
-
-  const router = useRouter()
-
-  const { control, trigger, getValues } = useForm<
-    z.infer<typeof formValidation>
-  >({
-    resolver: zodResolver(formValidation),
-  })
-
-  function goToSignUp() {
-    router.push('sign-up')
-  }
-
-  async function onSubmit() {
-    const isValid = await trigger()
-
-    if (!isValid) return
-
-    const values = getValues()
-
-    router.push('content')
-
-    console.log(values)
-  }
+  useEffect(() => {
+    dispatch(
+      addSnackbar({
+        message:
+          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat culpa voluptas nemo. Ipsa quidem nam, dicta eligendi reiciendis officiis enim ratione aspernatur architecto consectetur suscipit optio dolore tempora obcaecati hic?',
+        status: 'info',
+      })
+    )
+  }, [])
 
   return (
-    <ScrollView>
-      <Box safeArea px={4} height={height}>
-        <Center h={['45%']} w={['100%']}>
-          <SVGS.welcome height="100%" width="100%" />
-        </Center>
-
-        <Heading mt={6}>Faça seu login</Heading>
-
-        <Stack mt={6} space={6}>
-          <Stack space={4}>
-            <FormInput
-              control={control}
-              name="email"
-              keyboardType="email-address"
-              leftElement={<Icon ml={2} as={<Envelope color={gray[500]} />} />}
-            />
-
-            <FormPasswordInput control={control} name="password" />
-          </Stack>
-
-          <Button
-            size="lg"
-            rounded="lg"
-            colorScheme="indigo"
-            onPress={onSubmit}
-          >
-            Entrar
-          </Button>
-        </Stack>
-
-        <HStack space={4} flex={1} alignItems="center" justifyContent="center">
-          <SocialButton icon={<GoogleLogo weight="bold" />} />
-
-          <SocialButton icon={<FacebookLogo weight="bold" />} />
-        </HStack>
-
-        <HStack justifyContent="center">
-          <Text>Não tem uma conta? </Text>
-
-          <Link colorScheme="info" onPress={goToSignUp}>
-            Cadastre-se
-          </Link>
-        </HStack>
-      </Box>
-    </ScrollView>
+    <Center bg="white" flex={1}>
+      <ActivityIndicator color="info.500" size="large" />
+    </Center>
   )
 }

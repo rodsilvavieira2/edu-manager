@@ -27,6 +27,10 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": ["expo-localization", "@react-native-firebase/app"]
+    "plugins": [
+      "expo-localization",
+      "@react-native-firebase/app",
+      "@react-native-google-signin/google-signin"
+    ]
   }
 }
