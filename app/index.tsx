@@ -57,7 +57,7 @@ export default function Welcome() {
 
     const values = getValues()
 
-    router.push('home')
+    router.push('content')
 
     console.log(values)
   }

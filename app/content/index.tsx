@@ -40,7 +40,7 @@ const FAKE_DATA: Array<TaskCardProps & { id: string }> = Array.from(
   })
 )
 
-export default function Home() {
+export default function Content() {
   const { gray } = useTheme().colors
 
   return (

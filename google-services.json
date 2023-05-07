@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "603892751228",
+    "project_id": "edu-manager-db5b6",
+    "storage_bucket": "edu-manager-db5b6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:603892751228:android:336f5ac3013c78699422f9",
+        "android_client_info": {
+          "package_name": "com.rodsilvavieira.edumanager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "603892751228-msaoodv6anviak0cpitka9v7hen3fcrb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rodsilvavieira.edumanager",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "603892751228-n5qjhfmrruvgvsrhs93usktpj62dahkh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFMY0Ba9pGB9Z5Vvtf-sORCWk6wVNRYjA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "603892751228-n5qjhfmrruvgvsrhs93usktpj62dahkh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
