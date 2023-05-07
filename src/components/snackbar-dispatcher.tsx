@@ -55,13 +55,17 @@ function Snackbar({
   message,
   status,
   onClose,
-  duration = 300,
+  duration = 6000,
 }: SnackbarProps) {
+  function handleClose() {
+    onClose(id)
+  }
+
   useEffect(() => {
-    const timeout = setTimeout(onClose, duration)
+    const timeout = setTimeout(handleClose, duration)
 
     return () => clearTimeout(timeout)
-  }, [duration, onClose])
+  }, [duration])
 
   return (
     <SnackContainer
@@ -85,7 +89,7 @@ function Snackbar({
         colorScheme="warmGray"
         size="xs"
         _text={{ color: 'white' }}
-        onPress={() => onClose(id)}
+        onPress={handleClose}
       >
         fechar
       </Button>

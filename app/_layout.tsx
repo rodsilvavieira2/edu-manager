@@ -39,6 +39,7 @@ export default function AppLayout() {
           initialRouteName="/"
           screenOptions={{
             headerShown: false,
+            animation: 'slide_from_left',
           }}
         />
       </NativeBaseProvider>

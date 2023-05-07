@@ -23,6 +23,10 @@ import {
   FormPasswordInput,
   SocialButton,
 } from '../../../src/components/form'
+import {
+  useOnCreateAccountMutation,
+  useOnGoogleLoginMutation,
+} from '../../../src/redux/api/auth'
 
 const formValidation = z.object({
   email: z
@@ -37,6 +41,9 @@ const { height } = Dimensions.get('window')
 
 export default function SignUp() {
   const { gray } = useTheme().colors
+
+  const [onCreateAccount, createAccountState] = useOnCreateAccountMutation()
+  const [onGoogleLogin, googleLoginState] = useOnGoogleLoginMutation()
 
   const router = useRouter()
 
@@ -55,16 +62,16 @@ export default function SignUp() {
 
     if (!isValid) return
 
-    const values = getValues()
+    const { email, password } = getValues()
 
-    console.log(values)
+    onCreateAccount({ email, password })
   }
 
   return (
     <ScrollView>
       <Box safeArea px={4} height={height}>
         <Center h={['45%']} w={['100%']}>
-          <SVGS.welcome height="100%" width="100%" />
+          <SVGS.signUp height="100%" width="100%" />
         </Center>
 
         <Heading mt={6}>Crie sua conta</Heading>
@@ -86,13 +93,18 @@ export default function SignUp() {
             rounded="lg"
             colorScheme="indigo"
             onPress={onSubmit}
+            isLoading={createAccountState.isLoading}
           >
-            Entrar
+            Criar
           </Button>
         </Stack>
 
         <HStack space={4} flex={1} alignItems="center" justifyContent="center">
-          <SocialButton icon={<GoogleLogo weight="bold" />} />
+          <SocialButton
+            onPress={onGoogleLogin}
+            isDisabled={googleLoginState.isLoading}
+            icon={<GoogleLogo weight="bold" />}
+          />
 
           <SocialButton icon={<FacebookLogo weight="bold" />} />
         </HStack>
