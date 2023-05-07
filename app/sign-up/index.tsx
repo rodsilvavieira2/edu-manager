@@ -17,12 +17,12 @@ import { Envelope, FacebookLogo, GoogleLogo } from 'phosphor-react-native'
 import { useForm } from 'react-hook-form'
 import { Dimensions } from 'react-native'
 import { z } from 'zod'
-import { SVGS } from '../src/assets/svgs'
+import { SVGS } from '../../src/assets/svgs'
 import {
   FormInput,
   FormPasswordInput,
   SocialButton,
-} from '../src/components/form'
+} from '../../src/components/form'
 
 const formValidation = z.object({
   email: z
@@ -46,8 +46,8 @@ export default function Welcome() {
     resolver: zodResolver(formValidation),
   })
 
-  function goToSignUp() {
-    router.push('sign-up')
+  function onGoToLogin() {
+    router.push('/')
   }
 
   async function onSubmit() {
@@ -56,8 +56,6 @@ export default function Welcome() {
     if (!isValid) return
 
     const values = getValues()
-
-    router.push('home')
 
     console.log(values)
   }
@@ -69,7 +67,7 @@ export default function Welcome() {
           <SVGS.welcome height="100%" width="100%" />
         </Center>
 
-        <Heading mt={6}>Faça seu login</Heading>
+        <Heading mt={6}>Crie sua conta</Heading>
 
         <Stack mt={6} space={6}>
           <Stack space={4}>
@@ -100,10 +98,10 @@ export default function Welcome() {
         </HStack>
 
         <HStack justifyContent="center">
-          <Text>Não tem uma conta? </Text>
+          <Text>Já tem uma conta? </Text>
 
-          <Link colorScheme="info" onPress={goToSignUp}>
-            Cadastre-se
+          <Link colorScheme="info" onPress={onGoToLogin}>
+            Entre aqui
           </Link>
         </HStack>
       </Box>

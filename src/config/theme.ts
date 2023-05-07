@@ -42,5 +42,10 @@ export const appTheme = extendTheme({
         color: 'gray.600',
       },
     },
+    Text: {
+      defaultProps: {
+        color: 'gray.600',
+      },
+    },
   },
 })

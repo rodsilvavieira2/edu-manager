@@ -8,17 +8,15 @@ import {
 } from 'native-base'
 import { Eye, EyeClosed } from 'phosphor-react-native'
 import { useState } from 'react'
-import { Control, FieldError, useController } from 'react-hook-form'
+import { Control, useController } from 'react-hook-form'
 
 export interface FormPasswordInputProps<T = any> extends IInputProps {
-  error?: FieldError
   control: Control<T>
   name: string
 }
 
 export function FormPasswordInput({
   control,
-  error,
   name,
   ...props
 }: FormPasswordInputProps) {
@@ -27,6 +25,7 @@ export function FormPasswordInput({
 
   const {
     field: { onBlur, onChange, ref, value },
+    fieldState: { error, invalid },
   } = useController({ control, name })
 
   function onChangeVisible() {
@@ -34,7 +33,7 @@ export function FormPasswordInput({
   }
 
   return (
-    <FormControl isInvalid={!!error}>
+    <FormControl isInvalid={invalid}>
       <Input
         type={isVisible ? 'text' : 'password'}
         borderWidth={2}
