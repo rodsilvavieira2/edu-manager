@@ -184,7 +184,6 @@ export const authApi = baseApi.injectEndpoints({
             },
           }
         } catch (error) {
-          console.log(error)
           switch (error?.code) {
             case statusCodes.SIGN_IN_CANCELLED:
               dispatch(
@@ -255,8 +254,6 @@ export const authApi = baseApi.injectEndpoints({
         try {
           await auth().signOut()
         } catch (error) {
-          console.log(error)
-
           dispatch(
             addSnackbar({
               message: 'Erro ao tentar sair do aplicativo',

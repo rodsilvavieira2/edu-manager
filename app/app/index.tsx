@@ -76,7 +76,7 @@ function Header() {
 
   return (
     <Box flexDirection="row" alignItems="center" justifyContent="space-between">
-      <Heading numberOfLines={1}>Olá, {user.name ?? 'novamente'}</Heading>
+      <Heading numberOfLines={1}>Olá, {user?.name ?? 'novamente'}</Heading>
 
       <IconButton
         rounded="full"

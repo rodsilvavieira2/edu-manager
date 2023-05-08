@@ -22,7 +22,7 @@ export function useWatchAuth() {
           })
         )
 
-        route.replace('/home')
+        route.replace('/app')
       } else {
         dispatch(setUser(null))
 
