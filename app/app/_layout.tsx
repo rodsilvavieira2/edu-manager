@@ -1,6 +1,12 @@
-import { Slot } from 'expo-router'
+import { Slot, useRouter } from 'expo-router'
 import { Box, HStack, Icon, IconButton, useTheme } from 'native-base'
-import { ChartBar, Gear, House, Plus } from 'phosphor-react-native'
+import {
+  ChartBar,
+  Gear,
+  GraduationCap,
+  House,
+  Plus,
+} from 'phosphor-react-native'
 import { Dimensions } from 'react-native'
 import { useWatchTasks } from '../../src/hooks'
 
@@ -27,6 +33,8 @@ function BottomBar() {
 
   const ICON_COLOR = gray[900]
 
+  const router = useRouter()
+
   return (
     <Box
       bg="white"
@@ -52,13 +60,19 @@ function BottomBar() {
             rounded="full"
             variant="subtle"
             icon={<Icon as={<House color={ICON_COLOR} />} />}
+            onPress={() => {
+              router.push('/app')
+            }}
           />
 
           <IconButton
             colorScheme="info"
             rounded="full"
             variant="subtle"
-            icon={<Icon as={<House color={ICON_COLOR} />} />}
+            icon={<Icon as={<GraduationCap color={ICON_COLOR} />} />}
+            onPress={() => {
+              router.push('/app/classes')
+            }}
           />
         </HStack>
 
@@ -80,6 +94,9 @@ function BottomBar() {
             rounded="full"
             variant="subtle"
             icon={<Icon as={<ChartBar color={ICON_COLOR} />} />}
+            onPress={() => {
+              router.push('/app/statistics')
+            }}
           />
 
           <IconButton
@@ -87,6 +104,9 @@ function BottomBar() {
             rounded="full"
             variant="subtle"
             icon={<Icon as={<Gear color={ICON_COLOR} />} />}
+            onPress={() => {
+              router.push('/app/settings')
+            }}
           />
         </HStack>
       </Box>
