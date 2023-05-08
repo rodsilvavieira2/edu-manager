@@ -6,3 +6,14 @@ export type User = {
   created_at: string
   updated_at: string
 }
+
+export type Task = {
+  id: string
+  name: string
+  steps: number
+
+  currentStep: number
+  finishedAt: string
+  createdAt: string
+  endedAt: string
+}

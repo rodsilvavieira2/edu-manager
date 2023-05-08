@@ -184,6 +184,7 @@ export const authApi = baseApi.injectEndpoints({
             },
           }
         } catch (error) {
+          console.log(error)
           switch (error?.code) {
             case statusCodes.SIGN_IN_CANCELLED:
               dispatch(
@@ -228,6 +229,47 @@ export const authApi = baseApi.injectEndpoints({
         }
       },
     }),
+
+    onGoogleLogout: builder.mutation<undefined, undefined>({
+      async queryFn(arg, { dispatch }) {
+        try {
+          await GoogleSignin.signOut()
+          await auth().signOut()
+        } catch (error) {
+          dispatch(
+            addSnackbar({
+              message: 'Erro ao tentar sair do aplicativo',
+              status: 'error',
+            })
+          )
+
+          return {
+            data: null,
+          }
+        }
+      },
+    }),
+
+    onLogout: builder.mutation<undefined, undefined>({
+      async queryFn(arg, { dispatch }) {
+        try {
+          await auth().signOut()
+        } catch (error) {
+          console.log(error)
+
+          dispatch(
+            addSnackbar({
+              message: 'Erro ao tentar sair do aplicativo',
+              status: 'error',
+            })
+          )
+
+          return {
+            data: null,
+          }
+        }
+      },
+    }),
   }),
 })
 
@@ -235,4 +277,6 @@ export const {
   useOnEmailLoginMutation,
   useOnGoogleLoginMutation,
   useOnCreateAccountMutation,
+  useOnGoogleLogoutMutation,
+  useOnLogoutMutation,
 } = authApi

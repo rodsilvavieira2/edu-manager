@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { User } from '../../@types'
+import { RootState } from '../store'
 
 interface InitialState {
   user: User | null
@@ -20,3 +21,5 @@ export const authSlice = createSlice({
 })
 
 export const { setUser } = authSlice.actions
+
+export const selectUser = (state: RootState) => state.auth.user

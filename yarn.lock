@@ -2298,6 +2298,11 @@
   dependencies:
     plist "^3.0.5"
 
+"@react-native-firebase/firestore@^17.4.3":
+  version "17.4.3"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/firestore/-/firestore-17.4.3.tgz#f8766fab67cede99aec3c0565d3f549bf2210f0a"
+  integrity sha512-tN9x2n0lkY2jQcV+xWQym7woMzTzqX/eHTngKgLgOG+wtjxlCNgSQwOPqnrFL+TqHuSUxKuyJm4NSy9/mXOpig==
+
 "@react-native-google-signin/google-signin@^9.0.2":
   version "9.0.2"
   resolved "https://registry.yarnpkg.com/@react-native-google-signin/google-signin/-/google-signin-9.0.2.tgz#fd9d0cbb58591265c2ea9404b2d2ea7e514b9ea9"

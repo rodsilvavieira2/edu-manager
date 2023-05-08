@@ -1,4 +1,3 @@
-import { faker } from '@faker-js/faker'
 import { getCalendars } from 'expo-localization'
 import {
   Box,
@@ -22,47 +21,28 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated'
 import { Circle, Svg, Text as SvgText } from 'react-native-svg'
+import { useSelector } from 'react-redux'
+import { Task } from '../../src/@types'
+import { useOnLogoutMutation } from '../../src/redux/api'
+import {
+  selectAllTasks,
+  selectCompletedTasks,
+  selectUncompletedTasks,
+  selectUser,
+} from '../../src/redux/slices'
 import { dateService } from '../../src/services/dayjs'
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle)
 
-const FAKE_DATA: Array<TaskCardProps & { id: string }> = Array.from(
-  {
-    length: 10,
-  },
-  () => ({
-    id: faker.datatype.uuid(),
-    title: faker.lorem.sentence(),
-    subtitle: faker.lorem.sentence(),
-    steps: faker.datatype.number({ min: 1, max: 10 }),
-    currentStep: faker.datatype.number({ min: 1, max: 10 }),
-    finalDate: faker.date.future().toString(),
-  })
-)
-
-export default function Content() {
-  const { gray } = useTheme().colors
-
+export default function Home() {
   return (
     <Stack space={2} bg="white" safeArea p={4} flex={1}>
-      <Box
-        flexDirection="row"
-        alignItems="center"
-        justifyContent="space-between"
-      >
-        <Heading>Olá, Rodrigo Silva</Heading>
-
-        <IconButton
-          rounded="full"
-          colorScheme="info"
-          icon={<Icon as={<Bell color={gray[500]} />} />}
-        />
-      </Box>
+      <Header />
 
       <HStack my={4} space={4}>
-        <IncomingTasks quantity={20} />
+        <IncomingTasks />
 
-        <CompletedTasks progress={0.8} />
+        <CompletedTasks />
       </HStack>
 
       <Box flexDir="row" alignItems="center" justifyContent="space-between">
@@ -80,41 +60,42 @@ export default function Content() {
         </Button>
       </Box>
 
-      <ScrollView
-        mt={4}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 30 }}
-      >
-        <Stack space={4}>
-          {FAKE_DATA.map((item) => (
-            <TaskCard key={item.id} {...item} />
-          ))}
-        </Stack>
-      </ScrollView>
+      <TasksList />
     </Stack>
   )
 }
 
-interface TaskCardProps {
-  title: string
-  subtitle: string
-  steps: number
-  currentStep: number
-  finalDate: string
+function Header() {
+  const {
+    colors: { gray },
+  } = useTheme()
+
+  const user = useSelector(selectUser)
+
+  const [onGoogleLogout] = useOnLogoutMutation()
+
+  return (
+    <Box flexDirection="row" alignItems="center" justifyContent="space-between">
+      <Heading numberOfLines={1}>Olá, {user.name ?? 'novamente'}</Heading>
+
+      <IconButton
+        rounded="full"
+        colorScheme="info"
+        onPress={onGoogleLogout}
+        icon={<Icon as={<Bell color={gray[500]} />} />}
+      />
+    </Box>
+  )
 }
 
-function TaskCard({
-  title,
-  subtitle,
-  steps,
-  currentStep,
-  finalDate,
-}: TaskCardProps) {
+interface TaskCardProps extends Task {}
+
+function TaskCard({ name, steps, currentStep, endedAt }: TaskCardProps) {
   const values = getCalendars()[0]
   const { colors } = useTheme()
 
   const date = dateService
-    .tz(finalDate, values.timeZone)
+    .tz(endedAt, values.timeZone)
     .format('DD/MM/YYYY - HH:mm')
 
   return (
@@ -132,7 +113,7 @@ function TaskCard({
       >
         <Stack space={1} flex={1}>
           <Text fontWeight="bold" numberOfLines={1}>
-            {title}
+            {name}
           </Text>
 
           <HStack space={3}>
@@ -160,11 +141,9 @@ function TaskCard({
   )
 }
 
-interface IncomingTasksProps {
-  quantity: number
-}
+function IncomingTasks() {
+  const uncompletedTasks = useSelector(selectUncompletedTasks)
 
-function IncomingTasks({ quantity }: IncomingTasksProps) {
   return (
     <Center
       flex={1}
@@ -178,7 +157,7 @@ function IncomingTasks({ quantity }: IncomingTasksProps) {
       </Text>
 
       <Text fontWeight="bold" color="pink.600" fontSize="7xl">
-        {quantity}
+        {uncompletedTasks}
       </Text>
 
       <Text color="pink.600" fontWeight="bold">
@@ -188,11 +167,12 @@ function IncomingTasks({ quantity }: IncomingTasksProps) {
   )
 }
 
-interface CompletedTasksProps {
-  progress: number
-}
+function CompletedTasks() {
+  const completedTasks = useSelector(selectCompletedTasks)
+  const uncompletedTasks = useSelector(selectUncompletedTasks)
 
-function CompletedTasks({ progress }: CompletedTasksProps) {
+  const progress = completedTasks / (completedTasks + uncompletedTasks) || 0
+
   const { info } = useTheme().colors
   const strokeWidth = 8
 
@@ -266,5 +246,31 @@ function CompletedTasks({ progress }: CompletedTasksProps) {
         completos
       </Text>
     </Center>
+  )
+}
+
+function TasksList() {
+  const data = useSelector(selectAllTasks)
+
+  if (!data.length) {
+    return (
+      <Center flex={1}>
+        <Text>Nenhum afazer encontrado</Text>
+      </Center>
+    )
+  }
+
+  return (
+    <ScrollView
+      mt={4}
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{ paddingBottom: 30 }}
+    >
+      <Stack space={4}>
+        {data.map((item) => (
+          <TaskCard key={item.id} {...item} />
+        ))}
+      </Stack>
+    </ScrollView>
   )
 }

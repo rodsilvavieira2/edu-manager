@@ -1,12 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit'
+import { taskApi } from './api'
 import { baseApi } from './api/base'
-import { authSlice, snackbarSlice } from './slices'
+import { authSlice, snackbarSlice, tasksSlice } from './slices'
 
 export const store = configureStore({
   reducer: {
     [authSlice.name]: authSlice.reducer,
-    [baseApi.reducerPath]: baseApi.reducer,
+    [tasksSlice.name]: tasksSlice.reducer,
     [snackbarSlice.name]: snackbarSlice.reducer,
+
+    [baseApi.reducerPath]: baseApi.reducer,
+    [taskApi.reducerPath]: taskApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(baseApi.middleware),
