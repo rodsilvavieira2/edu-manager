@@ -15,6 +15,7 @@ import { Provider as ReduxProvider } from 'react-redux'
 import { SnackbarDispatcher } from '../src/components/snackbar-dispatcher'
 import { appTheme } from '../src/config/theme'
 import { store } from '../src/redux/store'
+import { colorModeManager } from '../src/services'
 
 export default function AppLayout() {
   const [isFontsLoaded] = useFonts({
@@ -30,7 +31,7 @@ export default function AppLayout() {
 
   return (
     <ReduxProvider store={store}>
-      <NativeBaseProvider theme={appTheme}>
+      <NativeBaseProvider theme={appTheme} colorModeManager={colorModeManager}>
         <StatusBar barStyle="dark-content" animated translucent />
 
         <SnackbarDispatcher />

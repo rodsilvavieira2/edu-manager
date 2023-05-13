@@ -20,7 +20,7 @@ export function FormPasswordInput({
   name,
   ...props
 }: FormPasswordInputProps) {
-  const { indigo, gray } = useTheme().colors
+  const { indigo, icon } = useTheme().colors
   const [isVisible, setIsVisible] = useState(false)
 
   const {
@@ -44,9 +44,9 @@ export function FormPasswordInput({
               ml={2}
               as={
                 isVisible ? (
-                  <Eye color={gray[500]} />
+                  <Eye color={icon[500]} />
                 ) : (
-                  <EyeClosed color={gray[500]} />
+                  <EyeClosed color={icon[500]} />
                 )
               }
             />

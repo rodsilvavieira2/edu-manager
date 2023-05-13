@@ -39,6 +39,8 @@ const formValidation = z.object({
 
 const { height } = Dimensions.get('window')
 
+type FormData = z.infer<typeof formValidation>
+
 export default function SignUp() {
   const { gray } = useTheme().colors
 
@@ -47,9 +49,7 @@ export default function SignUp() {
 
   const router = useRouter()
 
-  const { control, trigger, getValues } = useForm<
-    z.infer<typeof formValidation>
-  >({
+  const { control, trigger, getValues } = useForm<FormData>({
     resolver: zodResolver(formValidation),
   })
 

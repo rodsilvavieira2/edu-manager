@@ -36,14 +36,7 @@ const AnimatedCircle = Animated.createAnimatedComponent(Circle)
 
 export default function Home() {
   return (
-    <Stack
-      space={2}
-      bg="white"
-      safeArea
-      p={4}
-      flex={1}
-      bgColor="background.500"
-    >
+    <Stack space={2} safeArea p={4} flex={1} bg="neutral.500">
       <Header />
 
       <HStack my={4} space={4}>
@@ -59,7 +52,7 @@ export default function Home() {
           size="sm"
           rounded="lg"
           colorScheme="info"
-          borderColor="gray.300"
+          borderColor="border.300"
           variant="outline"
           _text={{ color: 'gray.500' }}
         >

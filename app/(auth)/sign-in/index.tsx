@@ -39,10 +39,12 @@ const formValidation = z.object({
     .min(8, 'É preciso ter no mínimo 8 caracteres'),
 })
 
+type FormData = z.infer<typeof formValidation>
+
 const { height } = Dimensions.get('window')
 
 export default function SignIn() {
-  const { gray } = useTheme().colors
+  const { icon } = useTheme().colors
 
   const [onGoogleLogin, googleLoginState] = useOnGoogleLoginMutation()
   const [onEmailLogin, emailLoginState] = useOnEmailLoginMutation()
@@ -50,9 +52,7 @@ export default function SignIn() {
   const router = useRouter()
   const dispatch = useDispatch()
 
-  const { control, trigger, getValues } = useForm<
-    z.infer<typeof formValidation>
-  >({
+  const { control, trigger, getValues } = useForm<FormData>({
     resolver: zodResolver(formValidation),
   })
 
@@ -72,7 +72,7 @@ export default function SignIn() {
 
   return (
     <ScrollView>
-      <Box safeArea px={4} height={height}>
+      <Box safeArea px={4} height={height} bg="neutral.500">
         <Center h={['45%']} w={['100%']}>
           <SVGS.welcome height="100%" width="100%" />
         </Center>
@@ -85,7 +85,7 @@ export default function SignIn() {
               control={control}
               name="email"
               keyboardType="email-address"
-              leftElement={<Icon ml={2} as={<Envelope color={gray[500]} />} />}
+              leftElement={<Icon ml={2} as={<Envelope color={icon[500]} />} />}
             />
 
             <FormPasswordInput control={control} name="password" />
@@ -106,7 +106,7 @@ export default function SignIn() {
           <SocialButton
             onPress={onGoogleLogin}
             isDisabled={googleLoginState.isLoading}
-            icon={<GoogleLogo weight="bold" />}
+            icon={<GoogleLogo weight="bold" color={icon[700]} />}
           />
 
           <SocialButton
@@ -119,7 +119,7 @@ export default function SignIn() {
                 })
               )
             }}
-            icon={<FacebookLogo weight="bold" />}
+            icon={<FacebookLogo weight="bold" color={icon[700]} />}
           />
         </HStack>
 

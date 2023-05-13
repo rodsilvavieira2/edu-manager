@@ -37,8 +37,35 @@ export const appTheme = extendTheme({
       600: '#0284c7',
     },
 
-    background: {
+    secondary: {
+      500: '#ffffff',
+    },
+
+    tertiary: {
+      500: '#6366f1',
+    },
+
+    neutral: {
       500: '#F6F8FA',
+    },
+
+    icon: {
+      500: '#737373',
+      700: '#404040',
+    },
+
+    onPrimary: {
+      500: '#ffffff',
+    },
+
+    onSecondary: {
+      400: '#a3a3a3',
+      500: '#737373',
+      600: '#525252',
+    },
+
+    border: {
+      300: '#d6d3d1',
     },
   },
 
@@ -51,14 +78,18 @@ export const appTheme = extendTheme({
   components: {
     Heading: {
       defaultProps: {
-        color: 'gray.600',
+        color: 'onSecondary.600',
       },
     },
     Text: {
       defaultProps: {
-        color: 'gray.600',
+        color: 'onSecondary.600',
       },
     },
+  },
+
+  config: {
+    initialColorMode: 'light',
   },
 })
 
