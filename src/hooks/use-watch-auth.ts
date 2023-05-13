@@ -2,7 +2,7 @@ import auth from '@react-native-firebase/auth'
 import { useRouter } from 'expo-router'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { setUser } from '../redux/slices'
+import { setProvider, setUser } from '../redux/slices'
 
 export function useWatchAuth() {
   const dispatch = useDispatch()
@@ -21,6 +21,8 @@ export function useWatchAuth() {
             updated_at: current.metadata.lastSignInTime,
           })
         )
+
+        dispatch(setProvider(current.providerData[0].providerId as any))
 
         route.replace('/app')
       } else {
