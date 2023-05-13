@@ -36,7 +36,14 @@ const AnimatedCircle = Animated.createAnimatedComponent(Circle)
 
 export default function Home() {
   return (
-    <Stack space={2} bg="white" safeArea p={4} flex={1}>
+    <Stack
+      space={2}
+      bg="white"
+      safeArea
+      p={4}
+      flex={1}
+      bgColor="background.500"
+    >
       <Header />
 
       <HStack my={4} space={4}>

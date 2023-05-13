@@ -30,6 +30,18 @@ export const appTheme = extendTheme({
     },
   },
 
+  colors: {
+    primary: {
+      400: '#38bdf8',
+      500: '#0ea5e9',
+      600: '#0284c7',
+    },
+
+    background: {
+      500: '#F6F8FA',
+    },
+  },
+
   fonts: {
     heading: 'Poppins',
     body: 'Poppins',
@@ -49,3 +61,10 @@ export const appTheme = extendTheme({
     },
   },
 })
+
+type CustomThemeType = typeof appTheme
+
+// 3. Extend the internal NativeBase Theme
+declare module 'native-base' {
+  interface ICustomTheme extends CustomThemeType {}
+}

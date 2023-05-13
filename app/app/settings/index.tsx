@@ -19,7 +19,7 @@ export default function Settings() {
   const user = useSelector(selectUser)
 
   return (
-    <Box safeArea flex={1} bgColor="#F6F8FA">
+    <Box safeArea flex={1} bgColor="background.500">
       <Box
         alignItems="center"
         justifyContent="center"
