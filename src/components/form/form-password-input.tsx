@@ -56,8 +56,19 @@ export function FormPasswordInput({
         value={value}
         ref={ref}
         onBlur={onBlur}
-        colorScheme="indigo"
-        cursorColor={indigo[500]}
+        _light={{
+          borderColor: 'gray.400',
+          _focus: {
+            borderColor: 'primary.500',
+          },
+        }}
+        _dark={{
+          borderColor: 'light.300',
+          _focus: {
+            borderColor: 'primary.500',
+          },
+        }}
+        cursorColor="white"
         {...props}
       />
 

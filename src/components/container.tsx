@@ -11,7 +11,7 @@ export function Container(props: ContainerProps) {
       _light={{
         bg: 'neutral.500',
       }}
-      _dark={{ bg: 'black.500' }}
+      _dark={{ bg: 'dark.50' }}
       {...props}
     />
   )

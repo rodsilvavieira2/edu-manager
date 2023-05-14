@@ -1,7 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'expo-router'
 import {
-  Box,
   Button,
   Center,
   HStack,
@@ -19,6 +18,7 @@ import { Dimensions } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { z } from 'zod'
 import { SVGS } from '../../../src/assets/svgs'
+import { Container } from '../../../src/components/container'
 import {
   FormInput,
   FormPasswordInput,
@@ -71,8 +71,13 @@ export default function SignIn() {
   }
 
   return (
-    <ScrollView>
-      <Box safeArea px={4} height={height} bg="neutral.500">
+    <ScrollView
+      _light={{
+        bg: 'neutral.500',
+      }}
+      _dark={{ bg: 'dark.50' }}
+    >
+      <Container height={height}>
         <Center h={['45%']} w={['100%']}>
           <SVGS.welcome height="100%" width="100%" />
         </Center>
@@ -130,7 +135,7 @@ export default function SignIn() {
             Cadastre-se
           </Link>
         </HStack>
-      </Box>
+      </Container>
     </ScrollView>
   )
 }

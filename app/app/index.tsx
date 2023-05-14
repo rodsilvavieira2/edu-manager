@@ -10,6 +10,7 @@ import {
   ScrollView,
   Stack,
   Text,
+  useColorModeValue,
   useTheme,
 } from 'native-base'
 import { ArrowRight, Bell, CircleNotch, Clock } from 'phosphor-react-native'
@@ -23,7 +24,7 @@ import Animated, {
 import { Circle, Svg, Text as SvgText } from 'react-native-svg'
 import { useSelector } from 'react-redux'
 import { Task } from '../../src/@types'
-import { useOnLogoutMutation } from '../../src/redux/api'
+import { Container } from '../../src/components/container'
 import {
   selectAllTasks,
   selectCompletedTasks,
@@ -36,54 +37,73 @@ const AnimatedCircle = Animated.createAnimatedComponent(Circle)
 
 export default function Home() {
   return (
-    <Stack space={2} safeArea p={4} flex={1} bg="neutral.500">
-      <Header />
+    <Container>
+      <Stack space={2} flex={1}>
+        <Header />
 
-      <HStack my={4} space={4}>
-        <IncomingTasks />
+        <HStack my={4} space={4}>
+          <IncomingTasks />
 
-        <CompletedTasks />
-      </HStack>
+          <CompletedTasks />
+        </HStack>
 
-      <Box flexDir="row" alignItems="center" justifyContent="space-between">
-        <Heading fontSize="lg">Seus afazeres para hoje</Heading>
+        <TaskListHeader />
 
-        <Button
-          size="sm"
-          rounded="lg"
-          colorScheme="info"
-          borderColor="border.300"
-          variant="outline"
-          _text={{ color: 'gray.500' }}
-        >
-          Ver tudo
-        </Button>
-      </Box>
-
-      <TasksList />
-    </Stack>
+        <TasksList />
+      </Stack>
+    </Container>
   )
 }
 
 function Header() {
   const {
-    colors: { gray },
+    colors: { icon, white },
   } = useTheme()
+
+  const ICON_COLOR = useColorModeValue(icon[700], white)
 
   const user = useSelector(selectUser)
 
-  const [onGoogleLogout] = useOnLogoutMutation()
+  // const [onGoogleLogout] = useOnLogoutMutation()
 
   return (
     <Box flexDirection="row" alignItems="center" justifyContent="space-between">
       <Heading numberOfLines={1}>Olá, {user?.name ?? 'novamente'}</Heading>
 
       <IconButton
-        rounded="full"
-        colorScheme="info"
-        onPress={onGoogleLogout}
-        icon={<Icon as={<Bell color={gray[500]} />} />}
+        variant="icon"
+        icon={<Icon as={<Bell color={ICON_COLOR} />} />}
       />
+    </Box>
+  )
+}
+
+function TaskListHeader() {
+  return (
+    <Box flexDir="row" alignItems="center" justifyContent="space-between">
+      <Heading fontSize="lg">Seus afazeres para hoje</Heading>
+
+      <Button
+        size="sm"
+        rounded="lg"
+        variant="outline"
+        _light={{
+          _text: {
+            color: 'onSecondary.500',
+          },
+        }}
+        _dark={{
+          _text: {
+            color: 'white',
+          },
+
+          _pressed: {
+            bg: 'indigo.400',
+          },
+        }}
+      >
+        Ver tudo
+      </Button>
     </Box>
   )
 }

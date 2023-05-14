@@ -7,6 +7,7 @@ import {
   House,
   Plus,
 } from 'phosphor-react-native'
+
 import { Dimensions } from 'react-native'
 
 const ICON_SIZE = 58
@@ -15,16 +16,15 @@ const { width } = Dimensions.get('window')
 
 export function BottomBar() {
   const {
-    colors: { gray },
+    colors: { white },
   } = useTheme()
 
-  const ICON_COLOR = gray[900]
+  const ICON_COLOR = white
 
   const router = useRouter()
 
   return (
     <Box
-      bg="white"
       shadow={'8'}
       h="16"
       position="absolute"
@@ -32,6 +32,8 @@ export function BottomBar() {
       right={0}
       bottom={0}
       zIndex={300}
+      _dark={{ bg: 'dark.100' }}
+      _light={{ bg: 'white' }}
     >
       <Box
         px="3"
@@ -43,9 +45,7 @@ export function BottomBar() {
       >
         <HStack space={8}>
           <IconButton
-            colorScheme="info"
-            rounded="full"
-            variant="subtle"
+            variant="bottom"
             icon={<Icon as={<House color={ICON_COLOR} />} />}
             onPress={() => {
               router.push('/app')
@@ -53,9 +53,7 @@ export function BottomBar() {
           />
 
           <IconButton
-            colorScheme="info"
-            rounded="full"
-            variant="subtle"
+            variant="bottom"
             icon={<Icon as={<GraduationCap color={ICON_COLOR} />} />}
             onPress={() => {
               router.push('/app/classes')
@@ -68,18 +66,14 @@ export function BottomBar() {
           translateY={-ICON_SIZE / 2}
           translateX={(width - ICON_SIZE) / 2}
           style={{ height: ICON_SIZE, width: ICON_SIZE }}
-          variant="solid"
           position="absolute"
-          colorScheme="info"
-          rounded="full"
+          variant="bottom"
           icon={<Icon as={<Plus color="white" />} />}
         />
 
         <HStack space={8}>
           <IconButton
-            colorScheme="info"
-            rounded="full"
-            variant="subtle"
+            variant="bottom"
             icon={<Icon as={<ChartBar color={ICON_COLOR} />} />}
             onPress={() => {
               router.push('/app/statistics')
@@ -87,9 +81,7 @@ export function BottomBar() {
           />
 
           <IconButton
-            colorScheme="info"
-            rounded="full"
-            variant="subtle"
+            variant="bottom"
             icon={<Icon as={<Gear color={ICON_COLOR} />} />}
             onPress={() => {
               router.push('/app/settings')

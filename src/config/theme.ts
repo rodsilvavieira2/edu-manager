@@ -32,17 +32,13 @@ export const appTheme = extendTheme({
 
   colors: {
     primary: {
-      400: '#38bdf8',
-      500: '#0ea5e9',
-      600: '#0284c7',
+      400: '#818cf8',
+      500: '#6366f1',
+      600: '#4f46e5',
     },
 
     secondary: {
       500: '#ffffff',
-    },
-
-    tertiary: {
-      500: '#6366f1',
     },
 
     neutral: {
@@ -67,6 +63,11 @@ export const appTheme = extendTheme({
     border: {
       300: '#d6d3d1',
     },
+
+    black: {
+      400: '#111111',
+      500: '#000000',
+    },
   },
 
   fonts: {
@@ -77,13 +78,47 @@ export const appTheme = extendTheme({
 
   components: {
     Heading: {
-      defaultProps: {
-        color: 'onSecondary.600',
+      baseStyle: {
+        _light: { color: 'onSecondary.600' },
+        _dark: { color: 'white' },
       },
     },
-    Text: {
+
+    Flex: {
+      baseStyle: {
+        _light: { bg: 'neutral.500' },
+        _dark: { bg: 'black.500' },
+      },
+
       defaultProps: {
-        color: 'onSecondary.600',
+        flex: 1,
+        safeArea: true,
+        p: 4,
+        centerContent: false,
+      },
+    },
+
+    IconButton: {
+      variants: {
+        bottom: {
+          bg: 'indigo.500',
+          rounded: 'full',
+
+          _pressed: { bg: 'indigo.400' },
+        },
+
+        icon: {
+          bg: 'transparent',
+          rounded: 'full',
+
+          _dark: {
+            _pressed: { bg: 'indigo.400' },
+          },
+
+          _light: {
+            _pressed: { bg: '#ffff' },
+          },
+        },
       },
     },
   },

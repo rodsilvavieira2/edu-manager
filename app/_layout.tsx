@@ -32,7 +32,7 @@ export default function AppLayout() {
   return (
     <ReduxProvider store={store}>
       <NativeBaseProvider theme={appTheme} colorModeManager={colorModeManager}>
-        <StatusBar barStyle="dark-content" animated translucent />
+        <StatusBar barStyle="default" animated translucent />
 
         <SnackbarDispatcher />
 

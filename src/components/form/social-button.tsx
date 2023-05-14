@@ -6,11 +6,33 @@ export function SocialButton({ icon, ...props }: SocialButtonProps) {
   return (
     <IconButton
       rounded="lg"
-      colorScheme="indigo"
       borderWidth={1}
-      borderColor="gray.400"
       size="lg"
       icon={<Icon as={icon} />}
+      _light={{
+        borderColor: 'gray.400',
+
+        _focus: {
+          borderColor: 'primary.500',
+        },
+
+        _pressed: {
+          bg: 'primary.500',
+          borderColor: 'primary.500',
+        },
+      }}
+      _dark={{
+        borderColor: 'light.300',
+
+        _focus: {
+          borderColor: 'primary.500',
+        },
+
+        _pressed: {
+          bg: 'primary.500',
+          borderColor: 'primary.500',
+        },
+      }}
       {...props}
     />
   )
