@@ -1,10 +1,18 @@
-import { useColorMode } from 'native-base'
+import { useTheme } from 'native-base'
 import { StatusBar, StatusBarProps } from 'react-native'
 
 export function StatusBarTheme(props: StatusBarProps) {
-  const { colorMode } = useColorMode()
+  const {
+    colors: { primary },
+  } = useTheme()
 
-  const style = colorMode === 'light' ? 'dark-content' : 'light-content'
-
-  return <StatusBar barStyle={style} animated translucent />
+  return (
+    <StatusBar
+      backgroundColor={primary[500]}
+      barStyle="light-content"
+      animated
+      translucent
+      {...props}
+    />
+  )
 }

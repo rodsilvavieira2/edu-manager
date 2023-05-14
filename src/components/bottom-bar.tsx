@@ -33,7 +33,7 @@ export function BottomBar() {
       bottom={0}
       zIndex={300}
       _dark={{ bg: 'dark.100' }}
-      _light={{ bg: 'white' }}
+      _light={{ bg: 'light.100' }}
     >
       <Box
         px="3"

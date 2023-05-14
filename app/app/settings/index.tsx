@@ -71,12 +71,15 @@ function UserInfo() {
     <HStack
       _dark={{
         bg: 'dark.100',
-        borderRadius: 'md',
+      }}
+      _light={{
+        bg: 'light.200',
       }}
       space={4}
       alignItems="center"
       px="4"
       py="5"
+      borderRadius={'md'}
     >
       <Avatar
         source={{
@@ -184,6 +187,9 @@ function SettingsBtn({ title, onPress }: SettingsBtnProps) {
         px="3"
         _dark={{
           bg: 'dark.100',
+        }}
+        _light={{
+          bg: 'light.200',
         }}
       >
         <Text fontWeight="bold">{title}</Text>

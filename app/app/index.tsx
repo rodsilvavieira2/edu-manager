@@ -89,7 +89,17 @@ function TaskListHeader() {
         variant="outline"
         _light={{
           _text: {
-            color: 'onSecondary.500',
+            color: 'darkText',
+          },
+
+          _pressed: {
+            bg: 'indigo.400',
+
+            _text: {
+              color: 'white',
+            },
+
+            borderColor: 'indigo.400',
           },
         }}
         _dark={{
@@ -100,6 +110,8 @@ function TaskListHeader() {
           _pressed: {
             bg: 'indigo.400',
           },
+
+          borderColor: 'indigo.400',
         }}
       >
         Ver tudo
