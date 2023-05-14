@@ -77,27 +77,6 @@ export const appTheme = extendTheme({
   },
 
   components: {
-    Heading: {
-      baseStyle: {
-        _light: { color: 'onSecondary.600' },
-        _dark: { color: 'white' },
-      },
-    },
-
-    Flex: {
-      baseStyle: {
-        _light: { bg: 'neutral.500' },
-        _dark: { bg: 'black.500' },
-      },
-
-      defaultProps: {
-        flex: 1,
-        safeArea: true,
-        p: 4,
-        centerContent: false,
-      },
-    },
-
     IconButton: {
       variants: {
         bottom: {

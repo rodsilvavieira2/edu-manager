@@ -18,11 +18,84 @@ import { CaretRight, Check } from 'phosphor-react-native'
 import React, { forwardRef, useImperativeHandle, useRef } from 'react'
 import { TouchableOpacity } from 'react-native'
 import { useSelector } from 'react-redux'
+import { Container } from '../../../src/components/container'
 import { selectUser } from '../../../src/redux/slices'
 
 export default function Settings() {
+  return (
+    <>
+      <Header />
+
+      <Container pt={0}>
+        <UserInfo />
+
+        <ScrollView
+          mb="16"
+          contentContainerStyle={{ paddingBottom: 30 }}
+          showsVerticalScrollIndicator={false}
+        >
+          <Stack mt="2" space={6} flex={1} py="3">
+            <AccountOptions />
+
+            <GeneralOptions />
+          </Stack>
+        </ScrollView>
+      </Container>
+    </>
+  )
+}
+
+function Header() {
+  return (
+    <Box
+      safeAreaTop
+      alignItems="center"
+      justifyContent="center"
+      flexDir="row"
+      px="4"
+      py="4"
+      bg="primary.500"
+      shadow={8}
+    >
+      <Heading color="white" fontSize="lg">
+        Configurações
+      </Heading>
+    </Box>
+  )
+}
+
+function UserInfo() {
   const user = useSelector(selectUser)
 
+  return (
+    <HStack
+      _dark={{
+        bg: 'dark.100',
+        borderRadius: 'md',
+      }}
+      space={4}
+      alignItems="center"
+      px="4"
+      py="5"
+    >
+      <Avatar
+        source={{
+          uri: user?.profile_url || undefined,
+        }}
+      />
+
+      <Stack>
+        <Text>{user.email}</Text>
+
+        <Text fontWeight="bold" fontSize="lg">
+          {user.name}
+        </Text>
+      </Stack>
+    </HStack>
+  )
+}
+
+function AccountOptions() {
   const themeChoose = useRef<ChooseThemActionSheetRef>(null)
 
   function onTheme() {
@@ -31,102 +104,66 @@ export default function Settings() {
 
   return (
     <>
-      <Box safeArea flex={1} bgColor="background.500">
-        <Box
-          alignItems="center"
-          justifyContent="center"
-          flexDir="row"
-          px="4"
-          py="4"
-          bg="info.500"
-          shadow={8}
-        >
-          <Heading color="white" fontSize="lg">
-            Configurações
-          </Heading>
-        </Box>
+      <Stack space={2}>
+        <Heading>Conta</Heading>
 
-        <HStack space={4} h="20" bg="white" alignItems="center" px="4">
-          <Avatar
-            source={{
-              uri: user?.profile_url || undefined,
-            }}
+        <Stack space={4}>
+          <SettingsBtn
+            title="Sair"
+            onPress={() => console.log('Editar perfil')}
           />
 
-          <Stack>
-            <Text>{user.email}</Text>
+          <SettingsBtn
+            title="Notificações"
+            onPress={() => console.log('Editar perfil')}
+          />
 
-            <Text fontWeight="bold" fontSize="lg">
-              {user.name}
-            </Text>
-          </Stack>
-        </HStack>
+          <SettingsBtn
+            title="Lingua"
+            onPress={() => console.log('Editar perfil')}
+          />
 
-        <ScrollView
-          mb="16"
-          contentContainerStyle={{ paddingBottom: 30 }}
-          showsVerticalScrollIndicator={false}
-        >
-          <Stack space={6} flex={1} py="3">
-            <Stack px="4" space={2}>
-              <Heading>Conta</Heading>
-
-              <Stack space={4}>
-                <SettingsBtn
-                  title="Sair"
-                  onPress={() => console.log('Editar perfil')}
-                />
-
-                <SettingsBtn
-                  title="Notificações"
-                  onPress={() => console.log('Editar perfil')}
-                />
-
-                <SettingsBtn
-                  title="Lingua"
-                  onPress={() => console.log('Editar perfil')}
-                />
-
-                <SettingsBtn title="Tema" onPress={onTheme} />
-              </Stack>
-            </Stack>
-
-            <Stack px="4" space={2}>
-              <Heading>Geral</Heading>
-
-              <Stack space={4}>
-                <SettingsBtn
-                  title="Suporte"
-                  onPress={() => console.log('Editar perfil')}
-                />
-
-                <SettingsBtn
-                  title="Termos de serviço"
-                  onPress={() => console.log('Editar perfil')}
-                />
-
-                <SettingsBtn
-                  title="Privacidade"
-                  onPress={() => console.log('Editar perfil')}
-                />
-
-                <SettingsBtn
-                  title="Sobre"
-                  onPress={() => console.log('Editar perfil')}
-                />
-
-                <SettingsBtn
-                  title="Feedback"
-                  onPress={() => console.log('Editar perfil')}
-                />
-              </Stack>
-            </Stack>
-          </Stack>
-        </ScrollView>
-      </Box>
+          <SettingsBtn title="Tema" onPress={onTheme} />
+        </Stack>
+      </Stack>
 
       <ChooseThemActionSheet ref={themeChoose} />
     </>
+  )
+}
+
+function GeneralOptions() {
+  return (
+    <Stack space={2}>
+      <Heading>Geral</Heading>
+
+      <Stack space={4}>
+        <SettingsBtn
+          title="Suporte"
+          onPress={() => console.log('Editar perfil')}
+        />
+
+        <SettingsBtn
+          title="Termos de serviço"
+          onPress={() => console.log('Editar perfil')}
+        />
+
+        <SettingsBtn
+          title="Privacidade"
+          onPress={() => console.log('Editar perfil')}
+        />
+
+        <SettingsBtn
+          title="Sobre"
+          onPress={() => console.log('Editar perfil')}
+        />
+
+        <SettingsBtn
+          title="Feedback"
+          onPress={() => console.log('Editar perfil')}
+        />
+      </Stack>
+    </Stack>
   )
 }
 
@@ -140,21 +177,28 @@ function SettingsBtn({ title, onPress }: SettingsBtnProps) {
     <TouchableOpacity activeOpacity={0.6} onPress={onPress}>
       <Box
         rounded="lg"
-        bg="white"
         flexDir="row"
         justifyContent="space-between"
         alignItems="center"
         py="4"
         px="3"
+        _dark={{
+          bg: 'dark.100',
+        }}
       >
         <Text fontWeight="bold">{title}</Text>
 
         <IconButton
-          colorScheme="info"
           variant="subtle"
           rounded="full"
           size="xs"
-          icon={<Icon as={<CaretRight size={18} />} />}
+          icon={
+            <Icon as={<CaretRight size={18} weight="bold" color="white" />} />
+          }
+          bg="primary.500"
+          _pressed={{
+            bg: 'primary.400',
+          }}
         />
       </Box>
     </TouchableOpacity>
@@ -217,8 +261,17 @@ function ActionSheetItem(props: ActionsheetItemProps) {
     <Actionsheet.Item
       {...props}
       leftIcon={icon}
-      _text={{ color: 'onSecondary.600' }}
-      _pressed={{ bg: 'gray.100' }}
+      rounded="md"
+      _dark={{
+        _pressed: {
+          bg: 'dark.200',
+        },
+      }}
+      _light={{
+        _pressed: {
+          bg: 'gray.100',
+        },
+      }}
     />
   )
 }

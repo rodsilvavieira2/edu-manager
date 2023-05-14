@@ -9,7 +9,7 @@ export function Container(props: ContainerProps) {
       flex={1}
       p={4}
       _light={{
-        bg: 'neutral.500',
+        bg: 'light.50',
       }}
       _dark={{ bg: 'dark.50' }}
       {...props}
