@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker'
 import {
   PayloadAction,
   createEntityAdapter,
@@ -51,8 +52,25 @@ export const tasksSlice = createSlice({
 
 export const { loadTasks } = tasksSlice.actions
 
-export const selectAllTasks = (state: RootState) =>
-  entityTask.getSelectors().selectAll(state.tasks.tasks)
+// export const selectAllTasks = (state: RootState) =>
+//   entityTask.getSelectors().selectAll(state.tasks.tasks)
+
+export const selectAllTasks = (state: RootState) => {
+  const data: Task[] = Array.from({ length: 30 }, () => ({
+    id: faker.datatype.uuid(),
+    createdAt: faker.date.past().toISOString(),
+    finishedAt: faker.datatype.boolean()
+      ? faker.date.past().toISOString()
+      : undefined,
+    title: faker.lorem.sentence(),
+    currentStep: faker.datatype.number({ min: 1, max: 5 }),
+    endedAt: faker.date.future().toISOString(),
+    name: faker.name.fullName(),
+    steps: faker.datatype.number({ min: 5, max: 10 }),
+  }))
+
+  return data
+}
 
 export const selectTaskById = (id: string) => (state: RootState) =>
   entityTask.getSelectors().selectById(state.tasks.tasks, id)

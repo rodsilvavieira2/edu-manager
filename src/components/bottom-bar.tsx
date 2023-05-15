@@ -11,6 +11,7 @@ import {
 import { Dimensions } from 'react-native'
 
 const ICON_SIZE = 58
+export const BOTTOM_BAR_HEIGHT = 64
 
 const { width } = Dimensions.get('window')
 
@@ -26,7 +27,7 @@ export function BottomBar() {
   return (
     <Box
       shadow={'8'}
-      h="16"
+      style={{ height: BOTTOM_BAR_HEIGHT }}
       position="absolute"
       left={0}
       right={0}

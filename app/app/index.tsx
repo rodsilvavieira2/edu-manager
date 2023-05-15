@@ -24,6 +24,7 @@ import Animated, {
 import { Circle, Svg, Text as SvgText } from 'react-native-svg'
 import { useSelector } from 'react-redux'
 import { Task } from '../../src/@types'
+import { BOTTOM_BAR_HEIGHT } from '../../src/components/bottom-bar'
 import { Container } from '../../src/components/container'
 import {
   selectAllTasks,
@@ -37,7 +38,7 @@ const AnimatedCircle = Animated.createAnimatedComponent(Circle)
 
 export default function Home() {
   return (
-    <Container>
+    <Container style={{ paddingBottom: BOTTOM_BAR_HEIGHT }}>
       <Stack space={2} flex={1}>
         <Header />
 
@@ -107,11 +108,12 @@ function TaskListHeader() {
             color: 'white',
           },
 
+          borderColor: 'light.400',
+
           _pressed: {
             bg: 'indigo.400',
+            borderColor: 'indigo.400',
           },
-
-          borderColor: 'indigo.400',
         }}
       >
         Ver tudo
@@ -130,18 +132,28 @@ function TaskCard({ name, steps, currentStep, endedAt }: TaskCardProps) {
     .tz(endedAt, values.timeZone)
     .format('DD/MM/YYYY - HH:mm')
 
+  const arrowColor = useColorModeValue(colors.icon[700], colors.white)
+  const displayColor = colors.primary[500]
+
   return (
     <TouchableOpacity activeOpacity={0.6}>
       <HStack
         w="100%"
         borderWidth={1}
-        borderColor="gray.300"
         rounded="md"
         px="4"
         py={4}
         bg="info.50"
         alignItems="center"
         space={4}
+        _dark={{
+          bg: 'dark.100',
+          borderColor: 'light.400',
+        }}
+        _light={{
+          bg: 'light.200',
+          borderColor: 'border.300',
+        }}
       >
         <Stack space={1} flex={1}>
           <Text fontWeight="bold" numberOfLines={1}>
@@ -150,13 +162,13 @@ function TaskCard({ name, steps, currentStep, endedAt }: TaskCardProps) {
 
           <HStack space={3}>
             <HStack space={1} alignItems="center">
-              <Clock size={18} color={colors.gray[500]} />
+              <Clock size={18} color={displayColor} />
 
               <Text>{date}</Text>
             </HStack>
 
             <HStack space={1} alignItems="center">
-              <CircleNotch size={18} color={colors.gray[500]} />
+              <CircleNotch size={18} color={displayColor} />
 
               <Text>
                 {currentStep}/{steps}
@@ -166,7 +178,7 @@ function TaskCard({ name, steps, currentStep, endedAt }: TaskCardProps) {
         </Stack>
 
         <Center>
-          <ArrowRight color={colors.gray[500]} weight="bold" />
+          <ArrowRight color={arrowColor} weight="bold" />
         </Center>
       </HStack>
     </TouchableOpacity>

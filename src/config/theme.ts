@@ -77,6 +77,22 @@ export const appTheme = extendTheme({
   },
 
   components: {
+    Text: {
+      baseStyle: {
+        _light: {
+          color: 'gray.700',
+        },
+      },
+    },
+
+    Heading: {
+      baseStyle: {
+        _light: {
+          color: 'gray.700',
+        },
+      },
+    },
+
     IconButton: {
       variants: {
         bottom: {

@@ -19,12 +19,13 @@ import React, { forwardRef, useImperativeHandle, useRef } from 'react'
 import { TouchableOpacity } from 'react-native'
 import { useSelector } from 'react-redux'
 import { Container } from '../../../src/components/container'
+import { ScreenHeader } from '../../../src/components/screen-header'
 import { selectUser } from '../../../src/redux/slices'
 
 export default function Settings() {
   return (
     <>
-      <Header />
+      <ScreenHeader title='Configurações' />
 
       <Container pt={0}>
         <UserInfo />
@@ -42,25 +43,6 @@ export default function Settings() {
         </ScrollView>
       </Container>
     </>
-  )
-}
-
-function Header() {
-  return (
-    <Box
-      safeAreaTop
-      alignItems="center"
-      justifyContent="center"
-      flexDir="row"
-      px="4"
-      py="4"
-      bg="primary.500"
-      shadow={8}
-    >
-      <Heading color="white" fontSize="lg">
-        Configurações
-      </Heading>
-    </Box>
   )
 }
 
