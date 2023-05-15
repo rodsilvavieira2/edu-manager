@@ -8,13 +8,14 @@ import {
   Heading,
   Icon,
   IconButton,
+  Skeleton,
   Stack,
   Text,
   useColorModeValue,
   useTheme,
 } from 'native-base'
 import { ArrowRight, Bell, CircleNotch, Clock } from 'phosphor-react-native'
-import React, { useEffect } from 'react'
+import React, { ReactNode, useEffect, useState } from 'react'
 import { TouchableOpacity } from 'react-native'
 import Animated, {
   useAnimatedProps,
@@ -29,6 +30,7 @@ import { Container } from '../../src/components/container'
 import {
   selectAllTasks,
   selectCompletedTasks,
+  selectTasksMetadata,
   selectUncompletedTasks,
   selectUser,
 } from '../../src/redux/slices'
@@ -134,14 +136,13 @@ function TaskCard({ name, steps, currentStep, endedAt }: TaskCardProps) {
     .tz(endedAt, values.timeZone)
     .format('DD/MM/YYYY - HH:mm')
 
-  const arrowColor = useColorModeValue(colors.icon[700], colors.white)
+  const arrowColor = useColorModeValue(colors.primary[500], colors.white)
   const displayColor = colors.primary[500]
 
   return (
     <TouchableOpacity activeOpacity={0.6}>
       <HStack
         w="100%"
-        borderWidth={1}
         rounded="md"
         bg="info.50"
         px="4"
@@ -152,11 +153,9 @@ function TaskCard({ name, steps, currentStep, endedAt }: TaskCardProps) {
         }}
         _dark={{
           bg: 'dark.100',
-          borderColor: 'light.400',
         }}
         _light={{
-          bg: 'light.200',
-          borderColor: 'border.300',
+          bg: 'indigo.100',
         }}
       >
         <Stack space={1} flex={1}>
@@ -299,6 +298,13 @@ function CompletedTasks() {
 
 function TasksList() {
   const data = useSelector(selectAllTasks)
+  const { isLoading } = useSelector(selectTasksMetadata)
+
+  return <ListLoading />
+
+  if (isLoading) {
+    return <ListLoading />
+  }
 
   if (!data.length) {
     return (
@@ -320,5 +326,43 @@ function TasksList() {
         renderItem={({ item }) => <TaskCard {...item} />}
       />
     </Box>
+  )
+}
+
+function ListLoading() {
+  const [containerHeight, setContainerHeight] = useState(0)
+  const [items, setItems] = useState<ReactNode[]>([])
+
+  useEffect(() => {
+    if (!containerHeight) return
+
+    const current = []
+
+    const quantity = Math.floor(containerHeight / TASK_CARD_HEIGHT)
+
+    for (let i = 0; i < quantity; i++) {
+      current.push(
+        <Skeleton
+          key={i}
+          _dark={{ startColor: 'dark.100' }}
+          style={{ height: TASK_CARD_HEIGHT }}
+          rounded="md"
+        />
+      )
+    }
+
+    setItems(current)
+  }, [containerHeight])
+
+  return (
+    <Stack
+      flex={1}
+      space={3}
+      onLayout={({ nativeEvent }) => {
+        setContainerHeight(nativeEvent.layout.height)
+      }}
+    >
+      {items}
+    </Stack>
   )
 }

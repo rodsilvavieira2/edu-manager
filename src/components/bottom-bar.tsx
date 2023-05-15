@@ -69,6 +69,9 @@ export function BottomBar() {
           style={{ height: ICON_SIZE, width: ICON_SIZE }}
           position="absolute"
           variant="bottom"
+          onPress={() => {
+            router.push('/app/new-task')
+          }}
           icon={<Icon as={<Plus color="white" />} />}
         />
 

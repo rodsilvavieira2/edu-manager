@@ -17,3 +17,15 @@ export type Task = {
   createdAt: string
   endedAt: string
 }
+
+export type Class = {
+  id: string
+
+  name: string
+  teacher: string
+
+  description?: string
+
+  createdAt: string
+  updatedAt: string
+}

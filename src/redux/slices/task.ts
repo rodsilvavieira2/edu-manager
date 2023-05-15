@@ -46,6 +46,8 @@ export const tasksSlice = createSlice({
       state.uncompletedTasks = state.totalTasks - state.completedTasks
 
       entityTask.setAll(state.tasks, action.payload)
+
+      state.metadata.isLoading = false
     },
   },
 })
