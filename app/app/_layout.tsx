@@ -1,4 +1,4 @@
-import { Slot } from 'expo-router'
+import { Stack } from 'expo-router'
 import React from 'react'
 import { useWatchTasks } from '../../src/hooks'
 
@@ -9,7 +9,12 @@ export default function ContentLayout() {
 
   return (
     <>
-      <Slot />
+      <Stack
+        screenOptions={{
+          headerShown: false,
+          animation: 'simple_push',
+        }}
+      />
 
       <BottomBar />
     </>

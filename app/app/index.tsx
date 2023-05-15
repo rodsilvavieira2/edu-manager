@@ -1,3 +1,4 @@
+import { FlashList } from '@shopify/flash-list'
 import { getCalendars } from 'expo-localization'
 import {
   Box,
@@ -7,7 +8,6 @@ import {
   Heading,
   Icon,
   IconButton,
-  ScrollView,
   Stack,
   Text,
   useColorModeValue,
@@ -35,6 +35,8 @@ import {
 import { dateService } from '../../src/services/dayjs'
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle)
+
+const TASK_CARD_HEIGHT = 64
 
 export default function Home() {
   return (
@@ -141,11 +143,13 @@ function TaskCard({ name, steps, currentStep, endedAt }: TaskCardProps) {
         w="100%"
         borderWidth={1}
         rounded="md"
-        px="4"
-        py={4}
         bg="info.50"
+        px="4"
         alignItems="center"
         space={4}
+        style={{
+          height: TASK_CARD_HEIGHT,
+        }}
         _dark={{
           bg: 'dark.100',
           borderColor: 'light.400',
@@ -305,16 +309,16 @@ function TasksList() {
   }
 
   return (
-    <ScrollView
-      mt={4}
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={{ paddingBottom: 30 }}
-    >
-      <Stack space={4}>
-        {data.map((item) => (
-          <TaskCard key={item.id} {...item} />
-        ))}
-      </Stack>
-    </ScrollView>
+    <Box flex={1} mt="3">
+      <FlashList
+        data={data}
+        keyExtractor={(item) => item.id}
+        contentContainerStyle={{ paddingBottom: 30 }}
+        estimatedItemSize={TASK_CARD_HEIGHT}
+        showsVerticalScrollIndicator={false}
+        ItemSeparatorComponent={() => <Box h={3} />}
+        renderItem={({ item }) => <TaskCard {...item} />}
+      />
+    </Box>
   )
 }
