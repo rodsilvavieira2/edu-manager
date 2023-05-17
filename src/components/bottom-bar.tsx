@@ -1,4 +1,4 @@
-import { useRouter } from 'expo-router'
+import { usePathname, useRouter } from 'expo-router'
 import { Box, HStack, Icon, IconButton, useTheme } from 'native-base'
 import {
   ChartBar,
@@ -11,6 +11,7 @@ import {
 import { Dimensions } from 'react-native'
 
 const ICON_SIZE = 58
+
 export const BOTTOM_BAR_HEIGHT = 64
 
 const { width } = Dimensions.get('window')
@@ -23,6 +24,22 @@ export function BottomBar() {
   const ICON_COLOR = white
 
   const router = useRouter()
+
+  const name = usePathname()
+
+  function onCreate() {
+    const actions = {
+      '/app': () => {
+        router.push('/app/new-task')
+      },
+
+      '/app/classes': () => {
+        router.push('/app/new-class')
+      },
+    }
+
+    actions[name]?.()
+  }
 
   return (
     <Box
@@ -69,9 +86,7 @@ export function BottomBar() {
           style={{ height: ICON_SIZE, width: ICON_SIZE }}
           position="absolute"
           variant="bottom"
-          onPress={() => {
-            router.push('/app/new-task')
-          }}
+          onPress={onCreate}
           icon={<Icon as={<Plus color="white" />} />}
         />
 
