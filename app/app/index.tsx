@@ -8,14 +8,13 @@ import {
   Heading,
   Icon,
   IconButton,
-  Skeleton,
   Stack,
   Text,
   useColorModeValue,
   useTheme,
 } from 'native-base'
 import { ArrowRight, Bell, CircleNotch, Clock } from 'phosphor-react-native'
-import React, { ReactNode, useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { TouchableOpacity } from 'react-native'
 import Animated, {
   useAnimatedProps,
@@ -27,6 +26,7 @@ import { useSelector } from 'react-redux'
 import { Task } from '../../src/@types'
 import { BOTTOM_BAR_HEIGHT } from '../../src/components/bottom-bar'
 import { Container } from '../../src/components/container'
+import { ListLoading } from '../../src/components/list-loading'
 import {
   selectAllTasks,
   selectCompletedTasks,
@@ -300,8 +300,6 @@ function TasksList() {
   const data = useSelector(selectAllTasks)
   const { isLoading } = useSelector(selectTasksMetadata)
 
-  return <ListLoading />
-
   if (isLoading) {
     return <ListLoading />
   }
@@ -326,43 +324,5 @@ function TasksList() {
         renderItem={({ item }) => <TaskCard {...item} />}
       />
     </Box>
-  )
-}
-
-function ListLoading() {
-  const [containerHeight, setContainerHeight] = useState(0)
-  const [items, setItems] = useState<ReactNode[]>([])
-
-  useEffect(() => {
-    if (!containerHeight) return
-
-    const current = []
-
-    const quantity = Math.floor(containerHeight / TASK_CARD_HEIGHT)
-
-    for (let i = 0; i < quantity; i++) {
-      current.push(
-        <Skeleton
-          key={i}
-          _dark={{ startColor: 'dark.100' }}
-          style={{ height: TASK_CARD_HEIGHT }}
-          rounded="md"
-        />
-      )
-    }
-
-    setItems(current)
-  }, [containerHeight])
-
-  return (
-    <Stack
-      flex={1}
-      space={3}
-      onLayout={({ nativeEvent }) => {
-        setContainerHeight(nativeEvent.layout.height)
-      }}
-    >
-      {items}
-    </Stack>
   )
 }
