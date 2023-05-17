@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker'
 import {
   PayloadAction,
   createEntityAdapter,
@@ -43,5 +44,21 @@ export const classesSlice = createSlice({
 export const { loadClasses } = classesSlice.actions
 
 export const selectAllClasses = (state: RootState) => {
-  return adapter.getSelectors().selectAll(state.classes.data)
+  return Array.from(
+    {
+      length: 30,
+    },
+    () => ({
+      id: faker.datatype.uuid(),
+      name: faker.lorem.word(),
+      teacher: faker.name.fullName(),
+      description: faker.lorem.paragraph(),
+      createdAt: faker.date.past().toISOString(),
+      updatedAt: faker.date.recent().toISOString(),
+    })
+  )
+}
+
+export const selectMetadataClass = (state: RootState) => {
+  return state.classes.metadata
 }

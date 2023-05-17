@@ -1,4 +1,3 @@
-import { faker } from '@faker-js/faker'
 import { FlashList } from '@shopify/flash-list'
 import {
   Box,
@@ -11,26 +10,18 @@ import {
 } from 'native-base'
 import { ArrowRight } from 'phosphor-react-native'
 import { TouchableOpacity } from 'react-native'
+import { useSelector } from 'react-redux'
 import { Class } from '../../../src/@types'
 import { BOTTOM_BAR_HEIGHT } from '../../../src/components/bottom-bar'
 import { Container } from '../../../src/components/container'
+import { ListLoading } from '../../../src/components/list-loading'
 import { ScreenHeader } from '../../../src/components/screen-header'
+import {
+  selectAllClasses,
+  selectMetadataClass,
+} from '../../../src/redux/slices'
 
 const CARD_HEIGHT = 64
-
-const data: Class[] = Array.from(
-  {
-    length: 30,
-  },
-  () => ({
-    id: faker.datatype.uuid(),
-    name: faker.lorem.word(),
-    teacher: faker.name.fullName(),
-    description: faker.lorem.paragraph(),
-    createdAt: faker.date.past().toISOString(),
-    updatedAt: faker.date.recent().toISOString(),
-  })
-)
 
 export default function Classes() {
   return (
@@ -38,16 +29,27 @@ export default function Classes() {
       <ScreenHeader title="Classes" />
 
       <Container pt={0} style={{ paddingBottom: BOTTOM_BAR_HEIGHT }}>
-        <FlashList
-          contentContainerStyle={{ paddingBottom: 30 }}
-          data={data}
-          ItemSeparatorComponent={() => <Box h={3} />}
-          showsVerticalScrollIndicator={false}
-          estimatedItemSize={CARD_HEIGHT}
-          renderItem={({ item }) => <ClassCard {...item} />}
-        />
+        <List />
       </Container>
     </>
+  )
+}
+
+function List() {
+  const data = useSelector(selectAllClasses)
+  const { isLoading } = useSelector(selectMetadataClass)
+
+  if (isLoading) return <ListLoading />
+
+  return (
+    <FlashList
+      contentContainerStyle={{ paddingBottom: 30 }}
+      data={data}
+      ItemSeparatorComponent={() => <Box h={3} />}
+      showsVerticalScrollIndicator={false}
+      estimatedItemSize={CARD_HEIGHT}
+      renderItem={({ item }) => <ClassCard {...item} />}
+    />
   )
 }
 
