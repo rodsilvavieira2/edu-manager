@@ -8,6 +8,7 @@ import {
   Heading,
   Icon,
   IconButton,
+  Skeleton,
   Stack,
   Text,
   useColorModeValue,
@@ -191,23 +192,43 @@ function TaskCard({ name, steps, currentStep, endedAt }: TaskCardProps) {
 function IncomingTasks() {
   const uncompletedTasks = useSelector(selectUncompletedTasks)
 
+  const { isLoading } = useSelector(selectTasksMetadata)
+
+  if (isLoading) return <CardLoading />
+
   return (
     <Center
       flex={1}
       justifyContent="space-between"
       rounded="md"
-      bg="pink.100"
+      _light={{ bg: 'pink.100' }}
+      _dark={{
+        bg: 'pink.600',
+      }}
       py={2}
     >
-      <Text color="pink.600" fontWeight="bold">
+      <Text
+        _light={{ color: 'pink.600' }}
+        _dark={{ color: 'white' }}
+        fontWeight="bold"
+      >
         Próximos
       </Text>
 
-      <Text fontWeight="bold" color="pink.600" fontSize="7xl">
+      <Text
+        fontWeight="bold"
+        _light={{ color: 'pink.600' }}
+        _dark={{ color: 'white' }}
+        fontSize="7xl"
+      >
         {uncompletedTasks}
       </Text>
 
-      <Text color="pink.600" fontWeight="bold">
+      <Text
+        _light={{ color: 'pink.600' }}
+        _dark={{ color: 'white' }}
+        fontWeight="bold"
+      >
         afazeres
       </Text>
     </Center>
@@ -242,6 +263,14 @@ function CompletedTasks() {
     }
   })
 
+  const { isLoading } = useSelector(selectTasksMetadata)
+
+  const strokeColor = useColorModeValue(info[300], 'white')
+
+  if (isLoading) {
+    return <CardLoading />
+  }
+
   return (
     <Center
       flex={1}
@@ -249,8 +278,15 @@ function CompletedTasks() {
       justifyContent="space-between"
       rounded="md"
       bg="info.100"
+      _dark={{
+        bg: 'info.600',
+      }}
     >
-      <Text color="info.500" fontWeight="bold">
+      <Text
+        _light={{ color: 'info.500' }}
+        _dark={{ color: 'white' }}
+        fontWeight="bold"
+      >
         Afazeres
       </Text>
 
@@ -260,7 +296,7 @@ function CompletedTasks() {
           cy={r}
           r={r - strokeWidth / 2}
           fill="transparent"
-          stroke={info[200]}
+          stroke={strokeColor}
           strokeWidth={strokeWidth}
         />
         <AnimatedCircle
@@ -283,13 +319,17 @@ function CompletedTasks() {
           fontSize={r / 1.8}
           fontFamily="Poppins_500Bold"
           fontWeight="bold"
-          fill={info[500]}
+          fill={strokeColor}
         >
           {`${Math.round(progress * 100)}%`}
         </SvgText>
       </Svg>
 
-      <Text color="info.500" fontWeight="bold">
+      <Text
+        _light={{ color: 'info.500' }}
+        _dark={{ color: 'white' }}
+        fontWeight="bold"
+      >
         completos
       </Text>
     </Center>
@@ -325,4 +365,8 @@ function TasksList() {
       />
     </Box>
   )
+}
+
+export function CardLoading() {
+  return <Skeleton style={{ height: 210 }} flex={1} rounded="md" />
 }
