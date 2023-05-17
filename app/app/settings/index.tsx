@@ -25,7 +25,7 @@ import { selectUser } from '../../../src/redux/slices'
 export default function Settings() {
   return (
     <>
-      <ScreenHeader title='Configurações' />
+      <ScreenHeader title="Configurações" />
 
       <Container pt={0}>
         <UserInfo />
@@ -55,7 +55,7 @@ function UserInfo() {
         bg: 'dark.100',
       }}
       _light={{
-        bg: 'light.200',
+        bg: 'indigo.100',
       }}
       space={4}
       alignItems="center"
@@ -171,7 +171,7 @@ function SettingsBtn({ title, onPress }: SettingsBtnProps) {
           bg: 'dark.100',
         }}
         _light={{
-          bg: 'light.200',
+          bg: 'indigo.100',
         }}
       >
         <Text fontWeight="bold">{title}</Text>
