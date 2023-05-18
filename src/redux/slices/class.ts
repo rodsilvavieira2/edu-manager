@@ -4,11 +4,24 @@ import {
   createEntityAdapter,
   createSlice,
 } from '@reduxjs/toolkit'
-import { Class } from '../../@types'
+import { Discipline } from '../../@types'
+import { dateService } from '../../services'
 import { RootState } from '../store'
 
-const adapter = createEntityAdapter<Class>({
+const adapter = createEntityAdapter<Discipline>({
   selectId: (item) => item.id,
+
+  sortComparer: (a, b) => {
+    const createdAtA = dateService(a.createdAt).utc().unix()
+
+    const createdAtB = dateService(b.createdAt).utc().unix()
+
+    if (createdAtA > createdAtB) return -1
+
+    if (createdAtA < createdAtB) return 1
+
+    return 0
+  },
 })
 
 interface InitialState {
@@ -33,7 +46,7 @@ export const classesSlice = createSlice({
   initialState,
 
   reducers: {
-    loadClasses: (state, action: PayloadAction<Class[]>) => {
+    loadClasses: (state, action: PayloadAction<Discipline[]>) => {
       adapter.setAll(state.data, action.payload)
 
       state.metadata.isLoading = false
