@@ -61,7 +61,7 @@ export const appTheme = extendTheme({
     },
 
     border: {
-      300: '#d6d3d1',
+      300: '#b1b1b1',
     },
 
     black: {

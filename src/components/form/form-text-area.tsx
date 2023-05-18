@@ -1,18 +1,23 @@
-import { FormControl, IFormControlProps, IInputProps, Input } from 'native-base'
-import { Control, useController } from 'react-hook-form'
+import {
+  FormControl,
+  IFormControlProps,
+  ITextAreaProps,
+  TextArea,
+} from 'native-base'
+import { Control, Path, useController } from 'react-hook-form'
 
-export interface FormInputProps<T = any> extends IInputProps {
+export interface FormTextAreaProps<T> extends Partial<ITextAreaProps> {
   control: Control<T>
-  name: string
+  name: Path<T>
   _container?: IFormControlProps
 }
 
-export function FormInput({
+export function FormTextArea<T>({
   control,
   name,
   _container,
   ...props
-}: FormInputProps) {
+}: FormTextAreaProps<T>) {
   const {
     field: { onBlur, onChange, ref, value },
     fieldState: { error, invalid },
@@ -20,13 +25,12 @@ export function FormInput({
 
   return (
     <FormControl isInvalid={invalid} {..._container}>
-      <Input
+      <TextArea
         rounded="lg"
         onChangeText={onChange}
-        value={value}
+        value={value as string}
         ref={ref}
         onBlur={onBlur}
-        placeholderTextColor="gray.500"
         size="md"
         _light={{
           borderColor: 'gray.400',
@@ -41,6 +45,8 @@ export function FormInput({
           borderColor: 'border.300',
         }}
         cursorColor="white"
+        placeholderTextColor="gray.500"
+        autoCompleteType="off"
         {...props}
       />
 
