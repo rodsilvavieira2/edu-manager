@@ -91,3 +91,7 @@ export const { addTeacher, loadTeacher, removeTeacher, updateTeacher } =
 export const teacherSelectors = adapter.getSelectors<RootState>(
   (state) => state.teacher.data
 )
+
+export const selectTeacherMetadata = (state: RootState) => {
+  return state.teacher.metadata
+}

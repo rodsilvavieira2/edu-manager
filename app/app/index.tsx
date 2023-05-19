@@ -29,11 +29,11 @@ import { BOTTOM_BAR_HEIGHT } from '../../src/components/bottom-bar'
 import { Container } from '../../src/components/container'
 import { ListLoading } from '../../src/components/list-loading'
 import {
-  selectAllTasks,
   selectCompletedTasks,
   selectTasksMetadata,
   selectUncompletedTasks,
   selectUser,
+  taskSelectors,
 } from '../../src/redux/slices'
 import { dateService } from '../../src/services/dayjs'
 
@@ -337,7 +337,7 @@ function CompletedTasks() {
 }
 
 function TasksList() {
-  const data = useSelector(selectAllTasks)
+  const data = useSelector(taskSelectors.selectAll)
   const { isLoading } = useSelector(selectTasksMetadata)
 
   if (isLoading) {

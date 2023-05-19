@@ -82,3 +82,7 @@ export const { loadDiscipline } = disciplineSlice.actions
 export const disciplineSelectors = adapter.getSelectors<RootState>(
   (state) => state.discipline.data
 )
+
+export const selectDisciplineMetadata = (state: RootState) => {
+  return state.discipline.metadata
+}

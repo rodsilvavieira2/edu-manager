@@ -60,8 +60,6 @@ export const tasksSlice = createSlice({
 
 export const { loadTasks } = tasksSlice.actions
 
-export const selectTasksMetadata = (state: RootState) => state.tasks.metadata
-
 export const selectCompletedTasks = (state: RootState) =>
   state.tasks.metrics.completedTasks
 
@@ -74,3 +72,5 @@ export const selectUncompletedTasks = (state: RootState) =>
 export const taskSelectors = adapter.getSelectors<RootState>(
   (state) => state.tasks.data
 )
+
+export const selectTasksMetadata = (state: RootState) => state.tasks.metadata

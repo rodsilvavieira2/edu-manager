@@ -93,3 +93,7 @@ export const { addHomework, loadHomework, removeHomework, updateHomework } =
 export const homeworkSelectors = adapter.getSelectors<RootState>(
   (state) => state.homework.data
 )
+
+export const selectHomeworkMetadata = (state: RootState) => {
+  return state.homework.metadata
+}

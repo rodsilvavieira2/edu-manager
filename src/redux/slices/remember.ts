@@ -93,3 +93,7 @@ export const { addRemember, loadRemember, removeRemember, updateRemember } =
 export const rememberSelectors = adapter.getSelectors<RootState>(
   (state) => state.remember.data
 )
+
+export const selectRememberMetadata = (state: RootState) => {
+  return state.remember.metadata
+}

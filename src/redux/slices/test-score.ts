@@ -101,3 +101,7 @@ export const { loadTestScore, addTestScore, removeTestScore, updateTestScore } =
 export const testScoreSelectors = adapter.getSelectors<RootState>(
   (state) => state.testScore.data
 )
+
+export const selectTestScoreMetadata = (state: RootState) => {
+  return state.testScore.metadata
+}
