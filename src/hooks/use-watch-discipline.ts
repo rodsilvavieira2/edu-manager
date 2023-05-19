@@ -1,10 +1,10 @@
 import firestore from '@react-native-firebase/firestore'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Class } from '../@types'
-import { loadClasses, selectUser } from '../redux/slices'
+import { Discipline } from '../@types'
+import { loadDiscipline, selectUser } from '../redux/slices'
 
-export function useWatchClasses() {
+export function useWatchDisciplines() {
   const user = useSelector(selectUser)
 
   const dispatch = useDispatch()
@@ -13,18 +13,18 @@ export function useWatchClasses() {
     firestore()
       .collection('users')
       .doc(user.id)
-      .collection('classes')
+      .collection('disciplines')
       .onSnapshot((snapshot) => {
-        const data: Class[] = []
+        const data: Discipline[] = []
 
         snapshot.forEach((doc) => {
           data.push({
             id: doc.id,
             ...doc.data(),
-          } as Class)
+          } as Discipline)
         })
 
-        dispatch(loadClasses(data))
+        dispatch(loadDiscipline(data))
       })
   }, [])
 }

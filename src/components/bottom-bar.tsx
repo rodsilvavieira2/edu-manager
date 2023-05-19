@@ -1,5 +1,12 @@
 import { usePathname, useRouter } from 'expo-router'
-import { Box, HStack, Icon, IconButton, useTheme } from 'native-base'
+import {
+  Box,
+  HStack,
+  IIconButtonProps,
+  Icon,
+  IconButton,
+  useTheme,
+} from 'native-base'
 import {
   ChartBar,
   Gear,
@@ -23,24 +30,6 @@ export function BottomBar() {
 
   const ICON_COLOR = white
 
-  const router = useRouter()
-
-  const name = usePathname()
-
-  function onCreate() {
-    const actions = {
-      '/app': () => {
-        router.push('/app/new-task')
-      },
-
-      '/app/classes': () => {
-        router.push('/app/new-class')
-      },
-    }
-
-    actions[name]?.()
-  }
-
   return (
     <Box
       shadow={'8'}
@@ -62,52 +51,79 @@ export function BottomBar() {
         flex={1}
       >
         <HStack space={8}>
-          <IconButton
-            variant="bottom"
-            icon={<Icon as={<House color={ICON_COLOR} />} />}
-            onPress={() => {
-              router.push('/app')
-            }}
-          />
+          <BtnBottom path="/app" icon={<House color={ICON_COLOR} />} />
 
-          <IconButton
-            variant="bottom"
-            icon={<Icon as={<GraduationCap color={ICON_COLOR} />} />}
-            onPress={() => {
-              router.push('/app/classes')
-            }}
+          <BtnBottom
+            icon={<GraduationCap color={ICON_COLOR} />}
+            path="/app/disciplines"
           />
         </HStack>
 
-        <IconButton
-          shadow={4}
-          translateY={-ICON_SIZE / 2}
-          translateX={(width - ICON_SIZE) / 2}
-          style={{ height: ICON_SIZE, width: ICON_SIZE }}
-          position="absolute"
-          variant="bottom"
-          onPress={onCreate}
-          icon={<Icon as={<Plus color="white" />} />}
-        />
+        <PlusButton />
 
         <HStack space={8}>
-          <IconButton
-            variant="bottom"
-            icon={<Icon as={<ChartBar color={ICON_COLOR} />} />}
-            onPress={() => {
-              router.push('/app/statistics')
-            }}
+          <BtnBottom
+            icon={<ChartBar color={ICON_COLOR} />}
+            path="/app/statistics"
           />
 
-          <IconButton
-            variant="bottom"
-            icon={<Icon as={<Gear color={ICON_COLOR} />} />}
-            onPress={() => {
-              router.push('/app/settings')
-            }}
-          />
+          <BtnBottom icon={<Gear color={ICON_COLOR} />} path="/app/settings" />
         </HStack>
       </Box>
     </Box>
+  )
+}
+
+interface BtnBottomProps extends IIconButtonProps {
+  icon: JSX.Element
+  path: string
+}
+
+function BtnBottom({ icon, path, ...props }: BtnBottomProps) {
+  const router = useRouter()
+  const currentPath = usePathname()
+
+  return (
+    <IconButton
+      variant="bottom"
+      icon={<Icon as={icon} />}
+      bg={currentPath === path ? 'indigo.500' : undefined}
+      onPress={() => {
+        router.push(path)
+      }}
+      {...props}
+    />
+  )
+}
+
+export function PlusButton() {
+  const name = usePathname()
+  const router = useRouter()
+
+  function onCreate() {
+    const actions = {
+      '/app': () => {
+        router.push('/app/new-task')
+      },
+
+      '/app/classes': () => {
+        router.push('/app/new-class')
+      },
+    }
+
+    actions[name]?.()
+  }
+
+  return (
+    <IconButton
+      shadow={4}
+      translateY={-ICON_SIZE / 2}
+      translateX={(width - ICON_SIZE) / 2}
+      style={{ height: ICON_SIZE, width: ICON_SIZE }}
+      position="absolute"
+      variant="bottom"
+      onPress={onCreate}
+      icon={<Icon as={<Plus color="white" />} />}
+    />
   )
 }
