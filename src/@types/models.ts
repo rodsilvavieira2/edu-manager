@@ -33,7 +33,7 @@ export type Discipline = {
   updatedAt: string
 }
 
-export type Professor = {
+export type Teacher = {
   id: string
 
   name: string
