@@ -39,7 +39,7 @@ import { dateService } from '../../src/services/dayjs'
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle)
 
-const TASK_CARD_HEIGHT = 64
+const CARD_HEIGHT = 64
 
 export default function Home() {
   return (
@@ -150,7 +150,7 @@ function TaskCard({ name, steps, currentStep, endedAt }: TaskCardProps) {
         alignItems="center"
         space={4}
         style={{
-          height: TASK_CARD_HEIGHT,
+          height: CARD_HEIGHT,
         }}
         _dark={{
           bg: 'dark.100',
@@ -358,7 +358,7 @@ function TasksList() {
         data={data}
         keyExtractor={(item) => item.id}
         contentContainerStyle={{ paddingBottom: 30 }}
-        estimatedItemSize={TASK_CARD_HEIGHT}
+        estimatedItemSize={CARD_HEIGHT}
         showsVerticalScrollIndicator={false}
         ItemSeparatorComponent={() => <Box h={3} />}
         renderItem={({ item }) => <TaskCard {...item} />}

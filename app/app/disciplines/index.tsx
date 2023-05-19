@@ -11,22 +11,22 @@ import {
 import { ArrowRight } from 'phosphor-react-native'
 import { TouchableOpacity } from 'react-native'
 import { useSelector } from 'react-redux'
-import { Class } from '../../../src/@types'
+import { Discipline } from '../../../src/@types'
 import { BOTTOM_BAR_HEIGHT } from '../../../src/components/bottom-bar'
 import { Container } from '../../../src/components/container'
 import { ListLoading } from '../../../src/components/list-loading'
 import { ScreenHeader } from '../../../src/components/screen-header'
 import {
-  selectAllClasses,
-  selectMetadataClass,
+  disciplineSelectors,
+  selectDisciplineMetadata,
 } from '../../../src/redux/slices'
 
 const CARD_HEIGHT = 64
 
-export default function Classes() {
+export default function Disciplines() {
   return (
     <>
-      <ScreenHeader title="Classes" />
+      <ScreenHeader title="Disciplines" />
 
       <Container pt={0} style={{ paddingBottom: BOTTOM_BAR_HEIGHT }}>
         <List />
@@ -36,8 +36,8 @@ export default function Classes() {
 }
 
 function List() {
-  const data = useSelector(selectAllClasses)
-  const { isLoading } = useSelector(selectMetadataClass)
+  const data = useSelector(disciplineSelectors.selectAll)
+  const { isLoading } = useSelector(selectDisciplineMetadata)
 
   if (isLoading) return <ListLoading />
 
@@ -48,18 +48,17 @@ function List() {
       ItemSeparatorComponent={() => <Box h={3} />}
       showsVerticalScrollIndicator={false}
       estimatedItemSize={CARD_HEIGHT}
-      renderItem={({ item }) => <ClassCard {...item} />}
+      renderItem={({ item }) => <DisciplineCard {...item} />}
     />
   )
 }
 
-interface ClassCardProps extends Class {}
+interface DisciplineCardProps extends Discipline {}
 
-function ClassCard({ name, teacher }: ClassCardProps) {
+function DisciplineCard({ name }: DisciplineCardProps) {
   const { colors } = useTheme()
 
   const arrowColor = useColorModeValue(colors.icon[700], colors.white)
-  const displayColor = colors.primary[500]
 
   return (
     <TouchableOpacity activeOpacity={0.6}>
@@ -90,7 +89,7 @@ function ClassCard({ name, teacher }: ClassCardProps) {
               Professor:
             </Text>
 
-            <Text fontSize="xs">{teacher}</Text>
+            <Text fontSize="xs">{name}</Text>
           </HStack>
         </Stack>
 
