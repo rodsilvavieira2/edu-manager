@@ -28,6 +28,28 @@ export const appTheme = extendTheme({
         normal: 'Poppins_800ExtraBold',
       },
     },
+
+    Lato: {
+      100: {
+        normal: 'Lato_100Thin',
+      },
+
+      300: {
+        normal: 'Lato_300Light',
+      },
+
+      500: {
+        normal: 'Lato_400Regular',
+      },
+
+      600: {
+        normal: 'Lato_700Bold',
+      },
+
+      900: {
+        normal: 'Lato_900Black',
+      },
+    },
   },
 
   colors: {
@@ -71,7 +93,7 @@ export const appTheme = extendTheme({
   },
 
   fonts: {
-    heading: 'Poppins',
+    heading: 'Lato',
     body: 'Poppins',
     mono: 'Poppins',
   },

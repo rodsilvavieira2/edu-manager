@@ -1,4 +1,11 @@
 import {
+  Lato_100Thin,
+  Lato_300Light,
+  Lato_400Regular,
+  Lato_700Bold,
+  Lato_900Black,
+} from '@expo-google-fonts/lato'
+import {
   Poppins_300Light,
   Poppins_400Regular,
   Poppins_500Medium,
@@ -25,6 +32,12 @@ export default function AppLayout() {
     Poppins_600SemiBold,
     Poppins_700Bold,
     Poppins_800ExtraBold,
+
+    Lato_100Thin,
+    Lato_300Light,
+    Lato_400Regular,
+    Lato_700Bold,
+    Lato_900Black,
   })
 
   if (!isFontsLoaded) return <SplashScreen />
