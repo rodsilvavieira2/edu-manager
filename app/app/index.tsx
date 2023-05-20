@@ -1,7 +1,7 @@
 import { SVGS } from '@src/assets/svgs'
 import { Container } from '@src/components/container'
+import { useDate } from '@src/hooks'
 import { selectUser } from '@src/redux/slices'
-import { dateService } from '@src/services'
 import {
   Box,
   Heading,
@@ -16,8 +16,6 @@ import {
 import { Bell } from 'phosphor-react-native'
 import React from 'react'
 import { useSelector } from 'react-redux'
-
-const CARD_HEIGHT = 64
 
 export default function Home() {
   return (
@@ -110,7 +108,9 @@ interface HeaderTimeProps {
 }
 
 function HeaderTime({ title, dayOffset = 0 }: HeaderTimeProps) {
-  const date = dateService().add(dayOffset, 'day').format('DD/MM/YYYY')
+  const { addDays } = useDate()
+
+  const date = addDays(dayOffset).format('DD/MM/YYYY')
 
   return (
     <Box flexDir="row" justifyContent="space-between">
