@@ -1,3 +1,6 @@
+import { Container } from '@src/components/container'
+import { ScreenHeader } from '@src/components/screen-header'
+import { selectUser } from '@src/redux/slices'
 import {
   Actionsheet,
   Avatar,
@@ -18,9 +21,6 @@ import { CaretRight, Check } from 'phosphor-react-native'
 import React, { forwardRef, useImperativeHandle, useRef } from 'react'
 import { TouchableOpacity } from 'react-native'
 import { useSelector } from 'react-redux'
-import { Container } from '../../../src/components/container'
-import { ScreenHeader } from '../../../src/components/screen-header'
-import { selectUser } from '../../../src/redux/slices'
 
 export default function Settings() {
   return (

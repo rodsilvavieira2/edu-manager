@@ -1,12 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker'
+import { Container } from '@src/components/container'
+import { FormInput, FormTextArea } from '@src/components/form'
+import { ScreenHeader } from '@src/components/screen-header'
 import { HStack, ScrollView, Stack } from 'native-base'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { BOTTOM_BAR_HEIGHT } from '../../../src/components/bottom-bar'
-import { Container } from '../../../src/components/container'
-import { FormInput, FormTextArea } from '../../../src/components/form'
-import { ScreenHeader } from '../../../src/components/screen-header'
 
 const validation = z.object({
   name: z.string().min(3).max(255),
@@ -21,7 +20,7 @@ export default function NewClass() {
     <>
       <ScreenHeader title="Nova classe" />
 
-      <Container pt={0} style={{ paddingBottom: BOTTOM_BAR_HEIGHT }}>
+      <Container pt={0}>
         <Form />
       </Container>
     </>

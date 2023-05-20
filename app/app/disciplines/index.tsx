@@ -1,7 +1,16 @@
 import { FlashList } from '@shopify/flash-list'
+import { Discipline } from '@src/@types'
+import { BOTTOM_BAR_HEIGHT } from '@src/components/bottom-bar'
+import { ListLoading } from '@src/components/list-loading'
+import { ScreenHeader } from '@src/components/screen-header'
+import {
+  disciplineSelectors,
+  selectDisciplineMetadata,
+} from '@src/redux/slices'
 import {
   Box,
   Center,
+  Container,
   HStack,
   Stack,
   Text,
@@ -11,15 +20,6 @@ import {
 import { ArrowRight } from 'phosphor-react-native'
 import { TouchableOpacity } from 'react-native'
 import { useSelector } from 'react-redux'
-import { Discipline } from '../../../src/@types'
-import { BOTTOM_BAR_HEIGHT } from '../../../src/components/bottom-bar'
-import { Container } from '../../../src/components/container'
-import { ListLoading } from '../../../src/components/list-loading'
-import { ScreenHeader } from '../../../src/components/screen-header'
-import {
-  disciplineSelectors,
-  selectDisciplineMetadata,
-} from '../../../src/redux/slices'
 
 const CARD_HEIGHT = 64
 

@@ -1,8 +1,19 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { SVGS } from '@src/assets/svgs'
+import {
+  FormInput,
+  FormPasswordInput,
+  SocialButton,
+} from '@src/components/form'
+import {
+  useOnCreateAccountMutation,
+  useOnGoogleLoginMutation,
+} from '@src/redux/api'
 import { useRouter } from 'expo-router'
 import {
   Button,
   Center,
+  Container,
   HStack,
   Heading,
   Icon,
@@ -16,17 +27,6 @@ import { Envelope, FacebookLogo, GoogleLogo } from 'phosphor-react-native'
 import { useForm } from 'react-hook-form'
 import { Dimensions } from 'react-native'
 import { z } from 'zod'
-import { SVGS } from '../../../src/assets/svgs'
-import { Container } from '../../../src/components/container'
-import {
-  FormInput,
-  FormPasswordInput,
-  SocialButton,
-} from '../../../src/components/form'
-import {
-  useOnCreateAccountMutation,
-  useOnGoogleLoginMutation,
-} from '../../../src/redux/api/auth'
 
 const formValidation = z.object({
   email: z

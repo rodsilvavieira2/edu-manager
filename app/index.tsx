@@ -1,7 +1,7 @@
+import { Container } from '@src/components/container'
+import { useWatchAuth } from '@src/hooks'
 import { useTheme } from 'native-base'
 import { ActivityIndicator } from 'react-native'
-import { Container } from '../src/components/container'
-import { useWatchAuth } from '../src/hooks'
 
 export default function App() {
   useWatchAuth()

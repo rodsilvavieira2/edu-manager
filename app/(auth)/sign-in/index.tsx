@@ -1,8 +1,20 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { SVGS } from '@src/assets/svgs'
+import {
+  FormInput,
+  FormPasswordInput,
+  SocialButton,
+} from '@src/components/form'
+import {
+  useOnEmailLoginMutation,
+  useOnGoogleLoginMutation,
+} from '@src/redux/api'
+import { addSnackbar } from '@src/redux/slices'
 import { useRouter } from 'expo-router'
 import {
   Button,
   Center,
+  Container,
   HStack,
   Heading,
   Icon,
@@ -17,18 +29,6 @@ import { useForm } from 'react-hook-form'
 import { Dimensions } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { z } from 'zod'
-import { SVGS } from '../../../src/assets/svgs'
-import { Container } from '../../../src/components/container'
-import {
-  FormInput,
-  FormPasswordInput,
-  SocialButton,
-} from '../../../src/components/form'
-import {
-  useOnEmailLoginMutation,
-  useOnGoogleLoginMutation,
-} from '../../../src/redux/api/auth'
-import { addSnackbar } from '../../../src/redux/slices'
 
 const formValidation = z.object({
   email: z

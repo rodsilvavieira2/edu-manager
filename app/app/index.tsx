@@ -1,3 +1,8 @@
+import { Task } from '@src/@types'
+import { SVGS } from '@src/assets/svgs'
+import { Container } from '@src/components/container'
+import { selectUser } from '@src/redux/slices'
+import { dateService } from '@src/services'
 import { getCalendars } from 'expo-localization'
 import {
   Box,
@@ -16,18 +21,12 @@ import { ArrowRight, Bell, CircleNotch, Clock } from 'phosphor-react-native'
 import React from 'react'
 import { TouchableOpacity } from 'react-native'
 import { useSelector } from 'react-redux'
-import { Task } from '../../src/@types'
-import { SVGS } from '../../src/assets/svgs'
-import { BOTTOM_BAR_HEIGHT } from '../../src/components/bottom-bar'
-import { Container } from '../../src/components/container'
-import { selectUser } from '../../src/redux/slices'
-import { dateService } from '../../src/services/dayjs'
 
 const CARD_HEIGHT = 64
 
 export default function Home() {
   return (
-    <Container style={{ paddingBottom: BOTTOM_BAR_HEIGHT }}>
+    <Container>
       <Stack space={8} flex={1}>
         <Header />
 
