@@ -1,4 +1,4 @@
-export const enUs = {
+export default {
   'sign-in': {
     heading: {
       line1: 'Sign in to your account',

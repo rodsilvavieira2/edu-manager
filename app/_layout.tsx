@@ -16,9 +16,11 @@ import {
 import { SnackbarDispatcher } from '@src/components/snackbar-dispatcher'
 import { StatusBarTheme } from '@src/components/status-bar-theme'
 import { appTheme } from '@src/config'
+import { LocationProvider } from '@src/context'
 import { store } from '@src/redux/store'
 import { colorModeManager } from '@src/services'
 import { useFonts } from 'expo-font'
+import { locale } from 'expo-localization'
 import { SplashScreen, Stack } from 'expo-router'
 import { NativeBaseProvider } from 'native-base'
 import React from 'react'
@@ -44,19 +46,24 @@ export default function AppLayout() {
 
   return (
     <ReduxProvider store={store}>
-      <NativeBaseProvider theme={appTheme} colorModeManager={colorModeManager}>
-        <StatusBarTheme />
+      <LocationProvider deviceLocation={locale}>
+        <NativeBaseProvider
+          theme={appTheme}
+          colorModeManager={colorModeManager}
+        >
+          <StatusBarTheme />
 
-        <SnackbarDispatcher />
+          <SnackbarDispatcher />
 
-        <Stack
-          initialRouteName="/"
-          screenOptions={{
-            headerShown: false,
-            animation: 'simple_push',
-          }}
-        />
-      </NativeBaseProvider>
+          <Stack
+            initialRouteName="/"
+            screenOptions={{
+              headerShown: false,
+              animation: 'simple_push',
+            }}
+          />
+        </NativeBaseProvider>
+      </LocationProvider>
     </ReduxProvider>
   )
 }

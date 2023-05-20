@@ -1,4 +1,4 @@
-export const ptBr = {
+export default {
   'sign-in': {
     heading: {
       line1: 'Faça seu login',
