@@ -13,7 +13,7 @@ const validation = z.object({
   description: z.string().max(255).optional(),
 })
 
-type FromData = z.infer<typeof validation>
+type Validation = z.infer<typeof validation>
 
 export default function NewClass() {
   return (
@@ -39,7 +39,7 @@ function chooseTime() {
 }
 
 function Form() {
-  const { control } = useForm<FromData>({
+  const { control } = useForm<Validation>({
     resolver: zodResolver(validation),
   })
 
