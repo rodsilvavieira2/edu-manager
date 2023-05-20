@@ -96,14 +96,14 @@ export const appTheme = extendTheme({
     IconButton: {
       variants: {
         bottom: {
-          bg: 'dark.300',
           rounded: 'full',
+
+          bg: 'dark.300',
 
           _pressed: { bg: 'indigo.400' },
         },
 
         icon: {
-          bg: 'transparent',
           rounded: 'full',
 
           _dark: {
@@ -111,7 +111,7 @@ export const appTheme = extendTheme({
           },
 
           _light: {
-            _pressed: { bg: '#ffff' },
+            _pressed: { bg: 'indigo.200' },
           },
         },
       },

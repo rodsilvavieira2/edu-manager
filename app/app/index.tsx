@@ -1,63 +1,103 @@
-import { FlashList } from '@shopify/flash-list'
 import { getCalendars } from 'expo-localization'
 import {
   Box,
-  Button,
   Center,
   HStack,
   Heading,
   Icon,
   IconButton,
-  Skeleton,
+  ScrollView,
   Stack,
   Text,
   useColorModeValue,
   useTheme,
 } from 'native-base'
 import { ArrowRight, Bell, CircleNotch, Clock } from 'phosphor-react-native'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { TouchableOpacity } from 'react-native'
-import Animated, {
-  useAnimatedProps,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated'
-import { Circle, Svg, Text as SvgText } from 'react-native-svg'
 import { useSelector } from 'react-redux'
 import { Task } from '../../src/@types'
+import { SVGS } from '../../src/assets/svgs'
 import { BOTTOM_BAR_HEIGHT } from '../../src/components/bottom-bar'
 import { Container } from '../../src/components/container'
-import { ListLoading } from '../../src/components/list-loading'
-import {
-  selectCompletedTasks,
-  selectTasksMetadata,
-  selectUncompletedTasks,
-  selectUser,
-  taskSelectors,
-} from '../../src/redux/slices'
+import { selectUser } from '../../src/redux/slices'
 import { dateService } from '../../src/services/dayjs'
-
-const AnimatedCircle = Animated.createAnimatedComponent(Circle)
 
 const CARD_HEIGHT = 64
 
 export default function Home() {
   return (
     <Container style={{ paddingBottom: BOTTOM_BAR_HEIGHT }}>
-      <Stack space={2} flex={1}>
+      <Stack space={8} flex={1}>
         <Header />
 
-        <HStack my={4} space={4}>
-          <IncomingTasks />
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <Stack space={5}>
+            <Stack
+              space={2}
+              bg="indigo.50"
+              p={3}
+              rounded="md"
+              _light={{ bg: 'indigo.50' }}
+              _dark={{
+                bg: 'dark.200',
+              }}
+            >
+              <HeaderTime title="Hoje" />
 
-          <CompletedTasks />
-        </HStack>
+              <SVGS.task height={250} width="100%" />
 
-        <TaskListHeader />
+              <Text color="indigo.400" fontWeight="bold" textAlign="center">
+                Nada para fazer hoje? Aproveite para descansar e se preparar
+              </Text>
+            </Stack>
 
-        <TasksList />
+            <Stack
+              space={2}
+              p={3}
+              rounded="md"
+              _light={{ bg: 'indigo.50' }}
+              _dark={{
+                bg: 'dark.200',
+              }}
+            >
+              <HeaderTime title="Amanhã" />
+
+              <SVGS.schedule height={250} width="100%" />
+
+              <Text color="indigo.400" fontWeight="bold" textAlign="center">
+                Nada para fazer hoje? Aproveite para descansar e se preparar
+              </Text>
+            </Stack>
+          </Stack>
+        </ScrollView>
       </Stack>
     </Container>
+  )
+}
+
+interface TaskIndicatorProps {}
+
+function TaskIndicator() {
+  return (
+    <Stack
+      space={2}
+      bg="indigo.50"
+      p={3}
+      rounded="md"
+      _light={{ bg: 'indigo.50' }}
+      _dark={{
+        bg: 'dark.200',
+      }}
+    >
+      <HeaderTime title="Hoje" />
+
+      <SVGS.task height={250} width="100%" />
+
+      <Text color="indigo.400" fontWeight="bold" textAlign="center">
+        Nada para fazer hoje? Aproveite para descansar e se preparar
+      </Text>
+    </Stack>
   )
 }
 
@@ -69,8 +109,6 @@ function Header() {
   const ICON_COLOR = useColorModeValue(icon[700], white)
 
   const user = useSelector(selectUser)
-
-  // const [onGoogleLogout] = useOnLogoutMutation()
 
   return (
     <Box flexDirection="row" alignItems="center" justifyContent="space-between">
@@ -84,45 +122,19 @@ function Header() {
   )
 }
 
-function TaskListHeader() {
+interface HeaderTimeProps {
+  title: string
+  dayOffset?: number
+}
+
+function HeaderTime({ title, dayOffset = 0 }: HeaderTimeProps) {
+  const date = dateService().add(dayOffset, 'day').format('DD/MM/YYYY')
+
   return (
-    <Box flexDir="row" alignItems="center" justifyContent="space-between">
-      <Heading fontSize="lg">Seus afazeres para hoje</Heading>
+    <Box flexDir="row" justifyContent="space-between">
+      <Heading>{title}</Heading>
 
-      <Button
-        size="sm"
-        rounded="lg"
-        variant="outline"
-        _light={{
-          _text: {
-            color: 'darkText',
-          },
-
-          _pressed: {
-            bg: 'indigo.400',
-
-            _text: {
-              color: 'white',
-            },
-
-            borderColor: 'indigo.400',
-          },
-        }}
-        _dark={{
-          _text: {
-            color: 'white',
-          },
-
-          borderColor: 'light.400',
-
-          _pressed: {
-            bg: 'indigo.400',
-            borderColor: 'indigo.400',
-          },
-        }}
-      >
-        Ver tudo
-      </Button>
+      <Text fontWeight="medium">{date}</Text>
     </Box>
   )
 }
@@ -187,186 +199,4 @@ function TaskCard({ name, steps, currentStep, endedAt }: TaskCardProps) {
       </HStack>
     </TouchableOpacity>
   )
-}
-
-function IncomingTasks() {
-  const uncompletedTasks = useSelector(selectUncompletedTasks)
-
-  const { isLoading } = useSelector(selectTasksMetadata)
-
-  if (isLoading) return <CardLoading />
-
-  return (
-    <Center
-      flex={1}
-      justifyContent="space-between"
-      rounded="md"
-      _light={{ bg: 'pink.100' }}
-      _dark={{
-        bg: 'pink.600',
-      }}
-      py={2}
-    >
-      <Text
-        _light={{ color: 'pink.600' }}
-        _dark={{ color: 'white' }}
-        fontWeight="bold"
-      >
-        Próximos
-      </Text>
-
-      <Text
-        fontWeight="bold"
-        _light={{ color: 'pink.600' }}
-        _dark={{ color: 'white' }}
-        fontSize="7xl"
-      >
-        {uncompletedTasks}
-      </Text>
-
-      <Text
-        _light={{ color: 'pink.600' }}
-        _dark={{ color: 'white' }}
-        fontWeight="bold"
-      >
-        afazeres
-      </Text>
-    </Center>
-  )
-}
-
-function CompletedTasks() {
-  const completedTasks = useSelector(selectCompletedTasks)
-  const uncompletedTasks = useSelector(selectUncompletedTasks)
-
-  const progress = completedTasks / (completedTasks + uncompletedTasks) || 0
-
-  const { info } = useTheme().colors
-  const strokeWidth = 8
-
-  const progressValue = useSharedValue(0)
-
-  useEffect(() => {
-    progressValue.value = withTiming(progress, { duration: 1000 })
-  }, [progress])
-
-  const width = 130
-  const height = 130
-
-  const r = (width - strokeWidth) / 2
-
-  const circumference = useSharedValue(r * 2 * Math.PI)
-
-  const stylesProps = useAnimatedProps(() => {
-    return {
-      strokeDashoffset: circumference.value * (1 - progressValue.value),
-    }
-  })
-
-  const { isLoading } = useSelector(selectTasksMetadata)
-
-  const strokeColor = useColorModeValue(info[300], 'white')
-
-  if (isLoading) {
-    return <CardLoading />
-  }
-
-  return (
-    <Center
-      flex={1}
-      py={2}
-      justifyContent="space-between"
-      rounded="md"
-      bg="info.100"
-      _dark={{
-        bg: 'info.600',
-      }}
-    >
-      <Text
-        _light={{ color: 'info.500' }}
-        _dark={{ color: 'white' }}
-        fontWeight="bold"
-      >
-        Afazeres
-      </Text>
-
-      <Svg style={{ width, height, marginTop: 10, marginBottom: 10 }}>
-        <Circle
-          cx={r}
-          cy={r}
-          r={r - strokeWidth / 2}
-          fill="transparent"
-          stroke={strokeColor}
-          strokeWidth={strokeWidth}
-        />
-        <AnimatedCircle
-          cx={r}
-          cy={r}
-          animatedProps={stylesProps}
-          r={r - strokeWidth / 2}
-          fill="transparent"
-          stroke={info[500]}
-          strokeWidth={strokeWidth}
-          strokeDasharray={circumference.value}
-          strokeLinecap="round"
-        />
-
-        <SvgText
-          x={r + strokeWidth / 2}
-          y={r + strokeWidth / 2}
-          textAnchor="middle"
-          alignmentBaseline="middle"
-          fontSize={r / 1.8}
-          fontFamily="Poppins_500Bold"
-          fontWeight="bold"
-          fill={strokeColor}
-        >
-          {`${Math.round(progress * 100)}%`}
-        </SvgText>
-      </Svg>
-
-      <Text
-        _light={{ color: 'info.500' }}
-        _dark={{ color: 'white' }}
-        fontWeight="bold"
-      >
-        completos
-      </Text>
-    </Center>
-  )
-}
-
-function TasksList() {
-  const data = useSelector(taskSelectors.selectAll)
-  const { isLoading } = useSelector(selectTasksMetadata)
-
-  if (isLoading) {
-    return <ListLoading />
-  }
-
-  if (!data.length) {
-    return (
-      <Center flex={1}>
-        <Text>Nenhum afazer encontrado</Text>
-      </Center>
-    )
-  }
-
-  return (
-    <Box flex={1} mt="3">
-      <FlashList
-        data={data}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={{ paddingBottom: 30 }}
-        estimatedItemSize={CARD_HEIGHT}
-        showsVerticalScrollIndicator={false}
-        ItemSeparatorComponent={() => <Box h={3} />}
-        renderItem={({ item }) => <TaskCard {...item} />}
-      />
-    </Box>
-  )
-}
-
-export function CardLoading() {
-  return <Skeleton style={{ height: 210 }} flex={1} rounded="md" />
 }
