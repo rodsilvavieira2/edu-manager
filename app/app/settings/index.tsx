@@ -27,15 +27,14 @@ export default function Settings() {
     <>
       <ScreenHeader title="Configurações" />
 
-      <Container pt={0}>
+      <Container space={4}>
         <UserInfo />
 
         <ScrollView
-          mb="16"
-          contentContainerStyle={{ paddingBottom: 30 }}
           showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: 30 }}
         >
-          <Stack mt="2" space={6} flex={1} py="3">
+          <Stack space={6} flex={1}>
             <AccountOptions />
 
             <GeneralOptions />

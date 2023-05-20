@@ -98,21 +98,26 @@ function BtnBottom({ icon, path, ...props }: BtnBottomProps) {
 
 export function PlusButton() {
   const name = usePathname()
+
   const router = useRouter()
 
-  function onCreate() {
-    const actions = {
-      '/app': () => {
-        router.push('/app/new-task')
-      },
+  const actions = {
+    '/app': () => {
+      router.push('/app/new-task')
+    },
 
-      '/app/classes': () => {
-        router.push('/app/new-class')
-      },
-    }
-
-    actions[name]?.()
+    '/app/disciplines': () => {
+      router.push('/app/new-discipline')
+    },
   }
+
+  const action = actions[name]
+
+  function onCreate() {
+    action?.()
+  }
+
+  if (!action) return null
 
   return (
     <IconButton

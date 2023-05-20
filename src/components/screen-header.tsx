@@ -11,7 +11,6 @@ export function ScreenHeader({ title }: ScreenHeaderProps) {
       alignItems="center"
       justifyContent="center"
       flexDir="row"
-      px="4"
       py="4"
       bg="primary.500"
       shadow={8}
