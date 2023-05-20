@@ -30,7 +30,7 @@ import { Dimensions } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { z } from 'zod'
 
-const formValidation = z.object({
+const validation = z.object({
   email: z
     .string({ required_error: 'Campo obrigatório' })
     .email({ message: 'E-mail invalido' }),
@@ -39,7 +39,7 @@ const formValidation = z.object({
     .min(8, 'É preciso ter no mínimo 8 caracteres'),
 })
 
-type FormData = z.infer<typeof formValidation>
+type Validation = z.infer<typeof validation>
 
 const { height } = Dimensions.get('window')
 
@@ -52,8 +52,8 @@ export default function SignIn() {
   const router = useRouter()
   const dispatch = useDispatch()
 
-  const { control, trigger, getValues } = useForm<FormData>({
-    resolver: zodResolver(formValidation),
+  const { control, trigger, getValues } = useForm<Validation>({
+    resolver: zodResolver(validation),
   })
 
   function goToSignUp() {

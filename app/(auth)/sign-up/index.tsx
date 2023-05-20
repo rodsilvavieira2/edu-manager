@@ -28,7 +28,7 @@ import { useForm } from 'react-hook-form'
 import { Dimensions } from 'react-native'
 import { z } from 'zod'
 
-const formValidation = z.object({
+const validation = z.object({
   email: z
     .string({ required_error: 'Campo obrigatório' })
     .email({ message: 'E-mail invalido' }),
@@ -39,7 +39,7 @@ const formValidation = z.object({
 
 const { height } = Dimensions.get('window')
 
-type FormData = z.infer<typeof formValidation>
+type Validation = z.infer<typeof validation>
 
 export default function SignUp() {
   const { gray } = useTheme().colors
@@ -49,8 +49,8 @@ export default function SignUp() {
 
   const router = useRouter()
 
-  const { control, trigger, getValues } = useForm<FormData>({
-    resolver: zodResolver(formValidation),
+  const { control, trigger, getValues } = useForm<Validation>({
+    resolver: zodResolver(validation),
   })
 
   function onGoToLogin() {
