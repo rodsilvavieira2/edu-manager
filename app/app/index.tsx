@@ -19,8 +19,8 @@ import { useSelector } from 'react-redux'
 
 export default function Home() {
   return (
-    <Container>
-      <Stack space={8} flex={1}>
+    <Container safeArea>
+      <Stack space={4} flex={1}>
         <Header />
 
         <ScrollView showsVerticalScrollIndicator={false}>
@@ -36,6 +36,12 @@ export default function Home() {
               svg="schedule"
               title="Amanhã"
               dayOffset={1}
+            />
+
+            <TaskIndicator
+              message="Você não tem horários para hoje, que tal criar alguns?"
+              svg="schedule"
+              title="Amanhã"
             />
           </Stack>
         </ScrollView>
@@ -92,7 +98,9 @@ function Header() {
 
   return (
     <Box flexDirection="row" alignItems="center" justifyContent="space-between">
-      <Heading numberOfLines={1}>Olá, {user?.name ?? 'novamente'}</Heading>
+      <Heading numberOfLines={1} pr={1} flex={1}>
+        Olá, {user?.name ?? 'novamente'}
+      </Heading>
 
       <IconButton
         variant="icon"

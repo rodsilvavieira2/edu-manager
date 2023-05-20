@@ -9,7 +9,6 @@ import {
   useOnEmailLoginMutation,
   useOnGoogleLoginMutation,
 } from '@src/redux/api'
-import { addSnackbar } from '@src/redux/slices'
 import { useRouter } from 'expo-router'
 import {
   Button,
@@ -115,15 +114,6 @@ export default function SignIn() {
           />
 
           <SocialButton
-            onPress={() => {
-              dispatch(
-                addSnackbar({
-                  message:
-                    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat culpa voluptas nemo. Ipsa quidem nam, dicta eligendi reiciendis officiis enim ratione aspernatur architecto consectetur suscipit optio dolore tempora obcaecati hic?',
-                  status: 'info',
-                })
-              )
-            }}
             icon={<FacebookLogo weight="bold" color={icon[700]} />}
           />
         </HStack>

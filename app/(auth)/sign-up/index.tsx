@@ -115,7 +115,7 @@ export default function SignUp() {
         </HStack>
 
         <HStack justifyContent="center">
-          <Text>Já tem uma conta? </Text>
+          <Text>Já tem uma conta?</Text>
 
           <Link colorScheme="info" onPress={onGoToLogin}>
             Entre aqui

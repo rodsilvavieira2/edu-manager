@@ -31,6 +31,7 @@
     "expo-splash-screen": "~0.18.2",
     "expo-status-bar": "~1.4.4",
     "expo-system-ui": "~2.2.1",
+    "i18n-js": "^4.2.3",
     "native-base": "^3.4.28",
     "phosphor-react-native": "^1.1.2",
     "react": "18.2.0",
