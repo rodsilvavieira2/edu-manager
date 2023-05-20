@@ -1,4 +1,5 @@
 import { useAsyncStorage } from '@react-native-async-storage/async-storage'
+import { locale } from 'expo-localization'
 import { SplashScreen } from 'expo-router'
 import { I18n } from 'i18n-js'
 import React, { createContext, useEffect, useState } from 'react'
@@ -8,7 +9,9 @@ const settings = {
   'pt-BR': () => import('../services/translations/pt-br'),
 }
 
-const i18n = new I18n()
+const i18n = new I18n(undefined, { defaultLocale: 'en-US' })
+
+i18n.locale = locale
 
 interface ContextData {
   setLocation: (location: string) => void
@@ -18,12 +21,11 @@ interface ContextData {
 const LocationContext = createContext<ContextData>({} as ContextData)
 
 async function loadLocationFromFile(locale: string) {
-  console.log('loadLocationFromFile', locale)
   const config = await settings[locale]()
 
   if (!config) return
 
-  i18n.store(config.default)
+  i18n.store({ [locale]: config.default })
 }
 
 export interface LocationProviderProps {
@@ -62,7 +64,7 @@ export function LocationProvider({
   if (!isLoaded) return <SplashScreen />
 
   return (
-    <LocationContext.Provider value={{ setLocation, t: i18n.t }}>
+    <LocationContext.Provider value={{ setLocation, t: i18n.t.bind(i18n) }}>
       {children}
     </LocationContext.Provider>
   )

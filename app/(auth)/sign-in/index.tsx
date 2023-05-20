@@ -1,10 +1,14 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SVGS } from '@src/assets/svgs'
+import { Container } from '@src/components/container'
 import {
   FormInput,
   FormPasswordInput,
   SocialButton,
 } from '@src/components/form'
+import { LocalizedHeading } from '@src/components/localized-header'
+import { LocalizedText } from '@src/components/localized-text'
+import { useLocation } from '@src/context'
 import {
   useOnEmailLoginMutation,
   useOnGoogleLoginMutation,
@@ -13,20 +17,17 @@ import { useRouter } from 'expo-router'
 import {
   Button,
   Center,
-  Container,
   HStack,
-  Heading,
   Icon,
+  KeyboardAvoidingView,
   Link,
   ScrollView,
   Stack,
-  Text,
   useTheme,
 } from 'native-base'
 import { Envelope, FacebookLogo, GoogleLogo } from 'phosphor-react-native'
 import { useForm } from 'react-hook-form'
-import { Dimensions } from 'react-native'
-import { useDispatch } from 'react-redux'
+import { useWindowDimensions } from 'react-native'
 import { z } from 'zod'
 
 const validation = z.object({
@@ -40,16 +41,16 @@ const validation = z.object({
 
 type Validation = z.infer<typeof validation>
 
-const { height } = Dimensions.get('window')
-
 export default function SignIn() {
   const { icon } = useTheme().colors
 
   const [onGoogleLogin, googleLoginState] = useOnGoogleLoginMutation()
   const [onEmailLogin, emailLoginState] = useOnEmailLoginMutation()
+  const { t } = useLocation()
+
+  const { height } = useWindowDimensions()
 
   const router = useRouter()
-  const dispatch = useDispatch()
 
   const { control, trigger, getValues } = useForm<Validation>({
     resolver: zodResolver(validation),
@@ -70,62 +71,71 @@ export default function SignIn() {
   }
 
   return (
-    <ScrollView
-      _light={{
-        bg: 'neutral.500',
-      }}
-      _dark={{ bg: 'dark.50' }}
-    >
-      <Container height={height}>
-        <Center h={['45%']} w={['100%']}>
-          <SVGS.welcome height="100%" width="100%" />
-        </Center>
+    <ScrollView showsVerticalScrollIndicator={false}>
+      <KeyboardAvoidingView flex={1}>
+        <Container safeArea style={{ height: height + 20 }}>
+          <Center h={['45%']} w={['100%']}>
+            <SVGS.welcome height="100%" width="100%" />
+          </Center>
 
-        <Heading mt={6}>Faça seu login</Heading>
+          <LocalizedHeading path="sign-in.heading.line1" mt={6} />
 
-        <Stack mt={6} space={6}>
-          <Stack space={4}>
-            <FormInput
-              control={control}
-              name="email"
-              keyboardType="email-address"
-              leftElement={<Icon ml={2} as={<Envelope color={icon[500]} />} />}
-            />
+          <Stack mt={6} space={6}>
+            <Stack space={4}>
+              <FormInput
+                control={control}
+                name="email"
+                keyboardType="email-address"
+                placeholder={t('sign-in.form.email')}
+                leftElement={
+                  <Icon ml={2} as={<Envelope color={icon[500]} />} />
+                }
+              />
 
-            <FormPasswordInput control={control} name="password" />
+              <FormPasswordInput
+                control={control}
+                placeholder={t('sign-in.form.password')}
+                name="password"
+              />
+            </Stack>
+
+            <Button
+              size="lg"
+              rounded="lg"
+              colorScheme="indigo"
+              onPress={onSubmit}
+              isLoading={emailLoginState.isLoading}
+            >
+              {t('sign-in.form.submitBtn')}
+            </Button>
           </Stack>
 
-          <Button
-            size="lg"
-            rounded="lg"
-            colorScheme="indigo"
-            onPress={onSubmit}
-            isLoading={emailLoginState.isLoading}
+          <HStack
+            space={4}
+            flex={1}
+            alignItems="center"
+            justifyContent="center"
           >
-            Entrar
-          </Button>
-        </Stack>
+            <SocialButton
+              onPress={onGoogleLogin}
+              isDisabled={googleLoginState.isLoading}
+              icon={<GoogleLogo weight="bold" color={icon[700]} />}
+            />
 
-        <HStack space={4} flex={1} alignItems="center" justifyContent="center">
-          <SocialButton
-            onPress={onGoogleLogin}
-            isDisabled={googleLoginState.isLoading}
-            icon={<GoogleLogo weight="bold" color={icon[700]} />}
-          />
+            <SocialButton
+              icon={<FacebookLogo weight="bold" color={icon[700]} />}
+            />
+          </HStack>
 
-          <SocialButton
-            icon={<FacebookLogo weight="bold" color={icon[700]} />}
-          />
-        </HStack>
+          <HStack justifyContent="center">
+            <LocalizedText path="sign-in.footer.line1" />
 
-        <HStack justifyContent="center">
-          <Text>Não tem uma conta? </Text>
-
-          <Link colorScheme="info" onPress={goToSignUp}>
-            Cadastre-se
-          </Link>
-        </HStack>
-      </Container>
+            <Link colorScheme="info" onPress={goToSignUp}>
+              {t('sign-in.footer.line2')}
+            </Link>
+          </HStack>
+        </Container>
+      </KeyboardAvoidingView>
     </ScrollView>
   )
 }

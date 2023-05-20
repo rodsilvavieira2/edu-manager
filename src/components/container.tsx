@@ -1,7 +1,9 @@
 import { IStackProps, Stack } from 'native-base'
 import { BOTTOM_BAR_HEIGHT } from './bottom-bar'
 
-export interface ContainerProps extends IStackProps {}
+export interface ContainerProps extends IStackProps {
+  withBottomBar?: boolean
+}
 
 export function Container(props: ContainerProps) {
   return (
@@ -12,7 +14,7 @@ export function Container(props: ContainerProps) {
         bg: 'light.50',
       }}
       _dark={{ bg: 'dark.50' }}
-      style={{ marginBottom: BOTTOM_BAR_HEIGHT }}
+      style={{ marginBottom: props.withBottomBar ? BOTTOM_BAR_HEIGHT : 0 }}
       {...props}
     />
   )

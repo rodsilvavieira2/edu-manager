@@ -36,8 +36,9 @@ export function FormPasswordInput({
     <FormControl isInvalid={invalid}>
       <Input
         type={isVisible ? 'text' : 'password'}
-        borderWidth={2}
+        borderWidth={1}
         rounded="lg"
+        placeholderTextColor="gray.500"
         InputLeftElement={
           <Pressable onPress={onChangeVisible}>
             <Icon
