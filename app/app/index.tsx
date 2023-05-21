@@ -1,6 +1,5 @@
 import { SVGS } from '@src/assets/svgs'
 import { Container } from '@src/components/container'
-import { LocalizedHeading } from '@src/components/localized-header'
 import { useDate } from '@src/hooks'
 import { selectUser } from '@src/redux/slices'
 import {
@@ -15,7 +14,7 @@ import {
   useTheme,
 } from 'native-base'
 import { Bell } from 'phosphor-react-native'
-import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 
 export default function Home() {
@@ -94,9 +93,11 @@ function Header() {
 
   const { name } = useSelector(selectUser)
 
+  const { t } = useTranslation()
+
   return (
     <Box flexDirection="row" alignItems="center" justifyContent="space-between">
-      <LocalizedHeading path="app.header.welcome" options={{ name }} />
+      <Heading>{t('app.header.welcome', { name })}</Heading>
 
       <IconButton
         variant="icon"

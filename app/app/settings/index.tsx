@@ -1,7 +1,5 @@
 import { Container } from '@src/components/container'
-import { LocalizedHeading } from '@src/components/localized-header'
 import { ScreenHeader } from '@src/components/screen-header'
-import { useLocation } from '@src/context'
 import { useOnGoogleLogoutMutation } from '@src/redux/api'
 import { selectUser } from '@src/redux/slices'
 import {
@@ -9,6 +7,7 @@ import {
   Avatar,
   Box,
   HStack,
+  Heading,
   IActionsheetItemProps,
   Icon,
   IconButton,
@@ -21,13 +20,16 @@ import {
 } from 'native-base'
 import { CaretRight, Check } from 'phosphor-react-native'
 import React, { forwardRef, useImperativeHandle, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { TouchableOpacity } from 'react-native'
 import { useSelector } from 'react-redux'
 
 export default function Settings() {
+  const [t] = useTranslation()
+
   return (
     <>
-      <ScreenHeader title="Configurações" />
+      <ScreenHeader title={t('settings.title')} />
 
       <Container space={4} withBottomBar>
         <UserInfo />
@@ -92,7 +94,7 @@ function AccountOptions() {
 
   const [onGoogleLogOut] = useOnGoogleLogoutMutation()
 
-  const { t } = useLocation()
+  const { t } = useTranslation()
 
   function onSignOut() {
     onGoogleLogOut()
@@ -101,7 +103,7 @@ function AccountOptions() {
   return (
     <>
       <Stack space={2}>
-        <LocalizedHeading path="settings.account.title" />
+        <Heading>{t('settings.account.title')}</Heading>
 
         <Stack space={4}>
           <SettingsBtn
@@ -134,35 +136,35 @@ function AccountOptions() {
 }
 
 function GeneralOptions() {
-  const { t } = useLocation()
+  const { t } = useTranslation()
 
   return (
     <Stack space={2}>
-      <LocalizedHeading path="settings.geral.title" />
+      <Heading>{t('settings.general.title')}</Heading>
 
       <Stack space={4}>
         <SettingsBtn
-          title={t('settings.geral.btn.support')}
+          title={t('settings.general.btn.support')}
           onPress={() => console.log('Editar perfil')}
         />
 
         <SettingsBtn
-          title={t('settings.geral.btn.terms')}
+          title={t('settings.general.btn.terms')}
           onPress={() => console.log('Editar perfil')}
         />
 
         <SettingsBtn
-          title={t('settings.geral.btn.privacy')}
+          title={t('settings.general.btn.privacy')}
           onPress={() => console.log('Editar perfil')}
         />
 
         <SettingsBtn
-          title={t('settings.geral.btn.about')}
+          title={t('settings.general.btn.about')}
           onPress={() => console.log('Editar perfil')}
         />
 
         <SettingsBtn
-          title={t('settings.geral.btn.feedback')}
+          title={t('settings.general.btn.feedback')}
           onPress={() => console.log('Editar perfil')}
         />
       </Stack>
@@ -219,8 +221,7 @@ interface ChooseLanguageActionSheetRef {
 const ChooseLanguageActionSheet = forwardRef<ChooseLanguageActionSheetRef>(
   (_, ref) => {
     const { isOpen, onOpen, onClose } = useDisclose()
-    const { setLocation, location } = useLocation()
-    const { t } = useLocation()
+    const [t, { language, changeLanguage }] = useTranslation()
 
     useImperativeHandle(
       ref,
@@ -237,9 +238,9 @@ const ChooseLanguageActionSheet = forwardRef<ChooseLanguageActionSheetRef>(
       <Actionsheet isOpen={isOpen} onClose={onClose}>
         <Actionsheet.Content>
           <ActionSheetItem
-            isCurrent={location === 'pt-BR'}
+            isCurrent={language === 'pt-BR'}
             onPress={() => {
-              setLocation('pt-BR')
+              changeLanguage('pt-BR')
               onClose()
             }}
           >
@@ -247,9 +248,9 @@ const ChooseLanguageActionSheet = forwardRef<ChooseLanguageActionSheetRef>(
           </ActionSheetItem>
 
           <ActionSheetItem
-            isCurrent={location === 'en-US'}
+            isCurrent={language === 'en-US'}
             onPress={() => {
-              setLocation('en-US')
+              changeLanguage('en-US')
               onClose()
             }}
           >
@@ -270,7 +271,7 @@ const ChooseThemActionSheet = forwardRef<ChooseThemActionSheetRef>((_, ref) => {
   const { isOpen, onOpen, onClose } = useDisclose()
   const { colorMode, setColorMode } = useColorMode()
 
-  const { t } = useLocation()
+  const { t } = useTranslation()
 
   useImperativeHandle(ref, () => {
     return {

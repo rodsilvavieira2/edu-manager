@@ -18,12 +18,11 @@ import { StatusBarTheme } from '@src/components/status-bar-theme'
 import { appTheme } from '@src/config'
 import { store } from '@src/redux/store'
 import { colorModeManager } from '@src/services'
-import translationService from '@src/services/i18n'
+import translation from '@src/services/i18n'
 import { useFonts } from 'expo-font'
 import { SplashScreen, Stack } from 'expo-router'
 import { NativeBaseProvider } from 'native-base'
 import React, { useEffect, useState } from 'react'
-import { I18nextProvider } from 'react-i18next'
 import { Provider as ReduxProvider } from 'react-redux'
 
 export default function AppLayout() {
@@ -46,7 +45,7 @@ export default function AppLayout() {
 
   useEffect(() => {
     ;(async () => {
-      await translationService
+      await translation
 
       setIsTranslationsLoaded(true)
     })()
@@ -56,24 +55,19 @@ export default function AppLayout() {
 
   return (
     <ReduxProvider store={store}>
-      <I18nextProvider i18n={translationService as any}>
-        <NativeBaseProvider
-          theme={appTheme}
-          colorModeManager={colorModeManager}
-        >
-          <StatusBarTheme />
+      <NativeBaseProvider theme={appTheme} colorModeManager={colorModeManager}>
+        <StatusBarTheme />
 
-          <SnackbarDispatcher />
+        <SnackbarDispatcher />
 
-          <Stack
-            initialRouteName="/"
-            screenOptions={{
-              headerShown: false,
-              animation: 'simple_push',
-            }}
-          />
-        </NativeBaseProvider>
-      </I18nextProvider>
+        <Stack
+          initialRouteName="/"
+          screenOptions={{
+            headerShown: false,
+            animation: 'simple_push',
+          }}
+        />
+      </NativeBaseProvider>
     </ReduxProvider>
   )
 }
