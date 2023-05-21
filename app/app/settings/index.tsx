@@ -1,5 +1,6 @@
 import { Container } from '@src/components/container'
 import { ScreenHeader } from '@src/components/screen-header'
+import { useOnGoogleLogoutMutation } from '@src/redux/api'
 import { selectUser } from '@src/redux/slices'
 import {
   Actionsheet,
@@ -86,16 +87,19 @@ function AccountOptions() {
     themeChoose.current?.onOpen()
   }
 
+  const [onGoogleLogOut] = useOnGoogleLogoutMutation()
+
+  function onSignOut() {
+    onGoogleLogOut()
+  }
+
   return (
     <>
       <Stack space={2}>
         <Heading>Conta</Heading>
 
         <Stack space={4}>
-          <SettingsBtn
-            title="Sair"
-            onPress={() => console.log('Editar perfil')}
-          />
+          <SettingsBtn title="Sair" onPress={onSignOut} />
 
           <SettingsBtn
             title="Notificações"

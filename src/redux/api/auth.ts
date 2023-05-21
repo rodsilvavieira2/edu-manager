@@ -4,7 +4,7 @@ import {
   statusCodes,
 } from '@react-native-google-signin/google-signin'
 import { User } from '../../@types'
-import { addSnackbar } from '../slices'
+import { addSnackbar, setUser } from '../slices'
 import { baseApi } from './base'
 
 export const authApi = baseApi.injectEndpoints({
@@ -87,15 +87,19 @@ export const authApi = baseApi.injectEndpoints({
             password
           )
 
+          const data = {
+            id: user.uid,
+            name: user.displayName,
+            email: user.email,
+            profile_url: user.photoURL,
+            created_at: user.metadata.creationTime,
+            updated_at: user.metadata.lastSignInTime,
+          }
+
+          dispatch(setUser(data))
+
           return {
-            data: {
-              id: user.uid,
-              name: user.displayName,
-              email: user.email,
-              profile_url: user.photoURL,
-              created_at: user.metadata.creationTime,
-              updated_at: user.metadata.lastSignInTime,
-            },
+            data,
           }
         } catch (error) {
           switch (error?.code) {
@@ -173,15 +177,19 @@ export const authApi = baseApi.injectEndpoints({
 
           const { user } = await auth().signInWithCredential(googleCredential)
 
+          const data = {
+            id: user.uid,
+            name: user.displayName,
+            email: user.email,
+            profile_url: user.photoURL,
+            created_at: user.metadata.creationTime,
+            updated_at: user.metadata.lastSignInTime,
+          }
+
+          dispatch(setUser(data))
+
           return {
-            data: {
-              id: user.uid,
-              name: user.displayName,
-              email: user.email,
-              profile_url: user.photoURL,
-              created_at: user.metadata.creationTime,
-              updated_at: user.metadata.lastSignInTime,
-            },
+            data,
           }
         } catch (error) {
           switch (error?.code) {
@@ -229,11 +237,16 @@ export const authApi = baseApi.injectEndpoints({
       },
     }),
 
-    onGoogleLogout: builder.mutation<undefined, undefined>({
+    onGoogleLogout: builder.mutation<null, void>({
       async queryFn(arg, { dispatch }) {
         try {
           await GoogleSignin.signOut()
+
           await auth().signOut()
+
+          return {
+            data: null,
+          }
         } catch (error) {
           dispatch(
             addSnackbar({

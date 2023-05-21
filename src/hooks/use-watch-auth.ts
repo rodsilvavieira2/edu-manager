@@ -9,7 +9,7 @@ export function useWatchAuth() {
   const route = useRouter()
 
   useEffect(() => {
-    const sub = auth().onAuthStateChanged((current) => {
+    const unsubscribe = auth().onAuthStateChanged((current) => {
       if (current) {
         dispatch(
           setUser({
@@ -26,14 +26,12 @@ export function useWatchAuth() {
 
         route.replace('/app')
       } else {
-        dispatch(setUser(null))
-
         route.replace('/sign-in')
+
+        dispatch(setUser(null))
       }
     })
 
-    return () => {
-      sub()
-    }
+    return () => unsubscribe()
   }, [])
 }
