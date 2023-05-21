@@ -5,9 +5,9 @@ export default {
     },
 
     form: {
-      email: 'Seu e-mail',
+      email: 'Digite seu email',
 
-      password: 'Sua senha',
+      password: 'Digite sua senha',
 
       submitBtn: 'Entrar',
     },
@@ -25,9 +25,9 @@ export default {
     },
 
     form: {
-      email: 'Seu e-mail',
+      email: 'Digite seu email',
 
-      password: 'Sua senha',
+      password: 'Digite sua senha',
 
       submitBtn: 'Criar',
     },
@@ -37,5 +37,11 @@ export default {
 
       line2: ' Entre aqui',
     },
+  },
+
+  form: {
+    email: 'Digite um e-mail válido',
+    password: 'Digite uma senha válida',
+    required: 'Este campo é obrigatório',
   },
 }

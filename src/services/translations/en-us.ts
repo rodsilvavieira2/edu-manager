@@ -35,4 +35,12 @@ export default {
       line2: 'Sign in here',
     },
   },
+
+  errors: {
+    form: {
+      email: 'Please enter a valid email',
+      password: 'Please enter a valid password',
+      required: 'This field is required',
+    },
+  },
 }

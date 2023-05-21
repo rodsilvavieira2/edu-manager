@@ -1,15 +1,20 @@
 import { useAsyncStorage } from '@react-native-async-storage/async-storage'
+import enUs from '@src/services/translations/en-us'
+import ptBr from '@src/services/translations/pt-br'
 import { locale } from 'expo-localization'
-import { SplashScreen } from 'expo-router'
 import { I18n } from 'i18n-js'
 import React, { createContext, useEffect, useState } from 'react'
 
-const settings = {
-  'en-US': () => import('../services/translations/en-us'),
-  'pt-BR': () => import('../services/translations/pt-br'),
-}
-
-const i18n = new I18n(undefined, { defaultLocale: 'en-US' })
+const i18n = new I18n(
+  {
+    'pt-BR': ptBr,
+    'en-US': enUs,
+  },
+  {
+    defaultLocale: 'en-US',
+    enableFallback: true,
+  }
+)
 
 i18n.locale = locale
 
@@ -19,14 +24,6 @@ interface ContextData {
 }
 
 const LocationContext = createContext<ContextData>({} as ContextData)
-
-async function loadLocationFromFile(locale: string) {
-  const config = await settings[locale]()
-
-  if (!config) return
-
-  i18n.store({ [locale]: config.default })
-}
 
 export interface LocationProviderProps {
   children: React.ReactNode
@@ -38,7 +35,6 @@ export function LocationProvider({
   deviceLocation,
 }: LocationProviderProps) {
   const [location, setLocation] = useState(deviceLocation)
-  const [isLoaded, setIsLoaded] = useState(false)
   const { getItem, setItem } = useAsyncStorage('@location')
 
   useEffect(() => {
@@ -56,12 +52,8 @@ export function LocationProvider({
   useEffect(() => {
     i18n.locale = location
 
-    loadLocationFromFile(location).then(() => setIsLoaded(true))
-
     setItem(location)
   }, [location])
-
-  if (!isLoaded) return <SplashScreen />
 
   return (
     <LocationContext.Provider value={{ setLocation, t: i18n.t.bind(i18n) }}>
