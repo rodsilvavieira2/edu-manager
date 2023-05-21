@@ -81,4 +81,16 @@ export default {
       },
     },
   },
+
+  actionSheet: {
+    language: {
+      english: 'English',
+      portuguese: 'Portuguese',
+    },
+
+    theme: {
+      dark: 'Dark',
+      light: 'Light',
+    },
+  },
 }

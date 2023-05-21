@@ -80,9 +80,14 @@ function UserInfo() {
 
 function AccountOptions() {
   const themeChoose = useRef<ChooseThemActionSheetRef>(null)
+  const languageChoose = useRef<ChooseLanguageActionSheetRef>(null)
 
   function onTheme() {
     themeChoose.current?.onOpen()
+  }
+
+  function onLanguage() {
+    languageChoose.current?.onOpen()
   }
 
   const [onGoogleLogOut] = useOnGoogleLogoutMutation()
@@ -111,7 +116,7 @@ function AccountOptions() {
 
           <SettingsBtn
             title={t('settings.account.btn.language')}
-            onPress={() => console.log('Editar perfil')}
+            onPress={onLanguage}
           />
 
           <SettingsBtn
@@ -120,6 +125,8 @@ function AccountOptions() {
           />
         </Stack>
       </Stack>
+
+      <ChooseLanguageActionSheet ref={languageChoose} />
 
       <ChooseThemActionSheet ref={themeChoose} />
     </>
@@ -204,6 +211,56 @@ function SettingsBtn({ title, onPress }: SettingsBtnProps) {
   )
 }
 
+interface ChooseLanguageActionSheetRef {
+  onOpen: VoidFunction
+  onClose: VoidFunction
+}
+
+const ChooseLanguageActionSheet = forwardRef<ChooseLanguageActionSheetRef>(
+  (_, ref) => {
+    const { isOpen, onOpen, onClose } = useDisclose()
+    const { setLocation, location } = useLocation()
+    const { t } = useLocation()
+
+    useImperativeHandle(
+      ref,
+      () => {
+        return {
+          onClose,
+          onOpen,
+        }
+      },
+      []
+    )
+
+    return (
+      <Actionsheet isOpen={isOpen} onClose={onClose}>
+        <Actionsheet.Content>
+          <ActionSheetItem
+            isCurrent={location === 'pt-BR'}
+            onPress={() => {
+              setLocation('pt-BR')
+              onClose()
+            }}
+          >
+            {t('actionSheet.language.portuguese')}
+          </ActionSheetItem>
+
+          <ActionSheetItem
+            isCurrent={location === 'en-US'}
+            onPress={() => {
+              setLocation('en-US')
+              onClose()
+            }}
+          >
+            {t('actionSheet.language.english')}
+          </ActionSheetItem>
+        </Actionsheet.Content>
+      </Actionsheet>
+    )
+  }
+)
+
 interface ChooseThemActionSheetRef {
   onOpen: VoidFunction
   onClose: VoidFunction
@@ -212,6 +269,8 @@ interface ChooseThemActionSheetRef {
 const ChooseThemActionSheet = forwardRef<ChooseThemActionSheetRef>((_, ref) => {
   const { isOpen, onOpen, onClose } = useDisclose()
   const { colorMode, setColorMode } = useColorMode()
+
+  const { t } = useLocation()
 
   useImperativeHandle(ref, () => {
     return {
@@ -232,11 +291,11 @@ const ChooseThemActionSheet = forwardRef<ChooseThemActionSheetRef>((_, ref) => {
     <Actionsheet isOpen={isOpen} onClose={onClose}>
       <Actionsheet.Content>
         <ActionSheetItem isCurrent={colorMode === 'dark'} onPress={onDark}>
-          Escuro
+          {t('actionSheet.theme.dark')}
         </ActionSheetItem>
 
         <ActionSheetItem isCurrent={colorMode === 'light'} onPress={onLight}>
-          Claro
+          {t('actionSheet.theme.light')}
         </ActionSheetItem>
       </Actionsheet.Content>
     </Actionsheet>

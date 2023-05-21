@@ -16,17 +16,19 @@ import {
 import { SnackbarDispatcher } from '@src/components/snackbar-dispatcher'
 import { StatusBarTheme } from '@src/components/status-bar-theme'
 import { appTheme } from '@src/config'
-import { LocationProvider } from '@src/context'
 import { store } from '@src/redux/store'
 import { colorModeManager } from '@src/services'
+import translationService from '@src/services/i18n'
 import { useFonts } from 'expo-font'
-import { locale } from 'expo-localization'
 import { SplashScreen, Stack } from 'expo-router'
 import { NativeBaseProvider } from 'native-base'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { I18nextProvider } from 'react-i18next'
 import { Provider as ReduxProvider } from 'react-redux'
 
 export default function AppLayout() {
+  const [isTranslationsLoaded, setIsTranslationsLoaded] = useState(false)
+
   const [isFontsLoaded] = useFonts({
     Poppins_300Light,
     Poppins_400Regular,
@@ -42,11 +44,19 @@ export default function AppLayout() {
     Lato_900Black,
   })
 
-  if (!isFontsLoaded) return <SplashScreen />
+  useEffect(() => {
+    ;(async () => {
+      await translationService
+
+      setIsTranslationsLoaded(true)
+    })()
+  }, [])
+
+  if (!isFontsLoaded || !isTranslationsLoaded) return <SplashScreen />
 
   return (
     <ReduxProvider store={store}>
-      <LocationProvider deviceLocation={locale}>
+      <I18nextProvider i18n={translationService as any}>
         <NativeBaseProvider
           theme={appTheme}
           colorModeManager={colorModeManager}
@@ -63,7 +73,7 @@ export default function AppLayout() {
             }}
           />
         </NativeBaseProvider>
-      </LocationProvider>
+      </I18nextProvider>
     </ReduxProvider>
   )
 }

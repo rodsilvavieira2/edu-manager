@@ -82,4 +82,16 @@ export default {
       },
     },
   },
+
+  actionSheet: {
+    language: {
+      english: 'Inglês',
+      portuguese: 'Português',
+    },
+
+    theme: {
+      dark: 'Escuro',
+      light: 'Claro',
+    },
+  },
 }

@@ -6,9 +6,6 @@ import {
   FormPasswordInput,
   SocialButton,
 } from '@src/components/form'
-import { LocalizedHeading } from '@src/components/localized-header'
-import { LocalizedText } from '@src/components/localized-text'
-import { useLocation } from '@src/context'
 import {
   useOnCreateAccountMutation,
   useOnGoogleLoginMutation,
@@ -22,11 +19,13 @@ import {
   Link,
   ScrollView,
   Stack,
+  Text,
   useTheme,
 } from 'native-base'
 import { Envelope, FacebookLogo, GoogleLogo } from 'phosphor-react-native'
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { Dimensions, StatusBar } from 'react-native'
 import { RFPercentage } from 'react-native-responsive-fontsize'
 import { z } from 'zod'
@@ -52,13 +51,15 @@ export default function SignUp() {
 }
 
 function Header() {
+  const { t } = useTranslation()
+
   return (
     <>
-      <Center h={RFPercentage(45)} w={['100%']}>
+      <Center h={RFPercentage(45)} w={'100%'}>
         <SVGS.signUp height="100%" width="100%" />
       </Center>
 
-      <LocalizedHeading path="sign-up.heading.line1" mt={6} />
+      <Text mt={6}>{t('sign-up.heading.line1')}</Text>
     </>
   )
 }
@@ -68,7 +69,7 @@ function Form() {
 
   const [onCreateAccount, createAccountState] = useOnCreateAccountMutation()
 
-  const { t } = useLocation()
+  const { t } = useTranslation()
 
   const validation = z.object({
     email: z
@@ -153,7 +154,7 @@ function SocialLogins() {
 
 function Footer() {
   const router = useRouter()
-  const { t } = useLocation()
+  const { t } = useTranslation()
 
   function goToSignUp() {
     router.push('sign-in')
@@ -161,7 +162,7 @@ function Footer() {
 
   return (
     <HStack justifyContent="center" space={1}>
-      <LocalizedText path="sign-up.footer.line1" />
+      <Text>{t('sign-up.footer.line1')}</Text>
 
       <Link colorScheme="info" onPress={goToSignUp}>
         {t('sign-up.footer.line2')}

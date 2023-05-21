@@ -10,6 +10,7 @@ const i18n = new I18n(
     'pt-BR': ptBr,
     'en-US': enUs,
   },
+
   {
     defaultLocale: 'en-US',
     enableFallback: true,
@@ -21,6 +22,7 @@ i18n.locale = locale
 interface ContextData {
   setLocation: (location: string) => void
   t: I18n['t']
+  location: string
 }
 
 const LocationContext = createContext<ContextData>({} as ContextData)
@@ -56,7 +58,9 @@ export function LocationProvider({
   }, [location])
 
   return (
-    <LocationContext.Provider value={{ setLocation, t: i18n.t.bind(i18n) }}>
+    <LocationContext.Provider
+      value={{ setLocation, t: i18n.t.bind(i18n), location }}
+    >
       {children}
     </LocationContext.Provider>
   )
