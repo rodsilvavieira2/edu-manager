@@ -17,8 +17,8 @@ export function SocialButton({ icon, ...props }: SocialButtonProps) {
         },
 
         _pressed: {
-          bg: 'primary.500',
-          borderColor: 'primary.500',
+          bg: 'indigo.200',
+          borderColor: 'indigo.200',
         },
       }}
       _dark={{

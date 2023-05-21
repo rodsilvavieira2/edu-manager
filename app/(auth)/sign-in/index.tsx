@@ -35,17 +35,6 @@ const { height } = Dimensions.get('window')
 
 const SCREEN_HEIGHT = height + StatusBar.currentHeight
 
-const validation = z.object({
-  email: z
-    .string({ required_error: 'Campo obrigatório' })
-    .email({ message: 'E-mail invalido' }),
-  password: z
-    .string({ required_error: 'Campo obrigatório' })
-    .min(8, 'É preciso ter no mínimo 8 caracteres'),
-})
-
-type Validation = z.infer<typeof validation>
-
 export default function SignIn() {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
@@ -81,11 +70,23 @@ function Form() {
 
   const [onEmailLogin, emailLoginState] = useOnEmailLoginMutation()
 
+  const { t } = useLocation()
+
+  const validation = z.object({
+    email: z
+      .string({ required_error: t('form.required') })
+      .email({ message: t('form.email') }),
+
+    password: z
+      .string({ required_error: t('form.required') })
+      .min(8, t('form.required')),
+  })
+
+  type Validation = z.infer<typeof validation>
+
   const { control, trigger, getValues } = useForm<Validation>({
     resolver: zodResolver(validation),
   })
-
-  const { t } = useLocation()
 
   async function onSubmit() {
     const isValid = await trigger()
