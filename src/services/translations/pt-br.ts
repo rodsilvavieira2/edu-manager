@@ -50,6 +50,25 @@ export default {
       header: {
         welcome: 'Olá, {{name}}!',
       },
+
+      taskReport: {
+        today: {
+          title: 'Hoje',
+          empty:
+            'Nada para fazer hoje? Reserve um tempo para descansar e se preparar',
+        },
+
+        tomorrow: {
+          title: 'Amanhã',
+          empty:
+            'Você ainda não tem tarefas para amanhã, comece a criar algumas!',
+        },
+
+        tasks: {
+          title: 'Tarefas',
+          empty: 'Você não tem horários para hoje, que tal criar alguns?',
+        },
+      },
     },
 
     settings: {

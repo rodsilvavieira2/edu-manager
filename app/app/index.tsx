@@ -1,9 +1,13 @@
+import { FlashList } from '@shopify/flash-list'
+import { Task } from '@src/@types'
 import { SVGS } from '@src/assets/svgs'
 import { Container } from '@src/components/container'
 import { useDate } from '@src/hooks'
-import { selectUser } from '@src/redux/slices'
+import { selectUser, taskSelectors } from '@src/redux/slices'
+import { dateService } from '@src/services'
 import {
   Box,
+  Center,
   Heading,
   Icon,
   IconButton,
@@ -13,8 +17,9 @@ import {
   useColorModeValue,
   useTheme,
 } from 'native-base'
-import { Bell } from 'phosphor-react-native'
+import { ArrowRight, Bell } from 'phosphor-react-native'
 import { useTranslation } from 'react-i18next'
+import { TouchableOpacity } from 'react-native'
 import { useSelector } from 'react-redux'
 
 export default function Home() {
@@ -22,45 +27,96 @@ export default function Home() {
     <Container space={4} safeArea withBottomBar>
       <Header />
 
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <Stack space={5}>
-          <TaskIndicator
-            message="Nada para fazer hoje? Aproveite para descansar e se preparar"
-            svg="task"
-            title="Hoje"
-          />
-
-          <TaskIndicator
-            message="Você ainda não tem tarefas para amanhã, comece a criar algumas!"
-            svg="schedule"
-            title="Amanhã"
-            dayOffset={1}
-          />
-
-          <TaskIndicator
-            message="Você não tem horários para hoje, que tal criar alguns?"
-            svg="time"
-            title="Tarefas"
-          />
-        </Stack>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 60 }}
+      >
+        <TasksReport />
       </ScrollView>
     </Container>
   )
 }
 
-interface TaskIndicatorProps {
-  title: string
-  message: string
-  svg: keyof typeof SVGS
-  dayOffset?: number
+function TasksReport() {
+  const tasks = useSelector(taskSelectors.selectAll)
+
+  const [t] = useTranslation()
+
+  return (
+    <Stack space={5}>
+      <TaskIndicator
+        emptyMessage={t('app.taskReport.today.empty')}
+        svg="task"
+        title={t('app.taskReport.today.title')}
+        data={filterCurrentDayTasks(tasks)}
+      />
+
+      <TaskIndicator
+        emptyMessage={t('app.taskReport.tomorrow.empty')}
+        svg="schedule"
+        title={t('app.taskReport.tomorrow.title')}
+        dayOffset={1}
+        data={filterNextDayTasks(tasks)}
+      />
+
+      <TaskIndicator
+        emptyMessage={t('app.taskReport.tasks.empty')}
+        svg="time"
+        title={t('app.taskReport.tasks.title')}
+        data={[]}
+      />
+    </Stack>
+  )
 }
 
-function TaskIndicator({ message, svg, title, dayOffset }: TaskIndicatorProps) {
-  const Svg = SVGS[svg]
+interface TaskIndicatorProps {
+  title: string
+  emptyMessage: string
+  svg: keyof typeof SVGS
+  dayOffset?: number
+  data: Array<{ id: string; name: string }>
+}
+
+function TaskIndicator({
+  emptyMessage,
+  svg,
+  data = [],
+  title,
+  dayOffset,
+}: TaskIndicatorProps) {
+  if (data.length) {
+    return (
+      <Stack
+        space={2}
+        style={{ height: 400 }}
+        p={3}
+        rounded="md"
+        _light={{ bg: 'indigo.50' }}
+        _dark={{
+          bg: 'dark.200',
+        }}
+      >
+        <HeaderTime title={title} dayOffset={dayOffset} />
+
+        <Box flex={1}>
+          <FlashList
+            data={data}
+            renderItem={({ item }) => <TaskIndicatorItem {...item} />}
+            estimatedItemSize={16}
+            ItemSeparatorComponent={() => <Box h={3} />}
+            nestedScrollEnabled
+            contentContainerStyle={{ paddingBottom: 40 }}
+            showsVerticalScrollIndicator={false}
+          />
+        </Box>
+      </Stack>
+    )
+  }
 
   return (
     <Stack
       space={2}
+      style={{ height: 400 }}
       p={3}
       rounded="md"
       _light={{ bg: 'indigo.50' }}
@@ -70,7 +126,50 @@ function TaskIndicator({ message, svg, title, dayOffset }: TaskIndicatorProps) {
     >
       <HeaderTime title={title} dayOffset={dayOffset} />
 
-      <Svg height={250} width="100%" />
+      <EmptyMessage emptyMessage={emptyMessage} svg={svg} />
+    </Stack>
+  )
+}
+
+interface TaskIndicatorItemProps {
+  id: string
+  name: string
+}
+
+function TaskIndicatorItem({ id, name }: TaskIndicatorItemProps) {
+  return (
+    <TouchableOpacity activeOpacity={0.5}>
+      <Box
+        px={3}
+        h={12}
+        rounded="md"
+        _light={{ bg: 'white' }}
+        _dark={{
+          bg: 'dark.200',
+        }}
+        flexDir="row"
+        alignItems="center"
+        justifyContent="space-between"
+      >
+        <Text>{name}</Text>
+
+        <Icon as={<ArrowRight size={18} />} />
+      </Box>
+    </TouchableOpacity>
+  )
+}
+
+interface EmptyMessageProps
+  extends Pick<TaskIndicatorProps, 'svg' | 'emptyMessage'> {}
+
+function EmptyMessage({ emptyMessage, svg }: EmptyMessageProps) {
+  const Svg = SVGS[svg]
+
+  return (
+    <>
+      <Center flex={1}>
+        <Svg height={250} width="100%" />
+      </Center>
 
       <Text
         _light={{ color: 'indigo.400' }}
@@ -78,9 +177,9 @@ function TaskIndicator({ message, svg, title, dayOffset }: TaskIndicatorProps) {
         fontWeight="bold"
         textAlign="center"
       >
-        {message}
+        {emptyMessage}
       </Text>
-    </Stack>
+    </>
   )
 }
 
@@ -126,4 +225,20 @@ function HeaderTime({ title, dayOffset = 0 }: HeaderTimeProps) {
       </Text>
     </Box>
   )
+}
+
+function filterCurrentDayTasks(tasks: Task[]) {
+  const currentDate = dateService()
+
+  return tasks.filter((task) => {
+    return currentDate.isSame(task.finishedAt)
+  })
+}
+
+function filterNextDayTasks(tasks: Task[]) {
+  const currentDate = dateService().add(1, 'day')
+
+  return tasks.filter((task) => {
+    return currentDate.isSame(task.finishedAt)
+  })
 }
