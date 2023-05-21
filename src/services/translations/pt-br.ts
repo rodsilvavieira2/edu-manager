@@ -44,4 +44,42 @@ export default {
     password: 'Digite uma senha válida',
     required: 'Este campo é obrigatório',
   },
+
+  app: {
+    header: {
+      welcome: 'Olá, %{name}!',
+    },
+  },
+
+  settings: {
+    geral: {
+      title: 'Geral',
+
+      btn: {
+        support: 'Suporte',
+
+        terms: 'Termos de uso',
+
+        privacy: 'Privacidade',
+
+        about: 'Sobre',
+
+        feedback: 'Feedback',
+      },
+    },
+
+    account: {
+      title: 'Conta',
+
+      btn: {
+        logout: 'Sair',
+
+        notifications: 'Notificações',
+
+        language: 'Lingua',
+
+        theme: 'Tema',
+      },
+    },
+  },
 }

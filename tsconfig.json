@@ -9,5 +9,5 @@
     }
   },
   "extends": "expo/tsconfig.base",
-  "include": ["src", "app", "assets"]
+  "include": ["src", "app", "assets", "custom.d.ts"]
 }

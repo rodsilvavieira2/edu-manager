@@ -1,5 +1,6 @@
 import { SVGS } from '@src/assets/svgs'
 import { Container } from '@src/components/container'
+import { LocalizedHeading } from '@src/components/localized-header'
 import { useDate } from '@src/hooks'
 import { selectUser } from '@src/redux/slices'
 import {
@@ -19,33 +20,31 @@ import { useSelector } from 'react-redux'
 
 export default function Home() {
   return (
-    <Container safeArea>
-      <Stack space={4} flex={1}>
-        <Header />
+    <Container space={4} safeArea withBottomBar>
+      <Header />
 
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <Stack space={5}>
-            <TaskIndicator
-              message="Nada para fazer hoje? Aproveite para descansar e se preparar"
-              svg="task"
-              title="Hoje"
-            />
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Stack space={5}>
+          <TaskIndicator
+            message="Nada para fazer hoje? Aproveite para descansar e se preparar"
+            svg="task"
+            title="Hoje"
+          />
 
-            <TaskIndicator
-              message="Você ainda não tem tarefas para amanhã, comece a criar algumas!"
-              svg="schedule"
-              title="Amanhã"
-              dayOffset={1}
-            />
+          <TaskIndicator
+            message="Você ainda não tem tarefas para amanhã, comece a criar algumas!"
+            svg="schedule"
+            title="Amanhã"
+            dayOffset={1}
+          />
 
-            <TaskIndicator
-              message="Você não tem horários para hoje, que tal criar alguns?"
-              svg="schedule"
-              title="Amanhã"
-            />
-          </Stack>
-        </ScrollView>
-      </Stack>
+          <TaskIndicator
+            message="Você não tem horários para hoje, que tal criar alguns?"
+            svg="time"
+            title="Tarefas"
+          />
+        </Stack>
+      </ScrollView>
     </Container>
   )
 }
@@ -63,7 +62,6 @@ function TaskIndicator({ message, svg, title, dayOffset }: TaskIndicatorProps) {
   return (
     <Stack
       space={2}
-      bg="indigo.50"
       p={3}
       rounded="md"
       _light={{ bg: 'indigo.50' }}
@@ -94,13 +92,11 @@ function Header() {
 
   const ICON_COLOR = useColorModeValue(icon[700], white)
 
-  const user = useSelector(selectUser)
+  const { name } = useSelector(selectUser)
 
   return (
     <Box flexDirection="row" alignItems="center" justifyContent="space-between">
-      <Heading numberOfLines={1} pr={1} flex={1}>
-        Olá, {user?.name ?? 'novamente'}
-      </Heading>
+      <LocalizedHeading path="app.header.welcome" options={{ name }} />
 
       <IconButton
         variant="icon"

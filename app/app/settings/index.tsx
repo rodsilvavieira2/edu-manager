@@ -1,5 +1,7 @@
 import { Container } from '@src/components/container'
+import { LocalizedHeading } from '@src/components/localized-header'
 import { ScreenHeader } from '@src/components/screen-header'
+import { useLocation } from '@src/context'
 import { useOnGoogleLogoutMutation } from '@src/redux/api'
 import { selectUser } from '@src/redux/slices'
 import {
@@ -7,7 +9,6 @@ import {
   Avatar,
   Box,
   HStack,
-  Heading,
   IActionsheetItemProps,
   Icon,
   IconButton,
@@ -28,13 +29,10 @@ export default function Settings() {
     <>
       <ScreenHeader title="Configurações" />
 
-      <Container space={4}>
+      <Container space={4} withBottomBar>
         <UserInfo />
 
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom: 30 }}
-        >
+        <ScrollView showsVerticalScrollIndicator={false}>
           <Stack space={6} flex={1}>
             <AccountOptions />
 
@@ -89,6 +87,8 @@ function AccountOptions() {
 
   const [onGoogleLogOut] = useOnGoogleLogoutMutation()
 
+  const { t } = useLocation()
+
   function onSignOut() {
     onGoogleLogOut()
   }
@@ -96,22 +96,28 @@ function AccountOptions() {
   return (
     <>
       <Stack space={2}>
-        <Heading>Conta</Heading>
+        <LocalizedHeading path="settings.account.title" />
 
         <Stack space={4}>
-          <SettingsBtn title="Sair" onPress={onSignOut} />
+          <SettingsBtn
+            title={t('settings.account.btn.logout')}
+            onPress={onSignOut}
+          />
 
           <SettingsBtn
-            title="Notificações"
+            title={t('settings.account.btn.notifications')}
             onPress={() => console.log('Editar perfil')}
           />
 
           <SettingsBtn
-            title="Lingua"
+            title={t('settings.account.btn.language')}
             onPress={() => console.log('Editar perfil')}
           />
 
-          <SettingsBtn title="Tema" onPress={onTheme} />
+          <SettingsBtn
+            title={t('settings.account.btn.theme')}
+            onPress={onTheme}
+          />
         </Stack>
       </Stack>
 
@@ -121,33 +127,35 @@ function AccountOptions() {
 }
 
 function GeneralOptions() {
+  const { t } = useLocation()
+
   return (
     <Stack space={2}>
-      <Heading>Geral</Heading>
+      <LocalizedHeading path="settings.geral.title" />
 
       <Stack space={4}>
         <SettingsBtn
-          title="Suporte"
+          title={t('settings.geral.btn.support')}
           onPress={() => console.log('Editar perfil')}
         />
 
         <SettingsBtn
-          title="Termos de serviço"
+          title={t('settings.geral.btn.terms')}
           onPress={() => console.log('Editar perfil')}
         />
 
         <SettingsBtn
-          title="Privacidade"
+          title={t('settings.geral.btn.privacy')}
           onPress={() => console.log('Editar perfil')}
         />
 
         <SettingsBtn
-          title="Sobre"
+          title={t('settings.geral.btn.about')}
           onPress={() => console.log('Editar perfil')}
         />
 
         <SettingsBtn
-          title="Feedback"
+          title={t('settings.geral.btn.feedback')}
           onPress={() => console.log('Editar perfil')}
         />
       </Stack>

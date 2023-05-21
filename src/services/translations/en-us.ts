@@ -43,4 +43,42 @@ export default {
       required: 'This field is required',
     },
   },
+
+  app: {
+    header: {
+      welcome: 'Welcome, %{name}!',
+    },
+  },
+
+  settings: {
+    general: {
+      title: 'General',
+
+      btn: {
+        support: 'Support',
+
+        terms: 'Terms of Use',
+
+        privacy: 'Privacy',
+
+        about: 'About',
+
+        feedback: 'Feedback',
+      },
+    },
+
+    account: {
+      title: 'Account',
+
+      btn: {
+        logout: 'Logout',
+
+        notifications: 'Notifications',
+
+        language: 'Language',
+
+        theme: 'Theme',
+      },
+    },
+  },
 }
