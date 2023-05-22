@@ -14,8 +14,8 @@ import {
   House,
   Plus,
 } from 'phosphor-react-native'
-
 import { Dimensions } from 'react-native'
+import Reanimated, { FadeIn, FadeOut } from 'react-native-reanimated'
 
 const ICON_SIZE = 58
 
@@ -96,6 +96,8 @@ function BtnBottom({ icon, path, ...props }: BtnBottomProps) {
   )
 }
 
+const AnimatedIconButton = Reanimated.createAnimatedComponent(IconButton)
+
 export function PlusButton() {
   const name = usePathname()
 
@@ -120,7 +122,7 @@ export function PlusButton() {
   if (!action) return null
 
   return (
-    <IconButton
+    <AnimatedIconButton
       shadow={4}
       translateY={-ICON_SIZE / 2}
       translateX={(width - ICON_SIZE) / 2}
@@ -129,6 +131,8 @@ export function PlusButton() {
       variant="bottom"
       onPress={onCreate}
       icon={<Icon as={<Plus color="white" />} />}
+      exiting={FadeOut}
+      entering={FadeIn}
     />
   )
 }
