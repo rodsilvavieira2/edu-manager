@@ -1,8 +1,8 @@
 import { FlashList } from '@shopify/flash-list'
 import { Discipline } from '@src/@types'
-import { BOTTOM_BAR_HEIGHT } from '@src/components/bottom-bar'
-import { ListLoading } from '@src/components/list-loading'
-import { ScreenHeader } from '@src/components/screen-header'
+import { SkeletonList } from '@src/components/feedback'
+import { ScreenHeader } from '@src/components/layout'
+
 import {
   disciplineSelectors,
   selectDisciplineMetadata,
@@ -18,17 +18,21 @@ import {
   useTheme,
 } from 'native-base'
 import { ArrowRight } from 'phosphor-react-native'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { TouchableOpacity } from 'react-native'
 import { useSelector } from 'react-redux'
 
 const CARD_HEIGHT = 64
 
 export default function Disciplines() {
+  const [t] = useTranslation()
+
   return (
     <>
-      <ScreenHeader title="Disciplines" />
+      <ScreenHeader title={t('disciplines.title')} />
 
-      <Container pt={0} style={{ paddingBottom: BOTTOM_BAR_HEIGHT }}>
+      <Container>
         <List />
       </Container>
     </>
@@ -39,7 +43,7 @@ function List() {
   const data = useSelector(disciplineSelectors.selectAll)
   const { isLoading } = useSelector(selectDisciplineMetadata)
 
-  if (isLoading) return <ListLoading />
+  if (isLoading) return <SkeletonList />
 
   return (
     <FlashList

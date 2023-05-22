@@ -1,7 +1,7 @@
 import { FlashList } from '@shopify/flash-list'
 import { Task } from '@src/@types'
 import { SVGS } from '@src/assets/svgs'
-import { Container } from '@src/components/container'
+import { Container } from '@src/components/layout'
 import { useDate } from '@src/hooks'
 import { selectUser, taskSelectors } from '@src/redux/slices'
 import { dateService } from '@src/services'
@@ -24,7 +24,7 @@ import { useSelector } from 'react-redux'
 
 export default function Home() {
   return (
-    <Container space={4} safeArea withBottomBar>
+    <Container space={4} withBottomBar>
       <Header />
 
       <ScrollView

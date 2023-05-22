@@ -1,4 +1,4 @@
-import { Container } from '@src/components/container'
+import { Container } from '@src/components/layout'
 import { useWatchAuth } from '@src/hooks'
 import { useTheme } from 'native-base'
 import { ActivityIndicator } from 'react-native'
@@ -9,7 +9,7 @@ export default function App() {
   const { colors } = useTheme()
 
   return (
-    <Container safeArea alignItems="center" justifyContent="center">
+    <Container alignItems="center" justifyContent="center">
       <ActivityIndicator color={colors.primary[500]} size="large" />
     </Container>
   )

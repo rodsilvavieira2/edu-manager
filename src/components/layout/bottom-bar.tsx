@@ -14,8 +14,11 @@ import {
   House,
   Plus,
 } from 'phosphor-react-native'
-import { Dimensions } from 'react-native'
+import { useEffect, useId, useState } from 'react'
+import { Dimensions, Keyboard } from 'react-native'
 import Reanimated, { FadeIn, FadeOut } from 'react-native-reanimated'
+
+const BottomBarContainer = Reanimated.createAnimatedComponent(Box)
 
 const ICON_SIZE = 58
 
@@ -24,14 +27,34 @@ export const BOTTOM_BAR_HEIGHT = 64
 const { width } = Dimensions.get('window')
 
 export function BottomBar() {
+  const [isHidden, setIsHidden] = useState(false)
+
   const {
     colors: { white },
   } = useTheme()
 
   const ICON_COLOR = white
 
+  useEffect(() => {
+    const subs = [
+      Keyboard.addListener('keyboardDidShow', () => {
+        setIsHidden(true)
+      }),
+
+      Keyboard.addListener('keyboardDidHide', () => {
+        setIsHidden(false)
+      }),
+    ]
+
+    return () => {
+      subs.forEach((sub) => sub.remove())
+    }
+  }, [])
+
+  if (isHidden) return null
+
   return (
-    <Box
+    <BottomBarContainer
       shadow={'8'}
       style={{ height: BOTTOM_BAR_HEIGHT }}
       position="absolute"
@@ -41,6 +64,8 @@ export function BottomBar() {
       zIndex={300}
       _dark={{ bg: 'dark.100' }}
       _light={{ bg: 'light.100' }}
+      entering={FadeIn}
+      exiting={FadeOut}
     >
       <Box
         px="3"
@@ -70,7 +95,7 @@ export function BottomBar() {
           <BtnBottom icon={<Gear color={ICON_COLOR} />} path="/app/settings" />
         </HStack>
       </Box>
-    </Box>
+    </BottomBarContainer>
   )
 }
 
@@ -136,3 +161,4 @@ export function PlusButton() {
     />
   )
 }
+useId

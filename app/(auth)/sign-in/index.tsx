@@ -1,11 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SVGS } from '@src/assets/svgs'
-import { Container } from '@src/components/container'
 import {
   FormInput,
   FormPasswordInput,
   SocialButton,
 } from '@src/components/form'
+import { Container } from '@src/components/layout'
 import {
   useOnEmailLoginMutation,
   useOnGoogleLoginMutation,
@@ -38,7 +38,7 @@ export default function SignIn() {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <KeyboardAvoidingView>
-        <Container flex={1} safeArea style={{ height: SCREEN_HEIGHT }}>
+        <Container style={{ height: SCREEN_HEIGHT }}>
           <Header />
 
           <Form />

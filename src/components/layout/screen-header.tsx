@@ -7,7 +7,6 @@ export interface ScreenHeaderProps {
 export function ScreenHeader({ title }: ScreenHeaderProps) {
   return (
     <Box
-      safeAreaTop
       alignItems="center"
       justifyContent="center"
       flexDir="row"

@@ -3,7 +3,11 @@ import { ReactNode, useEffect, useState } from 'react'
 
 const CARD_HEIGHT = 64
 
-export function ListLoading() {
+export interface SkeletonListProps {
+  height?: number
+}
+
+export function SkeletonList({ height = CARD_HEIGHT }: SkeletonListProps) {
   const [containerHeight, setContainerHeight] = useState(0)
   const [items, setItems] = useState<ReactNode[]>([])
 
@@ -12,14 +16,14 @@ export function ListLoading() {
 
     const current = []
 
-    const quantity = Math.floor(containerHeight / CARD_HEIGHT)
+    const quantity = Math.floor(containerHeight / height)
 
     for (let i = 0; i < quantity; i++) {
       current.push(
         <Skeleton
           key={i}
           _dark={{ startColor: 'dark.100' }}
-          style={{ height: CARD_HEIGHT }}
+          style={{ height }}
           rounded="md"
         />
       )

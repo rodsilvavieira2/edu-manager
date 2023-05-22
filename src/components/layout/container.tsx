@@ -10,6 +10,7 @@ export function Container(props: ContainerProps) {
     <Stack
       flex={1}
       p={4}
+      px={3}
       _light={{
         bg: 'light.50',
       }}

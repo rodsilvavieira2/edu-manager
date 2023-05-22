@@ -1,5 +1,4 @@
-import { Container } from '@src/components/container'
-import { ScreenHeader } from '@src/components/screen-header'
+import { Container, ScreenHeader } from '@src/components/layout'
 
 export default function NewTask() {
   return (

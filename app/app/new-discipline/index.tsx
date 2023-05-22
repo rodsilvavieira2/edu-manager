@@ -1,41 +1,33 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { DateTimePickerAndroid } from '@react-native-community/datetimepicker'
-import { Container } from '@src/components/container'
 import { FormInput, FormTextArea } from '@src/components/form'
-import { ScreenHeader } from '@src/components/screen-header'
-import { HStack, ScrollView, Stack } from 'native-base'
+import { Container, ScreenHeader } from '@src/components/layout'
+import { Box, ScrollView, Stack, Text } from 'native-base'
 import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { z } from 'zod'
 
 const validation = z.object({
   name: z.string().min(3).max(255),
+  roomName: z.string().max(150).optional(),
   teacher: z.string().min(3).max(255),
+  color: z.string().min(3).max(255).optional(),
   description: z.string().max(255).optional(),
 })
 
 type Validation = z.infer<typeof validation>
 
 export default function NewClass() {
+  const { t } = useTranslation()
+
   return (
     <>
-      <ScreenHeader title="Nova classe" />
+      <ScreenHeader title={t('newDiscipline.title')} />
 
-      <Container pt={0}>
+      <Container>
         <Form />
       </Container>
     </>
   )
-}
-
-function chooseTime() {
-  DateTimePickerAndroid.open({
-    mode: 'time',
-    value: new Date(),
-
-    onChange(event, date) {
-      console.log(date)
-    },
-  })
 }
 
 function Form() {
@@ -43,32 +35,34 @@ function Form() {
     resolver: zodResolver(validation),
   })
 
+  const { t } = useTranslation()
+
   return (
     <ScrollView flex={1} showsVerticalScrollIndicator={false}>
       <Stack space={4}>
-        <HStack space={4}>
-          <FormInput
-            control={control}
-            placeholder="Nome"
-            name="name"
-            height={'10'}
-            _container={{ flex: 1 }}
-          />
+        <FormInput
+          control={control}
+          placeholder={t('newDiscipline.form.name')}
+          name="name"
+        />
 
-          <FormInput
-            control={control}
-            name="teacher"
-            height={'10'}
-            placeholder="Professor(a)"
-            _container={{ flex: 1 }}
-          />
-        </HStack>
+        <FormInput
+          control={control}
+          name="teacher"
+          placeholder={t('newDiscipline.form.teacher')}
+        />
 
         <FormTextArea
           control={control}
           name="description"
-          placeholder="Descrição"
+          placeholder={t('newDiscipline.form.description')}
         />
+
+        <Stack space={2}>
+          <Text>Escola uma cor:</Text>
+
+          <Box rounded="md" bg="emerald.500" h="10" />
+        </Stack>
       </Stack>
     </ScrollView>
   )

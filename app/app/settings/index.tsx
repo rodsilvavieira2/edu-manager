@@ -1,5 +1,4 @@
-import { Container } from '@src/components/container'
-import { ScreenHeader } from '@src/components/screen-header'
+import { Container, ScreenHeader } from '@src/components/layout'
 import { useOnGoogleLogoutMutation } from '@src/redux/api'
 import { selectUser } from '@src/redux/slices'
 import {

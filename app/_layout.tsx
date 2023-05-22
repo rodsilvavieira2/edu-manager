@@ -13,15 +13,15 @@ import {
   Poppins_700Bold,
   Poppins_800ExtraBold,
 } from '@expo-google-fonts/poppins'
+import { StatusBarTheme } from '@src/components/layout'
 import { SnackbarDispatcher } from '@src/components/snackbar-dispatcher'
-import { StatusBarTheme } from '@src/components/status-bar-theme'
 import { appTheme } from '@src/config'
 import { store } from '@src/redux/store'
 import { colorModeManager } from '@src/services'
 import translation from '@src/services/i18n'
 import { useFonts } from 'expo-font'
 import { SplashScreen, Stack } from 'expo-router'
-import { NativeBaseProvider } from 'native-base'
+import { Box, NativeBaseProvider } from 'native-base'
 import React, { useEffect, useState } from 'react'
 import { Provider as ReduxProvider } from 'react-redux'
 
@@ -60,13 +60,25 @@ export default function AppLayout() {
 
         <SnackbarDispatcher />
 
-        <Stack
-          initialRouteName="/"
-          screenOptions={{
-            headerShown: false,
-            animation: 'simple_push',
+        <Box
+          flex={1}
+          safeArea
+          _light={{
+            bg: 'light.50',
           }}
-        />
+          _dark={{ bg: 'dark.50' }}
+        >
+          <Stack
+            initialRouteName="/"
+            screenOptions={{
+              headerShown: false,
+              animation: 'fade_from_bottom',
+              contentStyle: {
+                backgroundColor: 'transparent',
+              },
+            }}
+          />
+        </Box>
       </NativeBaseProvider>
     </ReduxProvider>
   )

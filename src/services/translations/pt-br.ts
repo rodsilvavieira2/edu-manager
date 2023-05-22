@@ -134,5 +134,20 @@ export default {
         },
       },
     },
+
+    disciplines: {
+      title: 'Disciplinas',
+    },
+
+    newDiscipline: {
+      title: 'Nova Disciplina',
+
+      form: {
+        name: 'Nome da disciplina',
+        teacher: 'Professor(a)',
+        description: 'Descrição',
+        color: 'Cor',
+      },
+    },
   },
 }

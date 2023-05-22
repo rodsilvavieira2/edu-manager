@@ -1,11 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SVGS } from '@src/assets/svgs'
-import { Container } from '@src/components/container'
 import {
   FormInput,
   FormPasswordInput,
   SocialButton,
 } from '@src/components/form'
+import { Container } from '@src/components/layout'
 import {
   useOnCreateAccountMutation,
   useOnGoogleLoginMutation,
@@ -37,7 +37,7 @@ const SCREEN_HEIGHT = height + StatusBar.currentHeight
 export default function SignUp() {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-      <Container flex={1} safeArea style={{ height: SCREEN_HEIGHT }}>
+      <Container style={{ height: SCREEN_HEIGHT }}>
         <Header />
 
         <Form />
