@@ -114,5 +114,9 @@ export default {
         light: 'Light',
       },
     },
+
+    formatting: {
+      intlDateTime: '{{val, datetime}}',
+    },
   },
 }

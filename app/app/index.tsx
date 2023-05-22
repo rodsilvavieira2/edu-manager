@@ -214,14 +214,25 @@ interface HeaderTimeProps {
 function HeaderTime({ title, dayOffset = 0 }: HeaderTimeProps) {
   const { addDays } = useDate()
 
-  const date = addDays(dayOffset).format('DD/MM/YYYY')
+  const [t] = useTranslation()
+
+  const date = addDays(dayOffset)
 
   return (
     <Box flexDir="row" justifyContent="space-between">
       <Heading>{title}</Heading>
 
       <Text fontFamily="Lato" fontWeight={500}>
-        {date}
+        {t('formatting.intlDateTime', {
+          val: date.toDate(),
+          formatParams: {
+            val: {
+              weekday: 'short',
+              day: 'numeric',
+              month: 'long',
+            },
+          },
+        })}
       </Text>
     </Box>
   )

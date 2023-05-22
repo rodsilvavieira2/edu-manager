@@ -116,5 +116,9 @@ export default {
         light: 'Claro',
       },
     },
+
+    formatting: {
+      intlDateTime: '{{val, datetime}}',
+    },
   },
 }
