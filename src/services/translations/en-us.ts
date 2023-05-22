@@ -118,5 +118,19 @@ export default {
     formatting: {
       intlDateTime: '{{val, datetime}}',
     },
+
+    dialogAlert: {
+      signOut: {
+        title: 'Are you sure?',
+
+        body: 'You will be logged out of your current account and will no longer be able to access the app until you log in again.',
+
+        btn: {
+          cancel: 'Cancel',
+
+          exit: 'Exit',
+        },
+      },
+    },
   },
 }

@@ -4,8 +4,10 @@ import { useOnGoogleLogoutMutation } from '@src/redux/api'
 import { selectUser } from '@src/redux/slices'
 import {
   Actionsheet,
+  AlertDialog,
   Avatar,
   Box,
+  Button,
   HStack,
   Heading,
   IActionsheetItemProps,
@@ -83,6 +85,7 @@ function UserInfo() {
 function AccountOptions() {
   const themeChoose = useRef<ChooseThemActionSheetRef>(null)
   const languageChoose = useRef<ChooseLanguageActionSheetRef>(null)
+  const logoutDialog = useRef<LogOutAlertDialogRef>(null)
 
   function onTheme() {
     themeChoose.current?.onOpen()
@@ -92,12 +95,10 @@ function AccountOptions() {
     languageChoose.current?.onOpen()
   }
 
-  const [onGoogleLogOut] = useOnGoogleLogoutMutation()
-
   const { t } = useTranslation()
 
   function onSignOut() {
-    onGoogleLogOut()
+    logoutDialog.current?.onOpen()
   }
 
   return (
@@ -127,6 +128,8 @@ function AccountOptions() {
           />
         </Stack>
       </Stack>
+
+      <LogOutAlertDialog ref={logoutDialog} />
 
       <ChooseLanguageActionSheet ref={languageChoose} />
 
@@ -334,3 +337,62 @@ function ActionSheetItem(props: ActionsheetItemProps) {
     />
   )
 }
+
+interface LogOutAlertDialogRef {
+  onOpen: VoidFunction
+  onClose: VoidFunction
+}
+
+const LogOutAlertDialog = forwardRef<LogOutAlertDialogRef>((_, ref) => {
+  const { isOpen, onClose, onOpen } = useDisclose()
+  const [onGoogleLogOut] = useOnGoogleLogoutMutation()
+  const [t] = useTranslation()
+
+  const cancelRef = useRef(null)
+
+  useImperativeHandle(ref, () => ({
+    onClose,
+
+    onOpen,
+  }))
+
+  function handleClose() {
+    onClose()
+    onGoogleLogOut()
+  }
+
+  return (
+    <AlertDialog
+      leastDestructiveRef={cancelRef}
+      isOpen={isOpen}
+      onClose={onClose}
+    >
+      <AlertDialog.Content>
+        <AlertDialog.CloseButton />
+
+        <AlertDialog.Header>
+          {t('dialogAlert.signOut.title')}
+        </AlertDialog.Header>
+
+        <AlertDialog.Body>{t('dialogAlert.signOut.body')}</AlertDialog.Body>
+
+        <AlertDialog.Footer>
+          <Button.Group space={2}>
+            <Button
+              variant="unstyled"
+              colorScheme="coolGray"
+              onPress={onClose}
+              ref={cancelRef}
+            >
+              {t('dialogAlert.signOut.btn.cancel')}
+            </Button>
+
+            <Button colorScheme="danger" onPress={handleClose}>
+              {t('dialogAlert.signOut.btn.exit')}
+            </Button>
+          </Button.Group>
+        </AlertDialog.Footer>
+      </AlertDialog.Content>
+    </AlertDialog>
+  )
+})

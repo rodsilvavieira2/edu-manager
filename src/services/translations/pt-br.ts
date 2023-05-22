@@ -120,5 +120,19 @@ export default {
     formatting: {
       intlDateTime: '{{val, datetime}}',
     },
+
+    dialogAlert: {
+      signOut: {
+        title: 'Sair do aplicativo?',
+
+        body: 'Você será desconectado da sua conta atual e não poderá mais acessar o aplicativo até fazer login novamente.',
+
+        btn: {
+          cancel: 'Cancelar',
+
+          exit: 'Sair',
+        },
+      },
+    },
   },
 }
