@@ -1,10 +1,32 @@
+import { faker } from '@faker-js/faker'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { FormInput, FormTextArea } from '@src/components/form'
-import { Container, ScreenHeader } from '@src/components/layout'
-import { Box, ScrollView, Stack, Text } from 'native-base'
+import {
+  FormColorPick,
+  FormInput,
+  FormSelect,
+  FormTextArea,
+  SelectItem,
+} from '@src/components/form'
+import {
+  BOTTOM_BAR_HEIGHT,
+  Container,
+  ScreenHeader,
+} from '@src/components/layout'
+import { useKeyboardChange } from '@src/hooks'
+import { Fab, Icon, ScrollView, Stack } from 'native-base'
+import { FloppyDisk } from 'phosphor-react-native'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { z } from 'zod'
+
+const teaches: SelectItem[] = Array.from({ length: 10 }, () => {
+  const teacher = faker.name.fullName()
+
+  return {
+    label: teacher,
+    value: teacher.toLowerCase().replace(/\s/g, '-'),
+  }
+})
 
 const validation = z.object({
   name: z.string().min(3).max(255),
@@ -37,33 +59,52 @@ function Form() {
 
   const { t } = useTranslation()
 
+  const keyboardVisibility = useKeyboardChange()
+
   return (
-    <ScrollView flex={1} showsVerticalScrollIndicator={false}>
-      <Stack space={4}>
-        <FormInput
-          control={control}
-          placeholder={t('newDiscipline.form.name')}
-          name="name"
-        />
+    <>
+      <ScrollView flex={1} showsVerticalScrollIndicator={false}>
+        <Stack space={4}>
+          <FormColorPick control={control} name="color" />
 
-        <FormInput
-          control={control}
-          name="teacher"
-          placeholder={t('newDiscipline.form.teacher')}
-        />
+          <FormInput
+            control={control}
+            placeholder={t('newDiscipline.form.name')}
+            name="name"
+          />
 
-        <FormTextArea
-          control={control}
-          name="description"
-          placeholder={t('newDiscipline.form.description')}
-        />
+          <FormInput
+            control={control}
+            placeholder={t('newDiscipline.form.name')}
+            name="roomName"
+          />
 
-        <Stack space={2}>
-          <Text>Escola uma cor:</Text>
+          <FormSelect
+            control={control}
+            name="teacher"
+            items={teaches}
+            placeholder={t('newDiscipline.form.teacher')}
+          />
 
-          <Box rounded="md" bg="emerald.500" h="10" />
+          <FormTextArea
+            control={control}
+            name="description"
+            flex={1}
+            _container={{ height: 150 }}
+            placeholder={t('newDiscipline.form.description')}
+          />
         </Stack>
-      </Stack>
-    </ScrollView>
+      </ScrollView>
+
+      {!keyboardVisibility.isOpen ? (
+        <Fab
+          size="lg"
+          bg="primary.500"
+          _pressed={{ bg: 'primary.400' }}
+          style={{ bottom: BOTTOM_BAR_HEIGHT + 20 }}
+          icon={<Icon as={<FloppyDisk color="white" />} />}
+        />
+      ) : null}
+    </>
   )
 }

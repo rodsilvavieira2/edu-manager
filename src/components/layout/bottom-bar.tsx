@@ -1,3 +1,4 @@
+import { useKeyboardChange } from '@src/hooks'
 import { usePathname, useRouter } from 'expo-router'
 import {
   Box,
@@ -14,8 +15,7 @@ import {
   House,
   Plus,
 } from 'phosphor-react-native'
-import { useEffect, useId, useState } from 'react'
-import { Dimensions, Keyboard } from 'react-native'
+import { Dimensions } from 'react-native'
 import Reanimated, { FadeIn, FadeOut } from 'react-native-reanimated'
 
 const BottomBarContainer = Reanimated.createAnimatedComponent(Box)
@@ -27,31 +27,15 @@ export const BOTTOM_BAR_HEIGHT = 64
 const { width } = Dimensions.get('window')
 
 export function BottomBar() {
-  const [isHidden, setIsHidden] = useState(false)
-
   const {
     colors: { white },
   } = useTheme()
 
   const ICON_COLOR = white
 
-  useEffect(() => {
-    const subs = [
-      Keyboard.addListener('keyboardDidShow', () => {
-        setIsHidden(true)
-      }),
+  const { isOpen } = useKeyboardChange()
 
-      Keyboard.addListener('keyboardDidHide', () => {
-        setIsHidden(false)
-      }),
-    ]
-
-    return () => {
-      subs.forEach((sub) => sub.remove())
-    }
-  }, [])
-
-  if (isHidden) return null
+  if (isOpen) return null
 
   return (
     <BottomBarContainer
@@ -161,4 +145,3 @@ export function PlusButton() {
     />
   )
 }
-useId

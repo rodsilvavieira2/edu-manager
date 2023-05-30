@@ -26,14 +26,11 @@ export function FormTextArea<T>({
   return (
     <FormControl isInvalid={invalid} {..._container}>
       <TextArea
-        rounded="lg"
         onChangeText={onChange}
-        value={value as string}
+        value={value ? String(value) : undefined}
         ref={ref}
         onBlur={onBlur}
-        size="md"
         _light={{
-          borderColor: 'gray.400',
           _focus: {
             borderColor: 'primary.500',
           },
@@ -42,7 +39,6 @@ export function FormTextArea<T>({
           _focus: {
             borderColor: 'primary.500',
           },
-          borderColor: 'border.300',
         }}
         cursorColor="white"
         placeholderTextColor="gray.500"

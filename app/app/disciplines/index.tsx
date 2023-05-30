@@ -1,7 +1,7 @@
 import { FlashList } from '@shopify/flash-list'
 import { Discipline } from '@src/@types'
 import { SkeletonList } from '@src/components/feedback'
-import { ScreenHeader } from '@src/components/layout'
+import { Container, ScreenHeader } from '@src/components/layout'
 
 import {
   disciplineSelectors,
@@ -10,7 +10,6 @@ import {
 import {
   Box,
   Center,
-  Container,
   HStack,
   Stack,
   Text,

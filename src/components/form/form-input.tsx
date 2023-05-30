@@ -1,18 +1,18 @@
 import { FormControl, IFormControlProps, IInputProps, Input } from 'native-base'
-import { Control, useController } from 'react-hook-form'
+import { Control, Path, useController } from 'react-hook-form'
 
-export interface FormInputProps<T = any> extends IInputProps {
+export interface FormInputProps<T> extends IInputProps {
   control: Control<T>
-  name: string
+  name: Path<T>
   _container?: IFormControlProps
 }
 
-export function FormInput({
+export function FormInput<T>({
   control,
   name,
   _container,
   ...props
-}: FormInputProps) {
+}: FormInputProps<T>) {
   const {
     field: { onBlur, onChange, ref, value },
     fieldState: { error, invalid },
@@ -21,15 +21,12 @@ export function FormInput({
   return (
     <FormControl isInvalid={invalid} {..._container}>
       <Input
-        rounded="lg"
         onChangeText={onChange}
-        value={value}
+        value={value ? String(value) : undefined}
         ref={ref}
         onBlur={onBlur}
         placeholderTextColor="gray.500"
-        size="md"
         _light={{
-          borderColor: 'gray.400',
           _focus: {
             borderColor: 'primary.500',
           },
@@ -38,7 +35,6 @@ export function FormInput({
           _focus: {
             borderColor: 'primary.500',
           },
-          borderColor: 'border.300',
         }}
         cursorColor="white"
         {...props}

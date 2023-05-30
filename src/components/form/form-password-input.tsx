@@ -8,18 +8,18 @@ import {
 } from 'native-base'
 import { Eye, EyeClosed } from 'phosphor-react-native'
 import { useState } from 'react'
-import { Control, useController } from 'react-hook-form'
+import { Control, Path, useController } from 'react-hook-form'
 
-export interface FormPasswordInputProps<T = any> extends IInputProps {
+export interface FormPasswordInputProps<T> extends IInputProps {
   control: Control<T>
-  name: string
+  name: Path<T>
 }
 
-export function FormPasswordInput({
+export function FormPasswordInput<T>({
   control,
   name,
   ...props
-}: FormPasswordInputProps) {
+}: FormPasswordInputProps<T>) {
   const { indigo, icon } = useTheme().colors
   const [isVisible, setIsVisible] = useState(false)
 
@@ -37,7 +37,6 @@ export function FormPasswordInput({
       <Input
         type={isVisible ? 'text' : 'password'}
         borderWidth={1}
-        rounded="lg"
         placeholderTextColor="gray.500"
         InputLeftElement={
           <Pressable onPress={onChangeVisible}>
@@ -54,17 +53,15 @@ export function FormPasswordInput({
           </Pressable>
         }
         onChangeText={onChange}
-        value={value}
+        value={value ? String(value) : undefined}
         ref={ref}
         onBlur={onBlur}
         _light={{
-          borderColor: 'gray.400',
           _focus: {
             borderColor: 'primary.500',
           },
         }}
         _dark={{
-          borderColor: 'light.300',
           _focus: {
             borderColor: 'primary.500',
           },
