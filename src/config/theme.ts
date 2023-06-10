@@ -68,7 +68,7 @@ export const appTheme = extendTheme({
     },
 
     icon: {
-      500: '#737373',
+      500: '#ffffff',
       700: '#404040',
     },
 
